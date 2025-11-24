@@ -9,7 +9,7 @@ function init() {
   canvas = document.getElementById("canvas"); // Holt das Canvas-Element aus dem DOM
   world = new World(canvas, keyboard);
 
-  console.log("Mein Charakter ist:", world.enemies); // Gibt die Charakter-Instanz in der Konsole aus
+  console.log("Mein Charakter ist:", world.character); // Gibt die Charakter-Instanz in der Konsole aus
 }
 
 window.addEventListener("keydown", (event) => {

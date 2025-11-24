@@ -27,9 +27,32 @@ class Character extends MovableObject {
     "src/img/1.Sharkie/1.IDLE/18.png",
   ];
 
+  IMAGES_HURT = ["/src/img/1.Sharkie/5.Hurt/1.Poisoned/1.png"];
+  IMAGES_HURT = ["/src/img/1.Sharkie/5.Hurt/1.Poisoned/2.png"];
+  IMAGES_HURT = ["/src/img/1.Sharkie/5.Hurt/1.Poisoned/3.png"];
+  IMAGES_HURT = ["/src/img/1.Sharkie/5.Hurt/1.Poisoned/4.png"];
+  IMAGES_HURT = ["/src/img/1.Sharkie/5.Hurt/1.Poisoned/5.png"];
+
+  IMAGES_DEAD = [
+    "src/img/1.Sharkie/6.dead/1.Poisoned/1.png",
+    "src/img/1.Sharkie/6.dead/1.Poisoned/2.png",
+    "src/img/1.Sharkie/6.dead/1.Poisoned/3.png",
+    "src/img/1.Sharkie/6.dead/1.Poisoned/4.png",
+    "src/img/1.Sharkie/6.dead/1.Poisoned/5.png",
+    "src/img/1.Sharkie/6.dead/1.Poisoned/6.png",
+    "src/img/1.Sharkie/6.dead/1.Poisoned/7.png",
+    "src/img/1.Sharkie/6.dead/1.Poisoned/8.png",
+    "src/img/1.Sharkie/6.dead/1.Poisoned/9.png",
+    "src/img/1.Sharkie/6.dead/1.Poisoned/10.png",
+    "src/img/1.Sharkie/6.dead/1.Poisoned/11.png",
+    "src/img/1.Sharkie/6.dead/1.Poisoned/12.png",
+  ];
+
   constructor() {
     super().loadImage(this.IMAGES_STANDING[0]);
     this.loadImages(this.IMAGES_STANDING);
+    this.loadImages(this.IMAGES_HURT);
+    this.loadImages(this.IMAGES_DEAD);
     this.y = 480 - this.imgBottom;
     console.log(this.imgBottom);
     this.applyGravity();
@@ -48,7 +71,13 @@ class Character extends MovableObject {
     }, 1000 / 60); //60 fps
 
     setInterval(() => {
-      this.playAnimation(this.IMAGES_STANDING);
+      if (this.isDead()) {
+        this.playAnimation(this.IMAGES_DEAD);
+      } else if (this.isHurt()) {
+        this.playAnimation(this.IMAGES_HURT);
+      } else {
+        this.playAnimation(this.IMAGES_STANDING);
+      }
     }, this.speedImgChange);
   }
 

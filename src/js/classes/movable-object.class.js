@@ -21,6 +21,8 @@ class MovableObject {
   minSpeedLeft = 0.25;
   graphiteValue = 0.15;
   graphiteSpeed = 60;
+  energy = 100;
+  lastHit = 0;
 
   loadImage(path) {
     this.img = new Image();
@@ -102,5 +104,33 @@ class MovableObject {
 
   isAboveGround() {
     return this.y < 480 - this.imgBottom;
+  }
+
+  isColliding(object) {
+    return (
+      this.x + this.width > object.x &&
+      this.y + this.height > object.y &&
+      this.x < object.x &&
+      this.y < object.y + object.height
+    );
+  }
+
+  hit() {
+    this.energy -= 2;
+    if (this.energy < 0) {
+      this.energy = 0;
+    } else {
+      this.lastHit = new Date().getTime();
+    }
+  }
+
+  isHurt() {
+    let timepassed = new Date().getTime() - this.lastHit;
+    timepassed = timepassed / 1000;
+    return timepassed < 1;
+  }
+
+  isDead() {
+    return this.energy == 0;
   }
 }
