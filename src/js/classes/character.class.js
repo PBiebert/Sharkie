@@ -1,10 +1,12 @@
 class Character extends MovableObject {
   height = 1000 / 4; //Bildgröße durch 4
   width = 815 / 4; //Bildgröße durch 4
-  imgBottom = this.height - 50;
-  imgTop = this.height / 2 - 10;
-  imgLeft = -35;
-  imgRight = this.width;
+  offset = {
+    top: 130,
+    right: 40,
+    bottom: 60,
+    left: 40,
+  };
 
   IMAGES_STANDING = [
     "src/img/1.Sharkie/1.IDLE/1.png",
@@ -49,12 +51,12 @@ class Character extends MovableObject {
   ];
 
   constructor() {
-    super().loadImage(this.IMAGES_STANDING[0]);
+    super();
+    this.loadImage(this.IMAGES_STANDING[0]);
     this.loadImages(this.IMAGES_STANDING);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
-    this.y = 480 - this.imgBottom;
-    console.log(this.imgBottom);
+    this.y = 480 - this.height + this.offset.bottom - 5;
     this.applyGravity();
     this.animate();
   }
@@ -73,6 +75,7 @@ class Character extends MovableObject {
     setInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
+        this.floatsToTheSurface();
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
       } else {
@@ -81,22 +84,34 @@ class Character extends MovableObject {
     }, this.speedImgChange);
   }
 
+  floatsToTheSurface() {
+    if (this.y >= -50) {
+      this.y -= 3;
+    }
+  }
+
   checkMovementKeys() {
+    if (this.isDead()) {
+      return;
+    }
     if (
       this.world.keyboard.RIGHT &&
-      this.x < this.world.level.levelLength - this.imgRight - 70
+      this.x < this.world.level.levelLength - this.rWidth - 140
     ) {
       this.moveRight();
       this.otherDirection = false;
     }
-    if (this.world.keyboard.LEFT && this.x > 0 + this.imgLeft) {
+    if (this.world.keyboard.LEFT && this.x > 0 - this.offset.left) {
       this.moveLeft();
       this.otherDirection = true;
     }
     if (this.world.keyboard.UP) {
       this.moveUp();
     }
-    if (this.world.keyboard.DOWN && this.y < 480 - this.imgBottom) {
+    if (
+      this.world.keyboard.DOWN &&
+      this.y < 480 - this.height + this.offset.bottom - 5
+    ) {
       this.moveDown();
     }
   }

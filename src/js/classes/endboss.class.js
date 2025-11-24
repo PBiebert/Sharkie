@@ -17,12 +17,20 @@ class Endboss extends MovableObject {
     "src/img/2.Enemy/3 Final Enemy/2.floating/13.png",
   ];
 
+  offset = {
+    top: 200,
+    right: 30,
+    bottom: 80,
+    left: 20,
+  };
+
   y = 0;
 
   minSpeedLeft = 0.25;
 
   constructor(levelLength) {
-    super().loadImage(this.IMAGES_SWIMMING[0]);
+    super();
+    this.loadImage(this.IMAGES_SWIMMING[0]);
     this.loadImages(this.IMAGES_SWIMMING);
     this.x = levelLength - 450;
     this.animate();

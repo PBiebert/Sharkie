@@ -5,9 +5,16 @@ class Fish extends MovableObject {
 
   speedX = 0.2;
   minSpeedLeft = 0.25;
+  offset = {
+    top: 5,
+    right: 5,
+    bottom: 20,
+    left: 5,
+  };
 
   constructor(levelLength, IMAGES_SWIMMING) {
-    super().loadImage(IMAGES_SWIMMING[0]);
+    super();
+    this.loadImage(IMAGES_SWIMMING[0]);
     this.loadImages(IMAGES_SWIMMING);
     this.IMAGES_SWIMMING = IMAGES_SWIMMING;
     this.x = 720 + levelLength * Math.random(); // Startposition auf der x-Achse

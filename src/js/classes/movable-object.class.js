@@ -2,10 +2,16 @@ class MovableObject {
   x = 100; // Startposition auf der x-Achse
   y = 250; // Startposition auf der y-Achse
   img; // Variable für das Bild des Objekts
-  imgBottom;
-  imgTop;
-  imgLeft;
-  imgRight;
+  offset = {
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  };
+  rX;
+  rY;
+  rWidth;
+  rHeight;
   width = 100;
   height = 150;
   imageCache = {};
@@ -24,6 +30,10 @@ class MovableObject {
   energy = 100;
   lastHit = 0;
 
+  constructor() {
+    this.getRealFrame();
+  }
+
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
@@ -39,6 +49,7 @@ class MovableObject {
 
   draw(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    this.getRealFrame();
   }
 
   //Hitbox erstellen
@@ -52,7 +63,7 @@ class MovableObject {
       ctx.beginPath();
       ctx.lineWidth = "1";
       ctx.strokeStyle = "black";
-      ctx.rect(this.x, this.y, this.width, this.height);
+      ctx.rect(this.rX, this.rY, this.rWidth, this.rHeight);
       ctx.stroke();
     }
   }
@@ -67,7 +78,7 @@ class MovableObject {
 
   moveUp() {
     this.speedY = this.speedDefault;
-    if (this.y <= 0 - this.imgTop) {
+    if (this.y <= 0 - this.rX + 15) {
       this.speedY = 0;
     }
   }
@@ -90,28 +101,45 @@ class MovableObject {
     let path = imageArray[i];
     this.img = this.imageCache[path];
     this.currentImage++;
+    if (this.currentImage == imageArray.length) {
+      this.currentImage = 0;
+    }
+    if (this.isDead()) {
+      let path = imageArray[imageArray.length - 1];
+      this.img = this.imageCache[path];
+    }
   }
 
   applyGravity() {
-    setInterval(() => {
+    let gravityInterall = setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.graphiteValue;
+      }
+      if (this.isDead()) {
+        clearInterval(gravityInterall);
       }
     }, 1000 / this.graphiteSpeed);
     console.log(this.speedY);
   }
 
   isAboveGround() {
-    return this.y < 480 - this.imgBottom;
+    return this.y < 480 - this.height + this.offset.bottom - 5;
+  }
+
+  getRealFrame() {
+    this.rX = this.x + this.offset.left;
+    this.rY = this.y + this.offset.top;
+    this.rWidth = this.width - this.offset.left - this.offset.right;
+    this.rHeight = this.height - this.offset.top - this.offset.bottom;
   }
 
   isColliding(object) {
     return (
-      this.x + this.width > object.x &&
-      this.y + this.height > object.y &&
-      this.x < object.x &&
-      this.y < object.y + object.height
+      this.rX + this.rWidth > object.rX &&
+      this.rY + this.rHeight > object.rY &&
+      this.rX < object.rX &&
+      this.rY < object.rY + object.rHeight
     );
   }
 

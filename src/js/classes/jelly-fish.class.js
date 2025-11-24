@@ -3,15 +3,22 @@ class JellyFish extends MovableObject {
   height = 300 / 2;
   IMAGES_SWIMMING;
   speedY = 1;
+  offset = {
+    top: 20,
+    right: 0,
+    bottom: 20,
+    left: 0,
+  };
 
   constructor(levelLength, IMAGES_SWIMMING) {
-    super().loadImage(IMAGES_SWIMMING[0]);
+    super();
+    this.loadImage(IMAGES_SWIMMING[0]);
+
     this.loadImages(IMAGES_SWIMMING);
     this.IMAGES_SWIMMING = IMAGES_SWIMMING;
     this.x = 720 + Math.random() * (levelLength - 2 * 720); // Bereich: 720 bis levelLength-720
     this.y = 430 * Math.random();
     this.speedY = this.minSpeedLeft + Math.random() * 0.75;
-
     this.animate();
   }
 
