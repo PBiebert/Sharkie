@@ -18,14 +18,11 @@ export class StatusBar extends DrawableObject {
 
   constructor() {
     super();
-    this.loadImage("src/img/4. Marcadores/green/Life/100_life.png");
-    this.loadImages(this.LIFE_IMAGES);
-    this.setPercentage(100);
   }
 
-  setPercentage(energy) {
+  setPercentage(energy, IMAGES_ARRAY) {
     this.percentage = energy;
-    let path = this.LIFE_IMAGES[this.resoveImageIndex()];
+    let path = IMAGES_ARRAY[this.resoveImageIndex()];
     this.img = this.imageCache[path];
   }
 

@@ -59,18 +59,18 @@ export class Character extends MovableObject {
     this.loadImages(this.IMAGES_STANDING);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
-    this.y = 480 - this.height + this.offset.bottom - 5;
+    this.y = 480 - this.groundY;
     this.applyGravity();
     this.animate();
   }
   animate() {
-    // setInterval(() => {
-    //   console.clear();
-    //   console.log("X = " + this.x);
-    //   console.log("rX = " + this.rX);
-    //   console.log("Y = " + this.y);
-    //   console.log("rY = " + this.rY);
-    // }, 2000);
+    setInterval(() => {
+      console.clear();
+      console.log("X = " + this.x);
+      console.log("rX = " + this.rX);
+      console.log("Y = " + this.y);
+      console.log("rY = " + this.rY);
+    }, 2000);
 
     setInterval(() => {
       this.checkMovementKeys();
@@ -114,10 +114,7 @@ export class Character extends MovableObject {
     if (this.world.keyboard.UP) {
       this.moveUp();
     }
-    if (
-      this.world.keyboard.DOWN &&
-      this.y < 480 - this.height + this.offset.bottom - 5
-    ) {
+    if (this.world.keyboard.DOWN && this.y < 480 - this.groundY) {
       this.moveDown();
     }
   }

@@ -40,13 +40,13 @@ let backgroundImagesLevel = [
 
 renderBackground(level, 1, backgroundImagesLevel);
 setLevelLength();
-renderEnemies(1, GreenFish);
-renderEnemies(1, PinkFish);
-renderEnemies(1, RedFish);
-renderEnemies(1, JellyFishGreen);
-renderEnemies(1, JellyFishLila);
-renderEnemies(1, JellyFishPink);
-renderEnemies(1, JellyFishYellow);
+renderEnemies(0, GreenFish);
+renderEnemies(0, PinkFish);
+renderEnemies(0, RedFish);
+renderEnemies(0, JellyFishGreen);
+renderEnemies(0, JellyFishLila);
+renderEnemies(0, JellyFishPink);
+renderEnemies(0, JellyFishYellow);
 setEndboss();
 setObject(LevelObjects.coins);
 setObject(LevelObjects.bubbles);

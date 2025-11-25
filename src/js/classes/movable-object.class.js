@@ -9,6 +9,7 @@ export class MovableObject extends DrawableObject {
   speedBoost = 4;
   speedX = 2;
   speedY = 0;
+  groundY = 285;
   minSpeedLeft = 0.25;
   graphiteValue = 0.15;
   graphiteSpeed = 60;
@@ -67,6 +68,10 @@ export class MovableObject extends DrawableObject {
         this.y -= this.speedY;
         this.speedY -= this.graphiteValue;
       }
+      if (this.y > this.groundY) {
+        this.y = this.groundY;
+      }
+
       if (this.isDead()) {
         clearInterval(gravityInterall);
       }
@@ -75,16 +80,7 @@ export class MovableObject extends DrawableObject {
   }
 
   isAboveGround() {
-    return this.y < 480 - this.height + this.offset.bottom - 5;
-  }
-
-  isColliding(object) {
-    return (
-      this.rX + this.rWidth > object.rX &&
-      this.rY + this.rHeight > object.rY &&
-      this.rX < object.rX &&
-      this.rY < object.rY + object.rHeight
-    );
+    return this.y < this.groundY;
   }
 
   hit() {

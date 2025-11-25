@@ -36,7 +36,6 @@ export class DrawableObject {
 
   draw(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    // this.getRealFrame();
   }
 
   //Hitbox erstellen
@@ -65,5 +64,14 @@ export class DrawableObject {
     if (this.currentImage == imageArray.length) {
       this.currentImage = 0;
     }
+  }
+
+  isColliding(object) {
+    return (
+      this.rX + this.rWidth > object.rX &&
+      this.rY + this.rHeight > object.rY &&
+      this.rX < object.rX &&
+      this.rY < object.rY + object.rHeight
+    );
   }
 }

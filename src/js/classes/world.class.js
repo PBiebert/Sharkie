@@ -1,8 +1,10 @@
 import { Character } from "./character.class.js";
-import { DrawableObject } from "./drawable-object.class.js";
-import { StatusBar } from "./status-bar.class.js";
-import { Level } from "./level.class.js";
+import { Coin } from "./coin.class.js";
 import { level as level1 } from "../levels/level1.js";
+import { Bubble } from "./bubble.class.js";
+import { HealthBar } from "./healthBar.class.js";
+import { CoinCounter } from "./coin-counter.class.js";
+import { BubbleCounter } from "./bubble-counter.class.js";
 
 export class World {
   character;
@@ -11,7 +13,8 @@ export class World {
   ctx;
   keyboard;
   camera_x = 0;
-  statusBar = new StatusBar();
+  statusBar = new HealthBar();
+  counterBar = { "coins": new CoinCounter(), "bubbles": new BubbleCounter() };
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -30,11 +33,26 @@ export class World {
       this.level.enemies.forEach((enemy) => {
         if (this.character.isColliding(enemy)) {
           this.character.hit();
-          this.statusBar.setPercentage(this.character.energy);
-          console.log(this.character.energy);
+          this.statusBar.setPercentage(
+            this.character.energy,
+            this.statusBar.LIFE_IMAGES
+          );
         }
       });
-    }, 200);
+
+      this.level.objects.forEach((object, index) => {
+        if (this.character.isColliding(object)) {
+          if (object instanceof Coin) {
+            this.level.objects.splice(index, 1);
+            this.counterBar.coins.count++;
+          }
+          if (object instanceof Bubble) {
+            this.level.objects.splice(index, 1);
+            this.counterBar.bubbles.count++;
+          }
+        }
+      });
+    }, 100);
   }
 
   draw() {
@@ -49,6 +67,8 @@ export class World {
 
     this.ctx.translate(-this.camera_x, 0);
     this.addToMap(this.statusBar);
+    this.addToMap(this.counterBar.coins);
+    this.addToMap(this.counterBar.bubbles);
 
     let self = this; //rendert die maximale anzahl an Frames die die grafuickarte her gibt
     requestAnimationFrame(() => {

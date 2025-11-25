@@ -3,6 +3,12 @@ import { CollectableObjects } from "./collectable-objects.class.js";
 export class Bubble extends CollectableObjects {
   width = 178 / 3;
   height = 243 / 3;
+  offset = {
+    top: 40,
+    right: 10,
+    bottom: 5,
+    left: 10,
+  };
 
   IMAGES_BUBBLE = [
     "src/img/4. Marcadores/Posión/Animada/1.png",
