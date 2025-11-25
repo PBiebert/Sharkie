@@ -1,4 +1,18 @@
-let level = new Level([], [], [], 0, []);
+import { Level } from "../classes/level.class.js";
+import { Coin } from "../classes/coin.class.js";
+import { Bubble } from "../classes/bubble.class.js";
+import { BackgroundObject } from "../classes/background-object.class.js";
+import { GreenFish } from "../classes/fish-green.class.js";
+import { PinkFish } from "../classes/fish-pink.class.js";
+import { RedFish } from "../classes/fish-red.class.js";
+import { JellyFishGreen } from "../classes/jelly-fish-green.class.js";
+import { JellyFishLila } from "../classes/jelly-fish-lila.class.js";
+import { JellyFishPink } from "../classes/jelly-fish-pink.class.js";
+import { JellyFishYellow } from "../classes/jelly-fish-yellow.class.js";
+import { Endboss } from "../classes/endboss.class.js";
+
+export let level = new Level([], [], [], 0, []);
+
 let levelLength;
 let LevelObjects = {
   coins: [

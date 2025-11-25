@@ -1,4 +1,6 @@
-class Bubble extends CollectableObjects {
+import { CollectableObjects } from "./collectable-objects.class.js";
+
+export class Bubble extends CollectableObjects {
   width = 178 / 3;
   height = 243 / 3;
 

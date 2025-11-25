@@ -1,5 +1,6 @@
-//src/img/3. Background/Layers/1. Light/1.png
-class LightBeam extends MovableObject {
+import { MovableObject } from "./movable-object.class.js";
+
+export class LightBeam extends MovableObject {
   y = 0;
   height = 480;
   width = 720;

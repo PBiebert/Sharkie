@@ -1,4 +1,6 @@
-class Coin extends CollectableObjects {
+import { CollectableObjects } from "./collectable-objects.class.js";
+
+export class Coin extends CollectableObjects {
   width = 99 / 3;
   height = 93 / 3;
 

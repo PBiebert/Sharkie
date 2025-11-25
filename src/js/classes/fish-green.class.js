@@ -1,4 +1,6 @@
-class GreenFish extends Fish {
+import { Fish } from "./fish.class.js";
+
+export class GreenFish extends Fish {
   static IMAGES_SWIMMING = [
     "src/img/2.Enemy/1.Puffer fish/1.Swim/1.swim1.png",
     "src/img/2.Enemy/1.Puffer fish/1.Swim/1.swim2.png",

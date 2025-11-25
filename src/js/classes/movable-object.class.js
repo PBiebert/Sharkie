@@ -1,4 +1,6 @@
-class MovableObject extends DrawableObject {
+import { DrawableObject } from "./drawable-object.class.js";
+
+export class MovableObject extends DrawableObject {
   otherDirection = false;
   speedImgChange = 100;
   world;
@@ -15,7 +17,6 @@ class MovableObject extends DrawableObject {
 
   constructor() {
     super();
-    // this.getRealFrame();
   }
 
   moveRight() {

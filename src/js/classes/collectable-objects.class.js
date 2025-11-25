@@ -1,4 +1,6 @@
-class CollectableObjects extends DrawableObject {
+import { DrawableObject } from "./drawable-object.class.js";
+
+export class CollectableObjects extends DrawableObject {
   img; // Variable für das Bild des Objekts
   imageCache = {};
   currentImage = 0;
@@ -7,6 +9,7 @@ class CollectableObjects extends DrawableObject {
   width = 100;
   height = 100;
   speedImgChange = 125;
+  hasHitbox = true;
 
   constructor() {
     super();

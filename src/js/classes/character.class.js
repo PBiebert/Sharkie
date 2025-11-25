@@ -1,4 +1,6 @@
-class Character extends MovableObject {
+import { MovableObject } from "./movable-object.class.js";
+
+export class Character extends MovableObject {
   height = 1000 / 4; //Bildgröße durch 4
   width = 815 / 4; //Bildgröße durch 4
   offset = {
@@ -49,6 +51,7 @@ class Character extends MovableObject {
     "src/img/1.Sharkie/6.dead/1.Poisoned/11.png",
     "src/img/1.Sharkie/6.dead/1.Poisoned/12.png",
   ];
+  hasHitbox = true;
 
   constructor() {
     super();

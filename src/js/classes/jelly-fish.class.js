@@ -1,4 +1,6 @@
-class JellyFish extends MovableObject {
+import { MovableObject } from "./movable-object.class.js";
+
+export class JellyFish extends MovableObject {
   width = 211 / 2;
   height = 300 / 2;
   IMAGES_SWIMMING;
@@ -9,6 +11,7 @@ class JellyFish extends MovableObject {
     bottom: 20,
     left: 0,
   };
+  hasHitbox = true;
 
   constructor(levelLength, IMAGES_SWIMMING) {
     super();

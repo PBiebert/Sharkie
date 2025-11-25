@@ -1,4 +1,4 @@
-class DrawableObject {
+export class DrawableObject {
   img; // Variable für das Bild des Objekts
   imageCache = {};
   currentImage = 0;
@@ -17,6 +17,7 @@ class DrawableObject {
   width = 100;
   height = 150;
   speedImgChange = 100;
+  hasHitbox = false;
 
   constructor() {}
 
@@ -40,13 +41,7 @@ class DrawableObject {
 
   //Hitbox erstellen
   drawFrame(ctx) {
-    if (
-      this instanceof Character ||
-      this instanceof Fish ||
-      this instanceof JellyFish ||
-      this instanceof Endboss ||
-      this instanceof CollectableObjects
-    ) {
+    if (this.hasHitbox) {
       ctx.beginPath();
       ctx.lineWidth = "2";
       ctx.strokeStyle = "red";

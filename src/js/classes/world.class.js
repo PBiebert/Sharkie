@@ -1,7 +1,12 @@
-class World {
-  character = new Character(); // Erstellt eine neue Instanz
-  level = level;
+import { Character } from "./character.class.js";
+import { DrawableObject } from "./drawable-object.class.js";
+import { StatusBar } from "./status-bar.class.js";
+import { Level } from "./level.class.js";
+import { level as level1 } from "../levels/level1.js";
 
+export class World {
+  character;
+  level;
   canvas;
   ctx;
   keyboard;
@@ -12,6 +17,9 @@ class World {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
+    this.level = level1; // Level aus level1.js verwenden
+    this.character = new Character();
+    this.character.world = this; // Referenz auf World setzen
     this.setWorld();
     this.draw();
     this.checkCollisions();

@@ -1,4 +1,6 @@
-class Fish extends MovableObject {
+import { MovableObject } from "./movable-object.class.js";
+
+export class Fish extends MovableObject {
   width = 241 / 3; //Bildgröße durch 2
   height = 198 / 3; //Bildgröße durch 2
   IMAGES_SWIMMING;
@@ -11,6 +13,7 @@ class Fish extends MovableObject {
     bottom: 20,
     left: 5,
   };
+  hasHitbox = true;
 
   constructor(levelLength, IMAGES_SWIMMING) {
     super();

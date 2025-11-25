@@ -1,9 +1,11 @@
-"use strict";
-/** @type {HTMLCanvasElement} */ // Typdefinition für das Canvas-Element
+import { Keyboard } from "./classes/keyboard.class.js";
+import { World } from "./classes/world.class.js";
 
 let canvas;
 let world;
 let keyboard = new Keyboard();
+
+window.addEventListener("load", init);
 
 function init() {
   canvas = document.getElementById("canvas"); // Holt das Canvas-Element aus dem DOM
