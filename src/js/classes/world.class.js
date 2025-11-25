@@ -36,6 +36,7 @@ class World {
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.level.lightBeams);
     this.addObjectsToMap(this.level.enemies);
+    this.addObjectsToMap(this.level.objects);
     this.addToMap(this.character);
 
     this.ctx.translate(-this.camera_x, 0);
@@ -56,7 +57,9 @@ class World {
   addToMap(object) {
     if (object.otherDirection) {
       this.flipImage(object);
+      object.getRealFrame();
     }
+    object.getRealFrame();
     object.draw(this.ctx); //new
     object.drawFrame(this.ctx);
 
@@ -68,6 +71,7 @@ class World {
   flipImageBack(object) {
     object.x = object.x * -1;
     this.ctx.restore();
+    // object.getRealFrame();
   }
 
   flipImage(object) {

@@ -15,7 +15,7 @@ class MovableObject extends DrawableObject {
 
   constructor() {
     super();
-    this.getRealFrame();
+    // this.getRealFrame();
   }
 
   moveRight() {

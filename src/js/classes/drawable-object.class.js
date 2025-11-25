@@ -2,8 +2,8 @@ class DrawableObject {
   img; // Variable für das Bild des Objekts
   imageCache = {};
   currentImage = 0;
-  x = 100; // Startposition auf der x-Achse
-  y = 250; // Startposition auf der y-Achse
+  x = 100;
+  y = 250;
   offset = {
     top: 0,
     right: 0,
@@ -16,6 +16,8 @@ class DrawableObject {
   rHeight;
   width = 100;
   height = 150;
+  speedImgChange = 100;
+
   constructor() {}
 
   loadImage(path) {
@@ -33,7 +35,7 @@ class DrawableObject {
 
   draw(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    this.getRealFrame();
+    // this.getRealFrame();
   }
 
   //Hitbox erstellen
@@ -42,7 +44,8 @@ class DrawableObject {
       this instanceof Character ||
       this instanceof Fish ||
       this instanceof JellyFish ||
-      this instanceof Endboss
+      this instanceof Endboss ||
+      this instanceof CollectableObjects
     ) {
       ctx.beginPath();
       ctx.lineWidth = "2";
@@ -57,5 +60,15 @@ class DrawableObject {
     this.rY = this.y + this.offset.top;
     this.rWidth = this.width - this.offset.left - this.offset.right;
     this.rHeight = this.height - this.offset.top - this.offset.bottom;
+  }
+
+  playAnimation(imageArray) {
+    let i = this.currentImage % imageArray.length;
+    let path = imageArray[i];
+    this.img = this.imageCache[path];
+    this.currentImage++;
+    if (this.currentImage == imageArray.length) {
+      this.currentImage = 0;
+    }
   }
 }

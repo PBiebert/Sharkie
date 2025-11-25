@@ -61,10 +61,13 @@ class Character extends MovableObject {
     this.animate();
   }
   animate() {
-    //   setInterval(() => {
-    //     console.log("X = " + this.x);
-    //     console.log("Y = " + this.y);
-    //   }, 2000);
+    // setInterval(() => {
+    //   console.clear();
+    //   console.log("X = " + this.x);
+    //   console.log("rX = " + this.rX);
+    //   console.log("Y = " + this.y);
+    //   console.log("rY = " + this.rY);
+    // }, 2000);
 
     setInterval(() => {
       this.checkMovementKeys();

@@ -1,5 +1,17 @@
-let level = new Level([], [], [], 0);
+let level = new Level([], [], [], 0, []);
 let levelLength;
+let LevelObjects = {
+  coins: [
+    // Width = 31 Height = 33
+    new Coin(400, 420), // Startpunkt links
+    new Coin(450, 270),
+    new Coin(550, 170),
+    new Coin(650, 170), // höchster Punkt (rechts oben)
+    new Coin(750, 270),
+    new Coin(800, 420), // Endpunkt rechts
+  ],
+  bubbles: [new Bubble(450, 150)],
+};
 
 let backgroundImagesLevel = [
   "src/img/3. Background/Layers/5. Water/D1.png",
@@ -22,6 +34,8 @@ renderEnemies(1, JellyFishLila);
 renderEnemies(1, JellyFishPink);
 renderEnemies(1, JellyFishYellow);
 setEndboss();
+setObject(LevelObjects.coins);
+setObject(LevelObjects.bubbles);
 
 function renderBackground(level, backgroundRepeats, backgroundImages) {
   let repeats = backgroundRepeats;
@@ -58,4 +72,10 @@ function renderEnemies(sumEnemies, enemySpecies) {
 
 function setEndboss() {
   level.enemies.push(new Endboss(levelLength));
+}
+
+function setObject(objects) {
+  for (let i = 0; i < objects.length; i++) {
+    level.objects.push(objects[i]);
+  }
 }

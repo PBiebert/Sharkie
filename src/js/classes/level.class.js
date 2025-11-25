@@ -2,12 +2,14 @@ class Level {
   enemies;
   lightBeams;
   backgroundObjects;
-  levelLength; // Länge des Levels in px
+  levelLength;
+  objects;
 
-  constructor(enemies, lightBeams, backgroundObjects, levelLength) {
+  constructor(enemies, lightBeams, backgroundObjects, levelLength, objects) {
     this.enemies = enemies;
     this.lightBeams = lightBeams;
     this.backgroundObjects = backgroundObjects;
     this.levelLength = levelLength;
+    this.objects = objects;
   }
 }
