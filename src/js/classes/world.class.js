@@ -15,6 +15,7 @@ export class World {
   camera_x = 0;
   statusBar = new HealthBar();
   counterBar = { "coins": new CoinCounter(), "bubbles": new BubbleCounter() };
+  throwableObject = [];
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -62,6 +63,7 @@ export class World {
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.level.lightBeams);
     this.addObjectsToMap(this.level.enemies);
+    this.addObjectsToMap(this.throwableObject);
     this.addObjectsToMap(this.level.objects);
     this.addToMap(this.character);
 

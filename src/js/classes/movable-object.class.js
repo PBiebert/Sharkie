@@ -12,7 +12,7 @@ export class MovableObject extends DrawableObject {
   groundY = 285;
   minSpeedLeft = 0.25;
   graphiteValue = 0.15;
-  graphiteSpeed = 60;
+  graphiteSpeed = 30;
   energy = 100;
   lastHit = 0;
 
@@ -29,15 +29,12 @@ export class MovableObject extends DrawableObject {
   }
 
   moveUp() {
-    this.speedY = this.speedDefault;
-    if (this.y <= 0 - this.height / 2) {
-      this.speedY = 0;
-    }
+    this.speedY = this.speedDefault * 2;
   }
 
   moveDown() {
-    this.y += this.speedX;
     this.speedY = 0;
+    this.y += this.speedDefault;
   }
 
   sprint() {
@@ -71,12 +68,15 @@ export class MovableObject extends DrawableObject {
       if (this.y > this.groundY) {
         this.y = this.groundY;
       }
+      if (this.y <= 0 - this.height / 2) {
+        this.y = 0 - this.height / 2;
+        this.speedY -= this.graphiteValue;
+      }
 
       if (this.isDead()) {
         clearInterval(gravityInterall);
       }
     }, 1000 / this.graphiteSpeed);
-    console.log(this.speedY);
   }
 
   isAboveGround() {

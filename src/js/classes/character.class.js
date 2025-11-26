@@ -1,4 +1,5 @@
 import { MovableObject } from "./movable-object.class.js";
+import { ThrowableObjects } from "./throwable-objects.class.js";
 
 export class Character extends MovableObject {
   height = 1000 / 4; //Bildgröße durch 4
@@ -31,11 +32,13 @@ export class Character extends MovableObject {
     "src/img/1.Sharkie/1.IDLE/18.png",
   ];
 
-  IMAGES_HURT = ["/src/img/1.Sharkie/5.Hurt/1.Poisoned/1.png"];
-  IMAGES_HURT = ["/src/img/1.Sharkie/5.Hurt/1.Poisoned/2.png"];
-  IMAGES_HURT = ["/src/img/1.Sharkie/5.Hurt/1.Poisoned/3.png"];
-  IMAGES_HURT = ["/src/img/1.Sharkie/5.Hurt/1.Poisoned/4.png"];
-  IMAGES_HURT = ["/src/img/1.Sharkie/5.Hurt/1.Poisoned/5.png"];
+  IMAGES_HURT = [
+    "/src/img/1.Sharkie/5.Hurt/1.Poisoned/1.png",
+    "/src/img/1.Sharkie/5.Hurt/1.Poisoned/2.png",
+    "/src/img/1.Sharkie/5.Hurt/1.Poisoned/3.png",
+    "/src/img/1.Sharkie/5.Hurt/1.Poisoned/4.png",
+    "/src/img/1.Sharkie/5.Hurt/1.Poisoned/5.png",
+  ];
 
   IMAGES_DEAD = [
     "src/img/1.Sharkie/6.dead/1.Poisoned/1.png",
@@ -52,6 +55,8 @@ export class Character extends MovableObject {
     "src/img/1.Sharkie/6.dead/1.Poisoned/12.png",
   ];
   hasHitbox = true;
+  shotKeyPressed = false;
+  viewDirektion = "right";
 
   constructor() {
     super();
@@ -59,18 +64,18 @@ export class Character extends MovableObject {
     this.loadImages(this.IMAGES_STANDING);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
-    this.y = 480 - this.groundY;
+    this.y = this.groundY;
     this.applyGravity();
     this.animate();
   }
   animate() {
-    setInterval(() => {
-      console.clear();
-      console.log("X = " + this.x);
-      console.log("rX = " + this.rX);
-      console.log("Y = " + this.y);
-      console.log("rY = " + this.rY);
-    }, 2000);
+    // setInterval(() => {
+    //   console.clear();
+    //   console.log("X = " + this.x);
+    //   console.log("rX = " + this.rX);
+    //   console.log("Y = " + this.y);
+    //   console.log("rY = " + this.rY);
+    // }, 2000);
 
     setInterval(() => {
       this.checkMovementKeys();
@@ -106,16 +111,29 @@ export class Character extends MovableObject {
     ) {
       this.moveRight();
       this.otherDirection = false;
+      this.viewDirektion = "right";
     }
     if (this.world.keyboard.LEFT && this.x > 0 - this.offset.left) {
       this.moveLeft();
       this.otherDirection = true;
+      this.viewDirektion = "left";
     }
     if (this.world.keyboard.UP) {
       this.moveUp();
     }
     if (this.world.keyboard.DOWN && this.y < 480 - this.groundY) {
       this.moveDown();
+    }
+
+    if (this.world.keyboard.H && !this.shotKeyPressed) {
+      if (this.world.counterBar.bubbles.count > 0) {
+        this.shotKeyPressed = true;
+        this.shot();
+        this.world.counterBar.bubbles.count -= 1;
+      }
+    }
+    if (!this.world.keyboard.H) {
+      this.shotKeyPressed = false;
     }
   }
 
@@ -127,5 +145,11 @@ export class Character extends MovableObject {
     } else {
       this.world.camera_x = -(this.world.level.levelLength - 720) + 100;
     }
+  }
+
+  shot() {
+    this.world.throwableObject.push(
+      new ThrowableObjects(this.world, this.x, this.y, this.viewDirektion)
+    );
   }
 }

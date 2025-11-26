@@ -6,7 +6,7 @@ export class BubbleCounter extends CounterBar {
   x = 10;
   y = 90;
 
-  count = 0;
+  count = 10;
 
   constructor() {
     super(BubbleCounter.BUBBLE_IMAGES);

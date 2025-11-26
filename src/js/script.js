@@ -39,6 +39,10 @@ window.addEventListener("keydown", (event) => {
     case " ":
       keyboard.SPACE = true;
       break;
+
+    case "h":
+      keyboard.H = true;
+      break;
   }
 });
 
@@ -67,6 +71,10 @@ window.addEventListener("keyup", (event) => {
 
     case " ":
       keyboard.SPACE = false;
+      break;
+
+    case "h":
+      keyboard.H = false;
       break;
   }
 });
