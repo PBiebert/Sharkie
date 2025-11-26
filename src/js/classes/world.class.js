@@ -71,7 +71,9 @@ export class World {
             enemy.energy -= bubble.damage;
             enemy.cooldown();
             if (enemy.isDead()) {
-              this.level.enemies.splice(enemyIndex, 1);
+              setTimeout(() => {
+                this.level.enemies.splice(enemyIndex, 1);
+              }, 500);
             }
           }
         });
@@ -113,7 +115,7 @@ export class World {
       object.getRealFrame();
     }
     object.getRealFrame();
-    object.draw(this.ctx); //new
+    object.draw(this.ctx);
     object.drawFrame(this.ctx);
 
     if (object.otherDirection) {
@@ -124,7 +126,6 @@ export class World {
   flipImageBack(object) {
     object.x = object.x * -1;
     this.ctx.restore();
-    // object.getRealFrame();
   }
 
   flipImage(object) {

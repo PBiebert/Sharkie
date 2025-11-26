@@ -4,6 +4,7 @@ export class JellyFish extends MovableObject {
   width = 211 / 2;
   height = 300 / 2;
   IMAGES_SWIMMING;
+  IMAGES_DEAD;
   speedY = 1;
   offset = {
     top: 20,
@@ -12,13 +13,16 @@ export class JellyFish extends MovableObject {
     left: 0,
   };
   hasHitbox = true;
+  energy = 100;
 
-  constructor(levelLength, IMAGES_SWIMMING) {
+  constructor(levelLength, IMAGES_SWIMMING, IMAGES_DEAD) {
     super();
     this.loadImage(IMAGES_SWIMMING[0]);
 
     this.loadImages(IMAGES_SWIMMING);
+    this.loadImages(IMAGES_DEAD);
     this.IMAGES_SWIMMING = IMAGES_SWIMMING;
+    this.IMAGES_DEAD = IMAGES_DEAD;
     this.x = 720 + Math.random() * (levelLength - 2 * 720); // Bereich: 720 bis levelLength-720
     this.y = 430 * Math.random();
     this.speedY = this.minSpeedLeft + Math.random() * 0.75;
@@ -31,7 +35,11 @@ export class JellyFish extends MovableObject {
     }, 1000 / 60);
 
     setInterval(() => {
-      this.playAnimation(this.IMAGES_SWIMMING);
+      if (this.isDead()) {
+        this.playAnimation(this.IMAGES_DEAD);
+      } else {
+        this.playAnimation(this.IMAGES_SWIMMING);
+      }
     }, this.speedImgChange);
   }
 
