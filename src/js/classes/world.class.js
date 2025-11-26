@@ -16,14 +16,16 @@ export class World {
   statusBar = new HealthBar();
   counterBar = { "coins": new CoinCounter(), "bubbles": new BubbleCounter() };
   throwableObject = [];
+  currentCharacterDamage = false;
+  currentEnemyDamage = false;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
-    this.level = level1; // Level aus level1.js verwenden
+    this.level = level1;
     this.character = new Character();
-    this.character.world = this; // Referenz auf World setzen
+    this.character.world = this;
     this.setWorld();
     this.draw();
     this.checkCollisions();
@@ -32,12 +34,20 @@ export class World {
   checkCollisions() {
     setInterval(() => {
       this.level.enemies.forEach((enemy) => {
-        if (this.character.isColliding(enemy)) {
+        if (
+          this.character.isColliding(enemy) &&
+          !this.character.cooldownActive
+        ) {
           this.character.hit();
+          this.character.cooldown();
           this.statusBar.setPercentage(
             this.character.energy,
             this.statusBar.LIFE_IMAGES
           );
+
+          this.currentCharacterDamage = true;
+        } else {
+          this.currentCharacterDamage = false;
         }
       });
 
@@ -53,7 +63,20 @@ export class World {
           }
         }
       });
-    }, 100);
+
+      this.throwableObject.forEach((bubble, bubbleIndex) => {
+        this.level.enemies.forEach((enemy, enemyIndex) => {
+          if (bubble.isColliding(enemy) && !enemy.cooldownActive) {
+            this.throwableObject.splice(bubbleIndex, 1);
+            enemy.energy -= bubble.damage;
+            enemy.cooldown();
+            if (enemy.isDead()) {
+              this.level.enemies.splice(enemyIndex, 1);
+            }
+          }
+        });
+      });
+    }, 1000 / 60);
   }
 
   draw() {
@@ -72,7 +95,7 @@ export class World {
     this.addToMap(this.counterBar.coins);
     this.addToMap(this.counterBar.bubbles);
 
-    let self = this; //rendert die maximale anzahl an Frames die die grafuickarte her gibt
+    let self = this;
     requestAnimationFrame(() => {
       self.draw();
     });

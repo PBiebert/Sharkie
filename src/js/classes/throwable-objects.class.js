@@ -16,6 +16,7 @@ export class ThrowableObjects extends MovableObject {
   startX;
   startY;
   maxDistance = 250;
+  damage = 50;
 
   BUBBLE_IMAGE = [
     "src/img/1.Sharkie/4.Attack/Bubble trap/Poisoned Bubble (for whale).png",

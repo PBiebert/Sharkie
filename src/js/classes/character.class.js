@@ -127,13 +127,13 @@ export class Character extends MovableObject {
 
     if (this.world.keyboard.H && !this.shotKeyPressed) {
       if (this.world.counterBar.bubbles.count > 0) {
-        this.shotKeyPressed = true;
+        this.shotKeyPressed = true; // Sofort blockieren
         this.shot();
         this.world.counterBar.bubbles.count -= 1;
+        setTimeout(() => {
+          this.shotKeyPressed = false;
+        }, this.cooldownLength);
       }
-    }
-    if (!this.world.keyboard.H) {
-      this.shotKeyPressed = false;
     }
   }
 

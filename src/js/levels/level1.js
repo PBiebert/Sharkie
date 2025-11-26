@@ -46,7 +46,7 @@ renderEnemies(0, RedFish);
 renderEnemies(0, JellyFishGreen);
 renderEnemies(0, JellyFishLila);
 renderEnemies(0, JellyFishPink);
-renderEnemies(0, JellyFishYellow);
+renderEnemies(1, JellyFishYellow);
 setEndboss();
 setObject(LevelObjects.coins);
 setObject(LevelObjects.bubbles);

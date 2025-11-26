@@ -15,6 +15,8 @@ export class MovableObject extends DrawableObject {
   graphiteSpeed = 30;
   energy = 100;
   lastHit = 0;
+  cooldownActive = false;
+  cooldownLength = 1000;
 
   constructor() {
     super();
@@ -101,5 +103,12 @@ export class MovableObject extends DrawableObject {
 
   isDead() {
     return this.energy == 0;
+  }
+
+  cooldown() {
+    this.cooldownActive = true;
+    setTimeout(() => {
+      this.cooldownActive = false;
+    }, this.cooldownLength);
   }
 }
