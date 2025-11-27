@@ -18,6 +18,10 @@ export class MovableObject extends DrawableObject {
   lastHit = 0;
   cooldownActive = false;
   cooldownLength = 1000;
+  lastStanding = Date.now();
+  timeToSleep = 5000;
+  isSleep = false;
+  hasShot = false;
 
   constructor() {
     super();

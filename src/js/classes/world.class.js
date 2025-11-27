@@ -45,6 +45,7 @@ export class World {
             this.character.energy,
             ImageAssets.LIFE_BAR
           );
+          this.character.resetSleep();
 
           this.currentCharacterDamage = true;
         } else {
@@ -112,8 +113,8 @@ export class World {
 
   addToMap(object) {
     if (object.otherDirection) {
-      this.flipImage(object);
       object.getRealFrame();
+      this.flipImage(object);
     }
     object.getRealFrame();
     object.draw(this.ctx);

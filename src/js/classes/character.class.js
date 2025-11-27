@@ -12,29 +12,37 @@ export class Character extends MovableObject {
     left: 40,
   };
 
-  hasHitbox = true;
+  hasHitbox = false;
   shotKeyPressed = false;
   viewDirektion = "right";
 
-  energy = 9999;
+  energy = 100;
+
+  isReadyToSleep = false; // Nur dieses Flag bleibt im Character
 
   constructor() {
     super();
     this.loadImage(ImageAssets.CHARAKTER_STANDING[0]);
     this.loadImages(ImageAssets.CHARAKTER_STANDING);
+    this.loadImages(ImageAssets.CHARAKTER_LONG_STANDING);
+    this.loadImages(ImageAssets.CHARAKTER_SLEEP);
+    this.loadImages(ImageAssets.CHARAKTER_SWIMMING);
     this.loadImages(ImageAssets.CHARAKTER_HURT);
     this.loadImages(ImageAssets.CHARAKTER_DEAD);
+    this.loadImages(ImageAssets.CHARAKTER_BUBBLE_ATTACK);
     this.y = this.groundY;
     this.applyGravity();
     this.animate();
   }
   animate() {
     setInterval(() => {
-      console.clear();
-      console.log("X = " + this.x);
-      console.log("rX = " + this.rX);
-      console.log("Y = " + this.y);
-      console.log("rY = " + this.rY);
+      console.log(this.currentImage);
+
+      // console.clear();
+      // console.log("X = " + this.x);
+      // console.log("rX = " + this.rX);
+      // console.log("Y = " + this.y);
+      // console.log("rY = " + this.rY);
     }, 500);
 
     setInterval(() => {
@@ -44,14 +52,61 @@ export class Character extends MovableObject {
     }, 1000 / 60); //60 fps
 
     setInterval(() => {
+      if (this.hasShot) {
+        this.playAnimation(ImageAssets.CHARAKTER_BUBBLE_ATTACK);
+
+        if (
+          this.currentImage ==
+          ImageAssets.CHARAKTER_BUBBLE_ATTACK.length - 1
+        ) {
+          this.hasShot = false;
+          console.log(this.hasShot);
+        }
+        return;
+      }
+
       if (this.isDead()) {
         this.playAnimation(ImageAssets.CHARAKTER_DEAD);
         this.floatsToTheSurface();
-      } else if (this.isHurt()) {
-        this.playAnimation(ImageAssets.CHARAKTER_HURT);
-      } else {
-        this.playAnimation(ImageAssets.CHARAKTER_STANDING);
+        return;
       }
+      if (this.isHurt()) {
+        this.playAnimation(ImageAssets.CHARAKTER_HURT);
+        return;
+      }
+      if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+        this.playAnimation(ImageAssets.CHARAKTER_SWIMMING);
+        this.resetSleep();
+        return;
+      }
+
+      if (this.isSleep) {
+        this.playAnimation(ImageAssets.CHARAKTER_SLEEP);
+        return;
+      }
+      // 2. Wenn Zeit abgelaufen, aber noch nicht bereit zu schlafen: erst LongStanding
+      if (
+        !this.isReadyToSleep &&
+        Date.now() >= this.lastStanding + this.timeToSleep
+      ) {
+        this.isReadyToSleep = true;
+        this.currentImage = 0; // Animation LongStanding von vorne starten
+      }
+      // 3. Wenn bereit zu schlafen, aber noch nicht schlafend: LongStanding abspielen
+      if (this.isReadyToSleep && !this.isSleep) {
+        this.playAnimation(ImageAssets.CHARAKTER_LONG_STANDING);
+        if (
+          this.currentImage ===
+          ImageAssets.CHARAKTER_LONG_STANDING.length - 1
+        ) {
+          this.isSleep = true;
+          this.isReadyToSleep = false;
+          this.currentImage = 0;
+        }
+        return;
+      }
+      // 4. Standard: Stehen
+      this.playAnimation(ImageAssets.CHARAKTER_STANDING);
     }, this.speedImgChange);
   }
 
@@ -80,8 +135,9 @@ export class Character extends MovableObject {
     }
     if (this.world.keyboard.UP) {
       this.moveUp();
+      this.resetSleep();
     }
-    if (this.world.keyboard.DOWN && this.y < 480 - this.groundY) {
+    if (this.world.keyboard.DOWN && this.y < this.groundY) {
       this.moveDown();
     }
 
@@ -108,8 +164,21 @@ export class Character extends MovableObject {
   }
 
   shot() {
-    this.world.throwableObject.push(
-      new ThrowableObjects(this.world, this.x, this.y, this.viewDirektion)
-    );
+    this.hasShot = true;
+    this.currentImage = 0;
+    this.resetSleep();
+
+    setTimeout(() => {
+      this.world.throwableObject.push(
+        new ThrowableObjects(this.world, this.x, this.y, this.viewDirektion)
+      );
+    }, 500);
+  }
+
+  resetSleep() {
+    this.isSleep = false;
+    this.isStand = false;
+    this.isReadyToSleep = false;
+    this.lastStanding = Date.now();
   }
 }

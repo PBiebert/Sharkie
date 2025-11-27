@@ -67,6 +67,7 @@ export class DrawableObject {
   }
 
   isColliding(object) {
+    this.getRealFrame();
     return (
       this.rX + this.rWidth > object.rX &&
       this.rY + this.rHeight > object.rY &&

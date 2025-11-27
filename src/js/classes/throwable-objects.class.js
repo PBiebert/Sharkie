@@ -31,10 +31,10 @@ export class ThrowableObjects extends MovableObject {
 
   throw(x, y) {
     if (this.viewDirection == "right") {
-      this.x = x + 165;
+      this.x = x + 100;
     }
     if (this.viewDirection == "left") {
-      this.x = x - 10;
+      this.x = x + 50;
     }
     this.y = y + 135;
     this.startX = this.x;
