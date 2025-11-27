@@ -5,6 +5,7 @@ import { Bubble } from "./bubble.class.js";
 import { HealthBar } from "./healthBar.class.js";
 import { CoinCounter } from "./coin-counter.class.js";
 import { BubbleCounter } from "./bubble-counter.class.js";
+import { ImageAssets } from "./image-Assets.class.js";
 
 export class World {
   character;
@@ -42,7 +43,7 @@ export class World {
           this.character.cooldown();
           this.statusBar.setPercentage(
             this.character.energy,
-            this.statusBar.LIFE_IMAGES
+            ImageAssets.LIFE_BAR
           );
 
           this.currentCharacterDamage = true;

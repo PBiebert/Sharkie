@@ -1,3 +1,4 @@
+import { ImageAssets } from "./image-Assets.class.js";
 import { MovableObject } from "./movable-object.class.js";
 
 export class ThrowableObjects extends MovableObject {
@@ -18,14 +19,11 @@ export class ThrowableObjects extends MovableObject {
   maxDistance = 250;
   damage = 50;
 
-  BUBBLE_IMAGE = [
-    "src/img/1.Sharkie/4.Attack/Bubble trap/Poisoned Bubble (for whale).png",
-  ];
   viewDirection = "right";
 
   constructor(world, x, y, viewDirection) {
     super();
-    this.loadImage(this.BUBBLE_IMAGE[0]);
+    this.loadImage(ImageAssets.BUBBLE_SHOT);
     this.world = world;
     this.viewDirection = viewDirection;
     this.throw(x, y);

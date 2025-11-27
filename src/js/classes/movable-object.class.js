@@ -1,4 +1,5 @@
 import { DrawableObject } from "./drawable-object.class.js";
+import { Character } from "./character.class.js";
 
 export class MovableObject extends DrawableObject {
   otherDirection = false;
@@ -55,10 +56,10 @@ export class MovableObject extends DrawableObject {
     if (this.currentImage == imageArray.length) {
       this.currentImage = 0;
     }
-    // if (this.isDead()) {
-    //   let path = imageArray[imageArray.length - 1];
-    //   this.img = this.imageCache[path];
-    // }
+    if (this.isDead() && this instanceof Character) {
+      let path = imageArray[imageArray.length - 1];
+      this.img = this.imageCache[path];
+    }
   }
 
   applyGravity() {

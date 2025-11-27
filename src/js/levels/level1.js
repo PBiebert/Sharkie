@@ -41,8 +41,8 @@ let backgroundImagesLevel = [
 renderBackground(level, 1, backgroundImagesLevel);
 setLevelLength();
 renderEnemies(1, GreenFish);
-renderEnemies(0, PinkFish);
-renderEnemies(0, RedFish);
+renderEnemies(1, PinkFish);
+renderEnemies(1, RedFish);
 renderEnemies(1, JellyFishGreen);
 renderEnemies(1, JellyFishLila);
 renderEnemies(1, JellyFishPink);

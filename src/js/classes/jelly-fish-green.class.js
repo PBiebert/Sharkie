@@ -1,25 +1,12 @@
+import { ImageAssets } from "./image-Assets.class.js";
 import { JellyFish } from "./jelly-fish.class.js";
 
 export class JellyFishGreen extends JellyFish {
-  static IMAGES_SWIMMING = [
-    "src/img/2.Enemy/2.Jelly_fish/Súper dangerous/Green 1.png",
-    "src/img/2.Enemy/2.Jelly_fish/Súper dangerous/Green 2.png",
-    "src/img/2.Enemy/2.Jelly_fish/Súper dangerous/Green 3.png",
-    "src/img/2.Enemy/2.Jelly_fish/Súper dangerous/Green 4.png",
-  ];
-
-  static IMAGES_DEAD = [
-    "src/img/2.Enemy/2.Jelly_fish/Dead/green/g1.png",
-    "src/img/2.Enemy/2.Jelly_fish/Dead/green/g2.png",
-    "src/img/2.Enemy/2.Jelly_fish/Dead/green/g3.png",
-    "src/img/2.Enemy/2.Jelly_fish/Dead/green/g4.png",
-  ];
-
   constructor(levelLength) {
     super(
       levelLength,
-      JellyFishGreen.IMAGES_SWIMMING,
-      JellyFishGreen.IMAGES_DEAD
+      ImageAssets.JELLY_FISH_GREEN_SWIMMING,
+      ImageAssets.JELLY_FISH_GREEN_DEAD
     );
   }
 }

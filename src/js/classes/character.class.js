@@ -1,3 +1,4 @@
+import { ImageAssets } from "./image-Assets.class.js";
 import { MovableObject } from "./movable-object.class.js";
 import { ThrowableObjects } from "./throwable-objects.class.js";
 
@@ -11,59 +12,16 @@ export class Character extends MovableObject {
     left: 40,
   };
 
-  IMAGES_STANDING = [
-    "src/img/1.Sharkie/1.IDLE/1.png",
-    "src/img/1.Sharkie/1.IDLE/2.png",
-    "src/img/1.Sharkie/1.IDLE/3.png",
-    "src/img/1.Sharkie/1.IDLE/4.png",
-    "src/img/1.Sharkie/1.IDLE/5.png",
-    "src/img/1.Sharkie/1.IDLE/6.png",
-    "src/img/1.Sharkie/1.IDLE/7.png",
-    "src/img/1.Sharkie/1.IDLE/8.png",
-    "src/img/1.Sharkie/1.IDLE/9.png",
-    "src/img/1.Sharkie/1.IDLE/10.png",
-    "src/img/1.Sharkie/1.IDLE/11.png",
-    "src/img/1.Sharkie/1.IDLE/12.png",
-    "src/img/1.Sharkie/1.IDLE/13.png",
-    "src/img/1.Sharkie/1.IDLE/14.png",
-    "src/img/1.Sharkie/1.IDLE/15.png",
-    "src/img/1.Sharkie/1.IDLE/16.png",
-    "src/img/1.Sharkie/1.IDLE/17.png",
-    "src/img/1.Sharkie/1.IDLE/18.png",
-  ];
-
-  IMAGES_HURT = [
-    "/src/img/1.Sharkie/5.Hurt/1.Poisoned/1.png",
-    "/src/img/1.Sharkie/5.Hurt/1.Poisoned/2.png",
-    "/src/img/1.Sharkie/5.Hurt/1.Poisoned/3.png",
-    "/src/img/1.Sharkie/5.Hurt/1.Poisoned/4.png",
-    "/src/img/1.Sharkie/5.Hurt/1.Poisoned/5.png",
-  ];
-
-  IMAGES_DEAD = [
-    "src/img/1.Sharkie/6.dead/1.Poisoned/1.png",
-    "src/img/1.Sharkie/6.dead/1.Poisoned/2.png",
-    "src/img/1.Sharkie/6.dead/1.Poisoned/3.png",
-    "src/img/1.Sharkie/6.dead/1.Poisoned/4.png",
-    "src/img/1.Sharkie/6.dead/1.Poisoned/5.png",
-    "src/img/1.Sharkie/6.dead/1.Poisoned/6.png",
-    "src/img/1.Sharkie/6.dead/1.Poisoned/7.png",
-    "src/img/1.Sharkie/6.dead/1.Poisoned/8.png",
-    "src/img/1.Sharkie/6.dead/1.Poisoned/9.png",
-    "src/img/1.Sharkie/6.dead/1.Poisoned/10.png",
-    "src/img/1.Sharkie/6.dead/1.Poisoned/11.png",
-    "src/img/1.Sharkie/6.dead/1.Poisoned/12.png",
-  ];
   hasHitbox = true;
   shotKeyPressed = false;
   viewDirektion = "right";
 
   constructor() {
     super();
-    this.loadImage(this.IMAGES_STANDING[0]);
-    this.loadImages(this.IMAGES_STANDING);
-    this.loadImages(this.IMAGES_HURT);
-    this.loadImages(this.IMAGES_DEAD);
+    this.loadImage(ImageAssets.CHARAKTER_STANDING[0]);
+    this.loadImages(ImageAssets.CHARAKTER_STANDING);
+    this.loadImages(ImageAssets.CHARAKTER_HURT);
+    this.loadImages(ImageAssets.CHARAKTER_DEAD);
     this.y = this.groundY;
     this.applyGravity();
     this.animate();
@@ -85,12 +43,12 @@ export class Character extends MovableObject {
 
     setInterval(() => {
       if (this.isDead()) {
-        this.playAnimation(this.IMAGES_DEAD);
+        this.playAnimation(ImageAssets.CHARAKTER_DEAD);
         this.floatsToTheSurface();
       } else if (this.isHurt()) {
-        this.playAnimation(this.IMAGES_HURT);
+        this.playAnimation(ImageAssets.CHARAKTER_HURT);
       } else {
-        this.playAnimation(this.IMAGES_STANDING);
+        this.playAnimation(ImageAssets.CHARAKTER_STANDING);
       }
     }, this.speedImgChange);
   }
