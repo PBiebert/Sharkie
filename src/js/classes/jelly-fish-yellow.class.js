@@ -2,11 +2,12 @@ import { ImageAssets } from "./image-Assets.class.js";
 import { JellyFish } from "./jelly-fish.class.js";
 
 export class JellyFishYellow extends JellyFish {
-  constructor(levelLength) {
+  constructor(x, y) {
     super(
-      levelLength,
       ImageAssets.JELLY_FISH_YELLOW_SWIMMING,
-      ImageAssets.JELLY_FISH_YELLOW_DEAD
+      ImageAssets.JELLY_FISH_YELLOW_DEAD,
+      x,
+      y
     );
   }
 }

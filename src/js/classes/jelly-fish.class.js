@@ -15,7 +15,7 @@ export class JellyFish extends MovableObject {
   hasHitbox = true;
   energy = 100;
 
-  constructor(levelLength, IMAGES_SWIMMING, IMAGES_DEAD) {
+  constructor(IMAGES_SWIMMING, IMAGES_DEAD, x, y) {
     super();
     this.loadImage(IMAGES_SWIMMING[0]);
 
@@ -23,8 +23,8 @@ export class JellyFish extends MovableObject {
     this.loadImages(IMAGES_DEAD);
     this.IMAGES_SWIMMING = IMAGES_SWIMMING;
     this.IMAGES_DEAD = IMAGES_DEAD;
-    this.x = 720 + Math.random() * (levelLength - 2 * 720); // Bereich: 720 bis levelLength-720
-    this.y = 430 * Math.random();
+    this.x = x;
+    this.y = y;
     this.speedY = this.minSpeedLeft + Math.random() * 0.75;
     this.animate();
   }

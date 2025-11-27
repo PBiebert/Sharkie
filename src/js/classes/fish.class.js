@@ -15,13 +15,13 @@ export class Fish extends MovableObject {
   };
   hasHitbox = true;
 
-  constructor(levelLength, IMAGES_SWIMMING) {
+  constructor(IMAGES_SWIMMING, x, y) {
     super();
     this.loadImage(IMAGES_SWIMMING[0]);
     this.loadImages(IMAGES_SWIMMING);
     this.IMAGES_SWIMMING = IMAGES_SWIMMING;
-    this.x = 720 + levelLength * Math.random(); // Startposition auf der x-Achse
-    this.y = 430 * Math.random();
+    this.x = x;
+    this.y = y;
     this.speedX = this.minSpeedLeft + Math.random() * 0.75;
     this.animate();
   }

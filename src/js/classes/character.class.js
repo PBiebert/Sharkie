@@ -16,6 +16,8 @@ export class Character extends MovableObject {
   shotKeyPressed = false;
   viewDirektion = "right";
 
+  energy = 9999;
+
   constructor() {
     super();
     this.loadImage(ImageAssets.CHARAKTER_STANDING[0]);
@@ -27,13 +29,13 @@ export class Character extends MovableObject {
     this.animate();
   }
   animate() {
-    // setInterval(() => {
-    //   console.clear();
-    //   console.log("X = " + this.x);
-    //   console.log("rX = " + this.rX);
-    //   console.log("Y = " + this.y);
-    //   console.log("rY = " + this.rY);
-    // }, 2000);
+    setInterval(() => {
+      console.clear();
+      console.log("X = " + this.x);
+      console.log("rX = " + this.rX);
+      console.log("Y = " + this.y);
+      console.log("rY = " + this.rY);
+    }, 500);
 
     setInterval(() => {
       this.checkMovementKeys();
