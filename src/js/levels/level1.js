@@ -169,10 +169,15 @@ let enemies = [
 ];
 
 let lightBeams = [
-  new LightBeam(750),
-  new LightBeam(2250),
-  new LightBeam(4500),
-  new LightBeam(7500),
+  new LightBeam(0),
+  new LightBeam(1000),
+  new LightBeam(2000),
+  new LightBeam(3000),
+  new LightBeam(4000),
+  new LightBeam(5000),
+  new LightBeam(6000),
+  new LightBeam(7000),
+  new LightBeam(8000),
 ];
 
 let backgroundImagesLevel = [
@@ -239,5 +244,5 @@ function setLightBeams() {
 function lightBeamIntervall() {
   setInterval(() => {
     level.lightBeams.push(new LightBeam(levelLength));
-  }, 25000);
+  }, 30000);
 }
