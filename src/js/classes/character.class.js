@@ -3,6 +3,7 @@ import { MovableObject } from "./movable-object.class.js";
 import { ThrowableObjects } from "./throwable-objects.class.js";
 
 export class Character extends MovableObject {
+  isCharacter = true;
   height = 1000 / 4; //Bildgröße durch 4
   width = 815 / 4; //Bildgröße durch 4
   offset = {
@@ -12,13 +13,15 @@ export class Character extends MovableObject {
     left: 40,
   };
 
-  hasHitbox = false;
+  x = 0;
+
+  hasHitbox = true;
   shotKeyPressed = false;
   viewDirektion = "right";
 
   energy = 100;
 
-  isReadyToSleep = false; // Nur dieses Flag bleibt im Character
+  isReadyToSleep = false;
 
   constructor() {
     super();
@@ -36,8 +39,6 @@ export class Character extends MovableObject {
   }
   animate() {
     setInterval(() => {
-      console.log(this.currentImage);
-
       // console.clear();
       // console.log("X = " + this.x);
       // console.log("rX = " + this.rX);
@@ -60,7 +61,6 @@ export class Character extends MovableObject {
           ImageAssets.CHARAKTER_BUBBLE_ATTACK.length - 1
         ) {
           this.hasShot = false;
-          console.log(this.hasShot);
         }
         return;
       }

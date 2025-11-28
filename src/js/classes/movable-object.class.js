@@ -19,9 +19,14 @@ export class MovableObject extends DrawableObject {
   cooldownActive = false;
   cooldownLength = 1000;
   lastStanding = Date.now();
-  timeToSleep = 5000;
+  timeToSleep = 10000;
   isSleep = false;
   hasShot = false;
+  characterData = { "x": 0, "y": 0 };
+  seeCharacter = false;
+  contactWithCharacter = false;
+  visibility = 500;
+  isEndboss = false;
 
   constructor() {
     super();
@@ -60,7 +65,11 @@ export class MovableObject extends DrawableObject {
     if (this.currentImage == imageArray.length) {
       this.currentImage = 0;
     }
-    if (this.isDead() && this instanceof Character) {
+
+    if (
+      (this.isCharacter && this.isDead()) ||
+      (this.isEndboss && this.isDead())
+    ) {
       let path = imageArray[imageArray.length - 1];
       this.img = this.imageCache[path];
     }
@@ -115,5 +124,36 @@ export class MovableObject extends DrawableObject {
     setTimeout(() => {
       this.cooldownActive = false;
     }, this.cooldownLength);
+  }
+
+  checkCharacterWithinSight() {
+    setInterval(() => {
+      const characterX = this.characterData.x + this.characterData.width;
+      if (characterX >= this.x - this.visibility) {
+        this.seeCharacter = true;
+      } else {
+        this.seeCharacter = false;
+      }
+    }, 1000 / 60);
+  }
+
+  moveToCharacter() {
+    const character = this.characterData;
+    if (this.x > character.x + character.width + 21) {
+      this.x -= this.speedX;
+      if (this.x <= character.x + character.width + 40) {
+        this.contactWithCharacter = true;
+      } else if (
+        character.energy == 0 ||
+        this.x > character.x + character.width + 40
+      ) {
+        this.contactWithCharacter = false;
+      }
+    }
+    if (this.y > character.y - this.rHeight + 10) {
+      this.y--;
+    } else if (this.y < character.y + this.rHeight + 10) {
+      this.y++;
+    }
   }
 }

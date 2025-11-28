@@ -30,6 +30,7 @@ export class World {
     this.setWorld();
     this.draw();
     this.checkCollisions();
+    this.characterPosition();
   }
 
   checkCollisions() {
@@ -71,6 +72,7 @@ export class World {
           if (bubble.isColliding(enemy) && !enemy.cooldownActive) {
             this.throwableObject.splice(bubbleIndex, 1);
             enemy.energy -= bubble.damage;
+            enemy.hit();
             enemy.cooldown();
             if (enemy.isDead()) {
               setTimeout(() => {
@@ -79,6 +81,20 @@ export class World {
             }
           }
         });
+      });
+    }, 1000 / 60);
+  }
+
+  characterPosition() {
+    setInterval(() => {
+      this.level.enemies.forEach((enemy) => {
+        enemy.characterData = {
+          x: this.character.x,
+          y: this.character.y,
+          width: this.character.rWidth,
+          height: this.character.rHeight,
+          energy: this.character.energy,
+        };
       });
     }, 1000 / 60);
   }
@@ -140,5 +156,8 @@ export class World {
   // übergibt die referenz zur world an alle MovableObjects damit auf keybord zugegriffen werden kann
   setWorld() {
     this.character.world = this;
+    this.level.enemies.forEach((enemy) => {
+      enemy.world = this;
+    });
   }
 }

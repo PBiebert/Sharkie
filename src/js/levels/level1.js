@@ -143,6 +143,7 @@ let enemies = [
   new JellyFishYellow(6200, 300),
   new JellyFishLila(6600, 250),
   new JellyFishPink(7650, 350),
+  new JellyFishGreen(7800, 150),
   new GreenFish(1350, 420),
   new PinkFish(1550, 300),
   new RedFish(1750, 350),
