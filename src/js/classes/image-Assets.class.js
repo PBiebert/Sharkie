@@ -170,7 +170,6 @@ export class ImageAssets {
     "src/img/2.Enemy/1.Puffer fish/1.Swim/1.swim5.png",
   ];
 
-  // noch nicht implementiert
   static FISH_GREEN_TRANSITION = [
     "src/img/2.Enemy/1.Puffer fish/2.transition/1.transition1.png",
     "src/img/2.Enemy/1.Puffer fish/2.transition/1.transition2.png",
@@ -179,7 +178,6 @@ export class ImageAssets {
     "src/img/2.Enemy/1.Puffer fish/2.transition/1.transition5.png",
   ];
 
-  // noch nicht implementiert
   static FISH_GREEN_BUBBLE_SWIMMING = [
     "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/1.bubbleswim1.png",
     "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/1.bubbleswim2.png",
@@ -188,7 +186,6 @@ export class ImageAssets {
     "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/1.bubbleswim5.png",
   ];
 
-  // noch nicht implementiert
   static FISH_GREEN_DEAD = [
     "src/img/2.Enemy/1.Puffer fish/4.DIE/1.Dead 1.png",
     "src/img/2.Enemy/1.Puffer fish/4.DIE/1.Dead 2.png",
@@ -206,20 +203,20 @@ export class ImageAssets {
 
   // noch nicht implementiert
   static FISH_PINK_TRANSITION = [
-    "src/img/2.Enemy/1.Puffer fish/2.transition/2.transition1.png",
-    "src/img/2.Enemy/1.Puffer fish/2.transition/2.transition2.png",
-    "src/img/2.Enemy/1.Puffer fish/2.transition/2.transition3.png",
-    "src/img/2.Enemy/1.Puffer fish/2.transition/2.transition4.png",
-    "src/img/2.Enemy/1.Puffer fish/2.transition/2.transition5.png",
+    "src/img/2.Enemy/1.Puffer fish/2.transition/3.transition1.png",
+    "src/img/2.Enemy/1.Puffer fish/2.transition/3.transition2.png",
+    "src/img/2.Enemy/1.Puffer fish/2.transition/3.transition3.png",
+    "src/img/2.Enemy/1.Puffer fish/2.transition/3.transition4.png",
+    "src/img/2.Enemy/1.Puffer fish/2.transition/3.transition5.png",
   ];
 
   // noch nicht implementiert
   static FISH_PINK_BUBBLE_SWIMMING = [
-    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/2.bubbleswim1.png",
-    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/2.bubbleswim2.png",
-    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/2.bubbleswim3.png",
-    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/2.bubbleswim4.png",
-    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/2.bubbleswim5.png",
+    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/3.bubbleswim1.png",
+    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/3.bubbleswim2.png",
+    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/3.bubbleswim3.png",
+    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/3.bubbleswim4.png",
+    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/3.bubbleswim5.png",
   ];
 
   // noch nicht implementiert
@@ -240,20 +237,20 @@ export class ImageAssets {
 
   // noch nicht implementiert
   static FISH_RED_TRANSITION = [
-    "src/img/2.Enemy/1.Puffer fish/2.transition/3.transition1.png",
-    "src/img/2.Enemy/1.Puffer fish/2.transition/3.transition2.png",
-    "src/img/2.Enemy/1.Puffer fish/2.transition/3.transition3.png",
-    "src/img/2.Enemy/1.Puffer fish/2.transition/3.transition4.png",
-    "src/img/2.Enemy/1.Puffer fish/2.transition/3.transition5.png",
+    "src/img/2.Enemy/1.Puffer fish/2.transition/2.transition1.png",
+    "src/img/2.Enemy/1.Puffer fish/2.transition/2.transition2.png",
+    "src/img/2.Enemy/1.Puffer fish/2.transition/2.transition3.png",
+    "src/img/2.Enemy/1.Puffer fish/2.transition/2.transition4.png",
+    "src/img/2.Enemy/1.Puffer fish/2.transition/2.transition5.png",
   ];
 
   // noch nicht implementiert
   static FISH_RED_BUBBLE_SWIMMING = [
-    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/3.bubbleswim1.png",
-    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/3.bubbleswim2.png",
-    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/3.bubbleswim3.png",
-    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/3.bubbleswim4.png",
-    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/3.bubbleswim5.png",
+    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/2.bubbleswim1.png",
+    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/2.bubbleswim2.png",
+    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/2.bubbleswim3.png",
+    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/2.bubbleswim4.png",
+    "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/2.bubbleswim5.png",
   ];
 
   // noch nicht implementiert

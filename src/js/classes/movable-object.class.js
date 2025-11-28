@@ -61,17 +61,24 @@ export class MovableObject extends DrawableObject {
     let i = this.currentImage % imageArray.length;
     let path = imageArray[i];
     this.img = this.imageCache[path];
-    this.currentImage++;
-    if (this.currentImage == imageArray.length) {
-      this.currentImage = 0;
-    }
 
+    // Prüfe, ob Death-Animation abgespielt werden soll
     if (
       (this.isCharacter && this.isDead()) ||
-      (this.isEndboss && this.isDead())
+      (this.isEndboss && this.isDead()) ||
+      (this.isFish && this.isDead())
     ) {
-      let path = imageArray[imageArray.length - 1];
-      this.img = this.imageCache[path];
+      if (this.currentImage < imageArray.length - 1) {
+        this.currentImage++;
+      } else {
+        // Bleibe auf letztem Bild stehen
+        this.currentImage = imageArray.length - 1;
+      }
+    } else {
+      this.currentImage++;
+      if (this.currentImage == imageArray.length) {
+        this.currentImage = 0;
+      }
     }
   }
 

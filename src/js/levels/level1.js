@@ -10,6 +10,7 @@ import { JellyFishPink } from "../classes/jelly-fish-pink.class.js";
 import { JellyFishYellow } from "../classes/jelly-fish-yellow.class.js";
 import { Endboss } from "../classes/endboss.class.js";
 import { Bubble } from "../classes/bubble.class.js";
+import { LightBeam } from "../classes/light.class.js";
 
 export let level = new Level([], [], [], 0, []);
 
@@ -144,29 +145,34 @@ let enemies = [
   new JellyFishLila(6600, 250),
   new JellyFishPink(7650, 350),
   new JellyFishGreen(7800, 150),
-  new GreenFish(1350, 420),
-  new PinkFish(1550, 300),
-  new RedFish(1750, 350),
-  new GreenFish(2100, 420),
-  new PinkFish(2500, 350),
-  new RedFish(2700, 420),
-  new GreenFish(3200, 400),
-  new PinkFish(3500, 250),
-  new RedFish(3900, 350),
-  new GreenFish(4300, 420),
-  new PinkFish(4700, 250),
-  new RedFish(4900, 350),
-  new GreenFish(5500, 420),
-  new PinkFish(5700, 300),
-  new RedFish(5900, 350),
-  new GreenFish(6300, 420),
-  new PinkFish(6700, 350),
-  new RedFish(6900, 420),
-  new GreenFish(7300, 400),
-  new PinkFish(7600, 250),
-  new RedFish(7900, 350),
-  new GreenFish(8300, 420),
-  new PinkFish(8500, 250),
+  new GreenFish(1350, 60),
+  new PinkFish(1550, 410),
+  new RedFish(1750, 180),
+  new GreenFish(2100, 320),
+  new PinkFish(2500, 120),
+  new RedFish(2700, 390),
+  new GreenFish(3200, 240),
+  new PinkFish(3500, 70),
+  new RedFish(3900, 430),
+  new GreenFish(4300, 200),
+  new PinkFish(4700, 350),
+  new RedFish(4900, 30),
+  new GreenFish(5500, 400),
+  new PinkFish(5700, 160),
+  new RedFish(5900, 270),
+  new GreenFish(6300, 90),
+  new PinkFish(6700, 380),
+  new RedFish(6900, 210),
+  new GreenFish(7300, 300),
+  new PinkFish(7600, 50),
+  new RedFish(7900, 430),
+];
+
+let lightBeams = [
+  new LightBeam(750),
+  new LightBeam(2250),
+  new LightBeam(4500),
+  new LightBeam(7500),
 ];
 
 let backgroundImagesLevel = [
@@ -185,6 +191,8 @@ setLevelLength();
 setEnemies();
 setObject(LevelObjects.coins);
 setObject(LevelObjects.bubbles);
+setLightBeams();
+lightBeamIntervall();
 
 function renderBackground(level, backgroundRepeats, backgroundImages) {
   let repeats = backgroundRepeats;
@@ -222,4 +230,14 @@ function setObject(objects) {
   for (let i = 0; i < objects.length; i++) {
     level.objects.push(objects[i]);
   }
+}
+
+function setLightBeams() {
+  level.lightBeams.push(...lightBeams);
+}
+
+function lightBeamIntervall() {
+  setInterval(() => {
+    level.lightBeams.push(new LightBeam(levelLength));
+  }, 25000);
 }
