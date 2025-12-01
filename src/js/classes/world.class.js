@@ -6,6 +6,7 @@ import { HealthBar } from "./healthBar.class.js";
 import { CoinCounter } from "./coin-counter.class.js";
 import { BubbleCounter } from "./bubble-counter.class.js";
 import { ImageAssets } from "./image-Assets.class.js";
+import { Endboss } from "./endboss.class.js";
 
 export class World {
   character;
@@ -159,5 +160,21 @@ export class World {
     this.level.enemies.forEach((enemy) => {
       enemy.world = this;
     });
+  }
+
+  filterBoss() {
+    let endboss = this.level.enemies.find((enemy) => enemy instanceof Endboss);
+    return endboss;
+  }
+
+  gameResult() {
+    if (this.character.energy == 0) {
+      return "gameOver";
+    }
+
+    const boss = this.filterBoss();
+    if (boss && boss.energy == 0) {
+      return "win";
+    }
   }
 }

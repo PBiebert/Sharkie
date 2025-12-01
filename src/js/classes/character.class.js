@@ -19,7 +19,7 @@ export class Character extends MovableObject {
   shotKeyPressed = false;
   viewDirektion = "right";
 
-  energy = 1000;
+  energy = 10;
 
   isReadyToSleep = false;
 
