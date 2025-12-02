@@ -7,34 +7,46 @@ export class AudioHub {
   static blubbCollect = new Audio("src/audio/blubb_collect.mp3");
   static dangerous = new Audio("src/audio/dangerous.mp3");
 
+  static playSounds = false;
+
   static backgroundSound(sound) {
-    sound.volume = 0.2;
-    sound.currentTime = 0;
-    sound.play();
+    if (AudioHub.playSounds) {
+      sound.volume = 0.2;
+      sound.currentTime = 0;
+      sound.play();
+    }
   }
 
   static hoverSound(sound) {
-    sound.volume = 0.7;
-    sound.currentTime = 0.06;
-    sound.play();
+    if (AudioHub.playSounds) {
+      sound.volume = 0.7;
+      sound.currentTime = 0.06;
+      sound.play();
+    }
   }
 
   static hurtSound(sound) {
-    sound.volume = 0.5;
-    sound.currentTime = 0.3;
-    sound.play();
+    if (AudioHub.playSounds) {
+      sound.volume = 0.5;
+      sound.currentTime = 0.3;
+      sound.play();
+    }
   }
 
   static attackSound(sound) {
-    sound.volume = 0.5;
-    sound.currentTime = 0;
-    sound.play();
+    if (AudioHub.playSounds) {
+      sound.volume = 0.5;
+      sound.currentTime = 0;
+      sound.play();
+    }
   }
 
   static collectSound(sound) {
-    sound.volume = 0.1;
-    sound.currentTime = 0;
-    sound.play();
+    if (AudioHub.playSounds) {
+      sound.volume = 0.1;
+      sound.currentTime = 0;
+      sound.play();
+    }
   }
 
   static stop(sound) {

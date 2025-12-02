@@ -14,13 +14,13 @@ export class Character extends MovableObject {
     left: 40,
   };
 
-  x = 6000;
+  x = 0;
 
   hasHitbox = true;
   shotKeyPressed = false;
   viewDirektion = "right";
 
-  energy = 10;
+  energy = 100;
 
   isReadyToSleep = false;
 

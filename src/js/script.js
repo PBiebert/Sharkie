@@ -12,12 +12,11 @@ const endScreen = document.querySelector(".endScreen");
 const resultText = document.getElementById("result-text");
 const btmHome = document.getElementById("home");
 const btmReplay = document.getElementById("replay");
+const btnSound = document.querySelector(".btn-sound");
 const buttons = document.querySelectorAll("button");
 let canvas = document.getElementById("canvas");
 let world;
 let keyboard = new Keyboard();
-
-console.log(buttons);
 
 window.addEventListener("load", init);
 
@@ -111,11 +110,16 @@ window.addEventListener("keyup", (event) => {
   }
 });
 
+btnSound.addEventListener("click", () => {
+  if (AudioHub.playSounds) {
+    muteSound();
+  } else {
+    playSound();
+  }
+});
+
 function init() {
-  console.log(canvas.height);
-  console.log(canvas.width);
-  AudioHub.backgroundSound(AudioHub.backgroundMusic);
-  setClickSound();
+  setHoverSound();
 }
 
 function openSite(from, to) {
@@ -151,10 +155,22 @@ function ShowEndscreen(gameResult) {
   }
 }
 
-function setClickSound() {
+function setHoverSound() {
   buttons.forEach((button) => {
     button.addEventListener("mouseover", () =>
       AudioHub.hoverSound(AudioHub.click)
     );
   });
+}
+
+function muteSound() {
+  AudioHub.playSounds = false;
+  AudioHub.stop(AudioHub.backgroundMusic);
+  btnSound.src = "./src/icons/mute.png";
+}
+
+function playSound() {
+  AudioHub.playSounds = true;
+  AudioHub.backgroundSound(AudioHub.backgroundMusic);
+  btnSound.src = "./src/icons/note.png";
 }
