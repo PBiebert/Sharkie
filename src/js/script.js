@@ -2,7 +2,10 @@ import { Keyboard } from "./classes/keyboard.class.js";
 import { World } from "./classes/world.class.js";
 import { AudioHub } from "./classes/audio-hub.class.js";
 
+//#region Variablen
+const fullscreenContainer = document.querySelector(".fullscreen-container");
 const overlay = document.querySelector(".overlay");
+const buttons = document.querySelectorAll("button");
 const btnControls = document.getElementById("btn-controls");
 const controlsSite = document.querySelector(".controls");
 const btnBack = document.getElementById("back");
@@ -13,11 +16,14 @@ const resultText = document.getElementById("result-text");
 const btmHome = document.getElementById("home");
 const btmReplay = document.getElementById("replay");
 const btnSound = document.querySelector(".btn-sound");
-const buttons = document.querySelectorAll("button");
+const btnScreen = document.querySelector(".btn-screen");
 let canvas = document.getElementById("canvas");
 let world;
 let keyboard = new Keyboard();
+let fullscreen = false;
+//#endregion
 
+// #region EventListner
 window.addEventListener("load", init);
 
 btnControls.addEventListener("click", () =>
@@ -107,7 +113,14 @@ window.addEventListener("keyup", (event) => {
     case "h":
       keyboard.H = false;
       break;
+
+    case "Escape":
+      break;
   }
+});
+
+window.addEventListener("keydown", (event) => {
+  console.log(event);
 });
 
 btnSound.addEventListener("click", () => {
@@ -117,6 +130,15 @@ btnSound.addEventListener("click", () => {
     playSound();
   }
 });
+
+btnScreen.addEventListener("click", () => {
+  if (!fullscreen) {
+    setFullscreen();
+  } else {
+    exitFullscreen();
+  }
+});
+// #endregion
 
 function init() {
   setHoverSound();
@@ -173,4 +195,21 @@ function playSound() {
   AudioHub.playSounds = true;
   AudioHub.backgroundSound(AudioHub.backgroundMusic);
   btnSound.src = "./src/icons/note.png";
+}
+
+function setFullscreen() {
+  fullscreenContainer.requestFullscreen();
+  btnScreen.src = "./src/icons/fullscreen_exit.png";
+  fullscreen = true;
+}
+
+function exitFullscreen() {
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+    btnScreen.src = "./src/icons/fullscreen.png";
+    fullscreen = false;
+  } else {
+    btnScreen.src = "./src/icons/fullscreen.png";
+    fullscreen = false;
+  }
 }

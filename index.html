@@ -17,63 +17,69 @@
     <script type="module" src="src/js/script.js"></script>
   </head>
   <body>
-    <canvas id="canvas" width="720px" height="480px"></canvas>
+    <div class="fullscreen-container">
+      <canvas id="canvas" width="720px" height="480px"></canvas>
 
-    <div class="overlay active">
-      <div class="startScreen flex-center background active">
-        <h1>Sharki</h1>
-        <button id="btn-start" type="button">Start</button>
-        <button id="btn-controls" type="button">Controls</button>
-        <button type="button">Impressum</button>
-      </div>
-      <div class="controls flex-center">
-        <table>
-          <tr>
-            <td>
-              <div class="key">W</div>
-              <div class="key">&#9650;</div>
-            </td>
-            <td>UP</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="key">D</div>
-              <div class="key">&#9654;</div>
-            </td>
-            <td>RIGHT</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="key">S</div>
-              <div class="key">&#9660;</div>
-            </td>
-            <td>DOWN</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="key">A</div>
-              <div class="key">&#9664;</div>
-            </td>
-            <td>RIGHT</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="key">H</div>
-            </td>
-            <td>SHOOT</td>
-          </tr>
-        </table>
-        <button id="back" type="button">Back</button>
-      </div>
-      <div class="endScreen flex-center">
-        <h2 id="result-text"></h2>
-        <button id="home" type="button">Home</button>
-        <button id="replay" type="button">Replay</button>
-      </div>
-      <div class="head-line">
-        <button type="button">
-          <img class="btn-sound active" src="./src/icons/mute.png" alt="" />
-        </button>
+      <div class="overlay active">
+        <div class="startScreen flex-center background active">
+          <h1>Sharki</h1>
+          <button id="btn-start" type="button">Start</button>
+          <button id="btn-controls" type="button">Controls</button>
+          <button type="button">Impressum</button>
+        </div>
+        <div class="controls background flex-center">
+          <table>
+            <tr>
+              <td>
+                <div class="key">W</div>
+                <div class="key">&#9650;</div>
+              </td>
+              <td>UP</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="key">D</div>
+                <div class="key">&#9654;</div>
+              </td>
+              <td>RIGHT</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="key">S</div>
+                <div class="key">&#9660;</div>
+              </td>
+              <td>DOWN</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="key">A</div>
+                <div class="key">&#9664;</div>
+              </td>
+              <td>RIGHT</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="key">H</div>
+              </td>
+              <td>SHOOT</td>
+            </tr>
+          </table>
+          <button id="back" type="button">Back</button>
+        </div>
+        <div class="endScreen flex-center">
+          <h2 id="result-text"></h2>
+          <button id="home" type="button">Home</button>
+          <button id="replay" type="button">Replay</button>
+        </div>
+        <div class="head-line">
+          <button type="button">
+            <img class="btn-screen" src="./src/icons/fullscreen.png" />
+          </button>
+
+          <button type="button">
+            <img class="btn-sound" src="./src/icons/mute.png" />
+          </button>
+        </div>
       </div>
     </div>
   </body>
