@@ -1,5 +1,6 @@
 import { DrawableObject } from "./drawable-object.class.js";
 import { Character } from "./character.class.js";
+import { AudioHub } from "./audio-hub.class.js";
 
 export class MovableObject extends DrawableObject {
   otherDirection = false;
@@ -108,12 +109,13 @@ export class MovableObject extends DrawableObject {
 
   hit() {
     this.energy -= 10;
+
+    AudioHub.hurtSound(AudioHub.hurt);
     if (this.energy < 0) {
       this.energy = 0;
     } else {
       this.lastHit = new Date().getTime();
     }
-    console.log(this.energy);
   }
 
   isHurt() {
@@ -146,7 +148,7 @@ export class MovableObject extends DrawableObject {
 
   moveToCharacter() {
     const character = this.characterData;
-    if (this.x > character.x + character.width + 21) {
+    if (this.x > character.x + character.width + 20) {
       this.x -= this.speedX;
       if (this.x <= character.x + character.width + 40) {
         this.contactWithCharacter = true;

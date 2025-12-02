@@ -1,3 +1,4 @@
+import { AudioHub } from "./audio-hub.class.js";
 import { ImageAssets } from "./image-Assets.class.js";
 import { MovableObject } from "./movable-object.class.js";
 import { ThrowableObjects } from "./throwable-objects.class.js";
@@ -13,7 +14,7 @@ export class Character extends MovableObject {
     left: 40,
   };
 
-  x = 0;
+  x = 6000;
 
   hasHitbox = true;
   shotKeyPressed = false;
@@ -167,6 +168,7 @@ export class Character extends MovableObject {
     this.hasShot = true;
     this.currentImage = 0;
     this.resetSleep();
+    AudioHub.attackSound(AudioHub.bubbleSound);
 
     setTimeout(() => {
       this.world.throwableObject.push(

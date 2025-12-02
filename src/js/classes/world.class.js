@@ -1,12 +1,13 @@
 import { Character } from "./character.class.js";
 import { Coin } from "./coin.class.js";
-import { level as level1 } from "../levels/level1.js";
+import { createLevel1 } from "../levels/level1.js";
 import { Bubble } from "./bubble.class.js";
 import { HealthBar } from "./healthBar.class.js";
 import { CoinCounter } from "./coin-counter.class.js";
 import { BubbleCounter } from "./bubble-counter.class.js";
 import { ImageAssets } from "./image-Assets.class.js";
 import { Endboss } from "./endboss.class.js";
+import { AudioHub } from "./audio-hub.class.js";
 
 export class World {
   character;
@@ -25,7 +26,7 @@ export class World {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
-    this.level = level1;
+    this.level = createLevel1();
     this.character = new Character();
     this.character.world = this;
     this.setWorld();
@@ -60,10 +61,12 @@ export class World {
           if (object instanceof Coin) {
             this.level.objects.splice(index, 1);
             this.counterBar.coins.count++;
+            AudioHub.collectSound(AudioHub.collect);
           }
           if (object instanceof Bubble) {
             this.level.objects.splice(index, 1);
             this.counterBar.bubbles.count++;
+            AudioHub.collectSound(AudioHub.blubbCollect);
           }
         }
       });

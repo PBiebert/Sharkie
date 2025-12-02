@@ -1,25 +1,23 @@
 import { Keyboard } from "./classes/keyboard.class.js";
 import { World } from "./classes/world.class.js";
-
-let canvas = document.getElementById("canvas");
+import { AudioHub } from "./classes/audio-hub.class.js";
 
 const overlay = document.querySelector(".overlay");
-
 const btnControls = document.getElementById("btn-controls");
 const controlsSite = document.querySelector(".controls");
 const btnBack = document.getElementById("back");
-
 const startScreen = document.querySelector(".startScreen");
 const btnStart = document.getElementById("btn-start");
-
 const endScreen = document.querySelector(".endScreen");
 const resultText = document.getElementById("result-text");
-
 const btmHome = document.getElementById("home");
 const btmReplay = document.getElementById("replay");
-
+const buttons = document.querySelectorAll("button");
+let canvas = document.getElementById("canvas");
 let world;
 let keyboard = new Keyboard();
+
+console.log(buttons);
 
 window.addEventListener("load", init);
 
@@ -31,7 +29,6 @@ btnBack.addEventListener("click", () => openSite(controlsSite, startScreen));
 
 btnStart.addEventListener("click", () => {
   startScreen.classList.remove("active");
-  overlay.classList.remove("active");
 
   world = new World(canvas, keyboard);
   checkResult();
@@ -43,7 +40,7 @@ btmHome.addEventListener("click", () => {
 
 btmReplay.addEventListener("click", () => {
   endScreen.classList.remove("active");
-  overlay.classList.remove("active");
+  overlay.style.backgroundImage = "none";
 
   world = new World(canvas, keyboard);
   checkResult();
@@ -117,6 +114,8 @@ window.addEventListener("keyup", (event) => {
 function init() {
   console.log(canvas.height);
   console.log(canvas.width);
+  AudioHub.backgroundSound(AudioHub.backgroundMusic);
+  setClickSound();
 }
 
 function openSite(from, to) {
@@ -142,7 +141,6 @@ function stopAllIntervalls() {
 }
 
 function ShowEndscreen(gameResult) {
-  overlay.classList.add("active");
   endScreen.classList.add("active");
 
   if (gameResult == "win") {
@@ -151,4 +149,12 @@ function ShowEndscreen(gameResult) {
   if (gameResult == "gameOver") {
     resultText.innerText = "Game Over";
   }
+}
+
+function setClickSound() {
+  buttons.forEach((button) => {
+    button.addEventListener("mouseover", () =>
+      AudioHub.hoverSound(AudioHub.click)
+    );
+  });
 }

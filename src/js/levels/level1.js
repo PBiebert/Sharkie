@@ -12,237 +12,212 @@ import { Endboss } from "../classes/endboss.class.js";
 import { Bubble } from "../classes/bubble.class.js";
 import { LightBeam } from "../classes/light.class.js";
 
-export let level = new Level([], [], [], 0, []);
+export function createLevel1() {
+  let levelLength;
+  const lightBeamsCoordinates = [0, 1000, 2000, 3000, 4000, 5000, 6000, 7000];
+  const objectsData = [
+    { type: Coin, x: 900, y: 400 },
+    { type: Coin, x: 1000, y: 400 },
+    { type: Coin, x: 1100, y: 400 },
+    { type: Coin, x: 1200, y: 400 },
+    { type: Coin, x: 1300, y: 400 },
+    { type: Coin, x: 1500, y: 350 },
+    { type: Coin, x: 1550, y: 330 },
+    { type: Coin, x: 1600, y: 320 },
+    { type: Coin, x: 1650, y: 330 },
+    { type: Coin, x: 1700, y: 350 },
+    { type: Coin, x: 2000, y: 250 },
+    { type: Coin, x: 2100, y: 250 },
+    { type: Coin, x: 2200, y: 250 },
+    { type: Coin, x: 2300, y: 250 },
+    { type: Coin, x: 2400, y: 250 },
+    { type: Coin, x: 2700, y: 320 },
+    { type: Coin, x: 2750, y: 340 },
+    { type: Coin, x: 2800, y: 360 },
+    { type: Coin, x: 2850, y: 340 },
+    { type: Coin, x: 2900, y: 320 },
+    { type: Coin, x: 3200, y: 400 },
+    { type: Coin, x: 3300, y: 400 },
+    { type: Coin, x: 3400, y: 400 },
+    { type: Coin, x: 3500, y: 400 },
+    { type: Coin, x: 3600, y: 400 },
+    { type: Coin, x: 3900, y: 350 },
+    { type: Coin, x: 3950, y: 330 },
+    { type: Coin, x: 4000, y: 320 },
+    { type: Coin, x: 4050, y: 330 },
+    { type: Coin, x: 4100, y: 350 },
+    { type: Coin, x: 4500, y: 250 },
+    { type: Coin, x: 4600, y: 250 },
+    { type: Coin, x: 4700, y: 250 },
+    { type: Coin, x: 4800, y: 250 },
+    { type: Coin, x: 4900, y: 250 },
+    { type: Coin, x: 5200, y: 320 },
+    { type: Coin, x: 5250, y: 340 },
+    { type: Coin, x: 5300, y: 360 },
+    { type: Coin, x: 5350, y: 340 },
+    { type: Coin, x: 5400, y: 320 },
+    { type: Coin, x: 6000, y: 400 },
+    { type: Coin, x: 6100, y: 400 },
+    { type: Coin, x: 6200, y: 400 },
+    { type: Coin, x: 6300, y: 400 },
+    { type: Coin, x: 6400, y: 400 },
+    { type: Coin, x: 7000, y: 350 },
+    { type: Coin, x: 7100, y: 330 },
+    { type: Coin, x: 7200, y: 320 },
+    { type: Coin, x: 7300, y: 330 },
+    { type: Coin, x: 7400, y: 350 },
+    { type: Coin, x: 7600, y: 10 },
+    { type: Coin, x: 7600, y: 80 },
+    { type: Coin, x: 7600, y: 150 },
+    { type: Coin, x: 7600, y: 220 },
+    { type: Coin, x: 7600, y: 290 },
+    { type: Coin, x: 7600, y: 360 },
+    { type: Coin, x: 7600, y: 430 },
 
-let levelLength;
-let LevelObjects = {
-  coins: [
-    new Coin(900, 400),
-    new Coin(1000, 400),
-    new Coin(1100, 400),
-    new Coin(1200, 400),
-    new Coin(1300, 400),
+    { type: Bubble, x: 1100, y: 80 },
+    { type: Bubble, x: 1150, y: 120 },
+    { type: Bubble, x: 1200, y: 80 },
+    { type: Bubble, x: 1250, y: 120 },
+    { type: Bubble, x: 2000, y: 50 },
+    { type: Bubble, x: 2050, y: 350 },
+    { type: Bubble, x: 2100, y: 50 },
+    { type: Bubble, x: 2150, y: 350 },
+    { type: Bubble, x: 2200, y: 50 },
+    { type: Bubble, x: 3010, y: 180 },
+    { type: Bubble, x: 3070, y: 120 },
+    { type: Bubble, x: 3130, y: 180 },
+    { type: Bubble, x: 3190, y: 120 },
+    { type: Bubble, x: 4000, y: 170 },
+    { type: Bubble, x: 4050, y: 120 },
+    { type: Bubble, x: 4100, y: 170 },
+    { type: Bubble, x: 4150, y: 120 },
+    { type: Bubble, x: 4200, y: 170 },
+    { type: Bubble, x: 5010, y: 0 },
+    { type: Bubble, x: 5070, y: 40 },
+    { type: Bubble, x: 5130, y: 0 },
+    { type: Bubble, x: 5190, y: 40 },
+    { type: Bubble, x: 5900, y: 250 },
+    { type: Bubble, x: 5950, y: 200 },
+    { type: Bubble, x: 6000, y: 250 },
+    { type: Bubble, x: 6050, y: 200 },
+    { type: Bubble, x: 6100, y: 250 },
+    { type: Bubble, x: 6910, y: 180 },
+    { type: Bubble, x: 6970, y: 120 },
+    { type: Bubble, x: 7030, y: 180 },
+    { type: Bubble, x: 7090, y: 120 },
+    { type: Bubble, x: 7200, y: 170 },
+    { type: Bubble, x: 7300, y: 120 },
+    { type: Bubble, x: 7400, y: 170 },
+    { type: Bubble, x: 7500, y: 120 },
+  ];
 
-    new Coin(1500, 350),
-    new Coin(1550, 330),
-    new Coin(1600, 320),
-    new Coin(1650, 330),
-    new Coin(1700, 350),
+  const enemiesData = [
+    { type: JellyFishGreen, x: 1300, y: 220 },
+    { type: JellyFishLila, x: 1800, y: 320 },
+    { type: JellyFishPink, x: 2480, y: 420 },
+    { type: JellyFishYellow, x: 3250, y: 250 },
+    { type: JellyFishGreen, x: 3650, y: 350 },
+    { type: JellyFishLila, x: 4270, y: 300 },
+    { type: JellyFishPink, x: 5000, y: 200 },
+    { type: JellyFishYellow, x: 5450, y: 420 },
+    { type: JellyFishGreen, x: 5700, y: 320 },
+    { type: JellyFishYellow, x: 6200, y: 300 },
+    { type: JellyFishLila, x: 6600, y: 250 },
+    { type: JellyFishPink, x: 7650, y: 350 },
+    { type: JellyFishGreen, x: 7800, y: 150 },
+    { type: GreenFish, x: 1350, y: 60 },
+    { type: PinkFish, x: 1550, y: 410 },
+    { type: RedFish, x: 1750, y: 180 },
+    { type: GreenFish, x: 2100, y: 320 },
+    { type: PinkFish, x: 2500, y: 120 },
+    { type: RedFish, x: 2700, y: 390 },
+    { type: GreenFish, x: 3200, y: 240 },
+    { type: PinkFish, x: 3500, y: 70 },
+    { type: RedFish, x: 3900, y: 430 },
+    { type: GreenFish, x: 4300, y: 200 },
+    { type: PinkFish, x: 4700, y: 350 },
+    { type: RedFish, x: 4900, y: 30 },
+    { type: GreenFish, x: 5500, y: 400 },
+    { type: PinkFish, x: 5700, y: 160 },
+    { type: RedFish, x: 5900, y: 270 },
+    { type: GreenFish, x: 6300, y: 90 },
+    { type: PinkFish, x: 6700, y: 380 },
+    { type: RedFish, x: 6900, y: 210 },
+    { type: GreenFish, x: 7300, y: 300 },
+    { type: PinkFish, x: 7600, y: 50 },
+    { type: RedFish, x: 7900, y: 430 },
+  ];
 
-    new Coin(2000, 250),
-    new Coin(2100, 250),
-    new Coin(2200, 250),
-    new Coin(2300, 250),
-    new Coin(2400, 250),
+  let backgroundImagesLevel = [
+    "src/img/3. Background/Layers/5. Water/D1.png",
+    "src/img/3. Background/Layers/4.Fondo 2/D1.png",
+    "src/img/3. Background/Layers/3.Fondo 1/D1.png",
+    "src/img/3. Background/Layers/2. Floor/D1.png",
+    "src/img/3. Background/Layers/5. Water/D2.png",
+    "src/img/3. Background/Layers/4.Fondo 2/D2.png",
+    "src/img/3. Background/Layers/3.Fondo 1/D2.png",
+    "src/img/3. Background/Layers/2. Floor/D2.png",
+  ];
+  let level = new Level([], [], [], 0, []);
+  renderBackground(level, 6, backgroundImagesLevel);
+  setLevelLength();
+  setLightBeamsFromCoordinates();
+  setEntitiesFromData(objectsData, level.objects);
+  setEntitiesFromData(enemiesData, level.enemies);
+  setEndboss();
+  lightBeamIntervall();
 
-    new Coin(2700, 320),
-    new Coin(2750, 340),
-    new Coin(2800, 360),
-    new Coin(2850, 340),
-    new Coin(2900, 320),
-
-    new Coin(3200, 400),
-    new Coin(3300, 400),
-    new Coin(3400, 400),
-    new Coin(3500, 400),
-    new Coin(3600, 400),
-
-    new Coin(3900, 350),
-    new Coin(3950, 330),
-    new Coin(4000, 320),
-    new Coin(4050, 330),
-    new Coin(4100, 350),
-
-    new Coin(4500, 250),
-    new Coin(4600, 250),
-    new Coin(4700, 250),
-    new Coin(4800, 250),
-    new Coin(4900, 250),
-
-    new Coin(5200, 320),
-    new Coin(5250, 340),
-    new Coin(5300, 360),
-    new Coin(5350, 340),
-    new Coin(5400, 320),
-
-    new Coin(6000, 400),
-    new Coin(6100, 400),
-    new Coin(6200, 400),
-    new Coin(6300, 400),
-    new Coin(6400, 400),
-
-    new Coin(7000, 350),
-    new Coin(7100, 330),
-    new Coin(7200, 320),
-    new Coin(7300, 330),
-    new Coin(7400, 350),
-
-    new Coin(7600, 10),
-    new Coin(7600, 80),
-    new Coin(7600, 150),
-    new Coin(7600, 220),
-    new Coin(7600, 290),
-    new Coin(7600, 360),
-    new Coin(7600, 430),
-  ],
-  bubbles: [
-    new Bubble(1100, 80),
-    new Bubble(1150, 120),
-    new Bubble(1200, 80),
-    new Bubble(1250, 120),
-
-    new Bubble(2000, 50),
-    new Bubble(2050, 350),
-    new Bubble(2100, 50),
-    new Bubble(2150, 350),
-    new Bubble(2200, 50),
-
-    new Bubble(3010, 180),
-    new Bubble(3070, 120),
-    new Bubble(3130, 180),
-    new Bubble(3190, 120),
-
-    new Bubble(4000, 170),
-    new Bubble(4050, 120),
-    new Bubble(4100, 170),
-    new Bubble(4150, 120),
-    new Bubble(4200, 170),
-
-    new Bubble(5010, 0),
-    new Bubble(5070, 40),
-    new Bubble(5130, 0),
-    new Bubble(5190, 40),
-
-    new Bubble(5900, 250),
-    new Bubble(5950, 200),
-    new Bubble(6000, 250),
-    new Bubble(6050, 200),
-    new Bubble(6100, 250),
-
-    new Bubble(6910, 180),
-    new Bubble(6970, 120),
-    new Bubble(7030, 180),
-    new Bubble(7090, 120),
-
-    new Bubble(7200, 170),
-    new Bubble(7300, 120),
-    new Bubble(7400, 170),
-    new Bubble(7500, 120),
-  ],
-};
-
-let enemies = [
-  new JellyFishGreen(1300, 220),
-  new JellyFishLila(1800, 320),
-  new JellyFishPink(2480, 420),
-  new JellyFishYellow(3250, 250),
-  new JellyFishGreen(3650, 350),
-  new JellyFishLila(4270, 300),
-  new JellyFishPink(5000, 200),
-  new JellyFishYellow(5450, 420),
-  new JellyFishGreen(5700, 320),
-  new JellyFishYellow(6200, 300),
-  new JellyFishLila(6600, 250),
-  new JellyFishPink(7650, 350),
-  new JellyFishGreen(7800, 150),
-  new GreenFish(1350, 60),
-  new PinkFish(1550, 410),
-  new RedFish(1750, 180),
-  new GreenFish(2100, 320),
-  new PinkFish(2500, 120),
-  new RedFish(2700, 390),
-  new GreenFish(3200, 240),
-  new PinkFish(3500, 70),
-  new RedFish(3900, 430),
-  new GreenFish(4300, 200),
-  new PinkFish(4700, 350),
-  new RedFish(4900, 30),
-  new GreenFish(5500, 400),
-  new PinkFish(5700, 160),
-  new RedFish(5900, 270),
-  new GreenFish(6300, 90),
-  new PinkFish(6700, 380),
-  new RedFish(6900, 210),
-  new GreenFish(7300, 300),
-  new PinkFish(7600, 50),
-  new RedFish(7900, 430),
-];
-
-let lightBeams = [
-  new LightBeam(0),
-  new LightBeam(1000),
-  new LightBeam(2000),
-  new LightBeam(3000),
-  new LightBeam(4000),
-  new LightBeam(5000),
-  new LightBeam(6000),
-  new LightBeam(7000),
-  new LightBeam(8000),
-];
-
-let backgroundImagesLevel = [
-  "src/img/3. Background/Layers/5. Water/D1.png",
-  "src/img/3. Background/Layers/4.Fondo 2/D1.png",
-  "src/img/3. Background/Layers/3.Fondo 1/D1.png",
-  "src/img/3. Background/Layers/2. Floor/D1.png",
-  "src/img/3. Background/Layers/5. Water/D2.png",
-  "src/img/3. Background/Layers/4.Fondo 2/D2.png",
-  "src/img/3. Background/Layers/3.Fondo 1/D2.png",
-  "src/img/3. Background/Layers/2. Floor/D2.png",
-];
-
-renderBackground(level, 6, backgroundImagesLevel);
-setLevelLength();
-setEnemies();
-setObject(LevelObjects.coins);
-setObject(LevelObjects.bubbles);
-setLightBeams();
-lightBeamIntervall();
-
-function renderBackground(level, backgroundRepeats, backgroundImages) {
-  let repeats = backgroundRepeats;
-  let insertPosition = -100;
-
-  for (let i = 0; i < repeats; i++) {
-    level.backgroundObjects.push(
-      // 1.Teil vom Hintergrund
-      new BackgroundObject(backgroundImages[0], insertPosition + 0),
-      new BackgroundObject(backgroundImages[1], insertPosition + 0),
-      new BackgroundObject(backgroundImages[2], insertPosition + 0),
-      new BackgroundObject(backgroundImages[3], insertPosition + 0),
-
-      // 2. teil vom Hintergrund
-      new BackgroundObject(backgroundImages[4], insertPosition + 720),
-      new BackgroundObject(backgroundImages[5], insertPosition + 720),
-      new BackgroundObject(backgroundImages[6], insertPosition + 720),
-      new BackgroundObject(backgroundImages[7], insertPosition + 720)
-    );
-    insertPosition += 1440;
+  function setLevelLength() {
+    level.levelLength = levelLength;
   }
-  levelLength = insertPosition;
-}
 
-function setLevelLength() {
-  level.levelLength = levelLength;
-}
+  function renderBackground(level, backgroundRepeats, backgroundImages) {
+    let repeats = backgroundRepeats;
+    let insertPosition = -100;
 
-function setEnemies() {
-  level.enemies.push(...enemies);
-  level.enemies.push(new Endboss(levelLength));
-}
+    for (let i = 0; i < repeats; i++) {
+      level.backgroundObjects.push(
+        // 1.Teil vom Hintergrund
+        new BackgroundObject(backgroundImages[0], insertPosition + 0),
+        new BackgroundObject(backgroundImages[1], insertPosition + 0),
+        new BackgroundObject(backgroundImages[2], insertPosition + 0),
+        new BackgroundObject(backgroundImages[3], insertPosition + 0),
 
-function setObject(objects) {
-  for (let i = 0; i < objects.length; i++) {
-    level.objects.push(objects[i]);
+        // 2. teil vom Hintergrund
+        new BackgroundObject(backgroundImages[4], insertPosition + 720),
+        new BackgroundObject(backgroundImages[5], insertPosition + 720),
+        new BackgroundObject(backgroundImages[6], insertPosition + 720),
+        new BackgroundObject(backgroundImages[7], insertPosition + 720)
+      );
+      insertPosition += 1440;
+    }
+    levelLength = insertPosition;
   }
-}
 
-function setLightBeams() {
-  level.lightBeams.push(...lightBeams);
-}
+  function setLightBeamsFromCoordinates() {
+    lightBeamsCoordinates.forEach((lightbeamCoordinate) => {
+      const lightbeam = new LightBeam(lightbeamCoordinate);
+      level.lightBeams.push(lightbeam);
+    });
+  }
 
-function lightBeamIntervall() {
-  setInterval(() => {
-    level.lightBeams.push(new LightBeam(levelLength));
-  }, 30000);
+  function setEntitiesFromData(dataArray, targetArray) {
+    dataArray.forEach((entitie) => {
+      const className = entitie.type;
+      const newObject = new className(entitie.x, entitie.y);
+      targetArray.push(newObject);
+    });
+  }
+
+  function setEndboss() {
+    level.enemies.push(new Endboss(levelLength));
+  }
+
+  function lightBeamIntervall() {
+    setInterval(() => {
+      level.lightBeams.push(new LightBeam(levelLength));
+    }, 30000);
+  }
+
+  return level;
 }

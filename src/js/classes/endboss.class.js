@@ -1,3 +1,4 @@
+import { AudioHub } from "./audio-hub.class.js";
 import { ImageAssets } from "./image-Assets.class.js";
 import { MovableObject } from "./movable-object.class.js";
 
@@ -62,6 +63,7 @@ export class Endboss extends MovableObject {
       if (this.introActive) {
         this.playAnimation(ImageAssets.BOSS_INTRO);
         if (this.currentImage === 0) {
+          AudioHub.backgroundSound(AudioHub.dangerous);
           this.introActive = false;
         }
         return;
