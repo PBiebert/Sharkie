@@ -18,6 +18,7 @@ function init() {
   setControllsScreenButtonAction();
   setHeadLineButtonAction();
   setHoverSound();
+  checkScreenOrientation();
 }
 
 function setStartScreenButtonAction() {
@@ -35,6 +36,7 @@ function setStartScreenButtonAction() {
 
     world = new World(canvas, keyboard);
     checkResult();
+    checkScreenOrientation();
   });
 }
 
@@ -63,6 +65,7 @@ function setEndScreenButtonAction() {
 
     world = new World(canvas, keyboard);
     checkResult();
+    checkScreenOrientation();
   });
 }
 
@@ -226,6 +229,12 @@ function touchpanelOnOff() {
   const controlContainer = document.querySelector(".control-container");
   let touchpanelOn = false;
 
+  if (window.innerWidth < 720) {
+    touchpanelOn = true;
+    btnTouchPanel.src = "./src/icons/videogame_asset.png";
+    controlContainer.classList.add("active");
+  }
+
   btnTouchPanel.addEventListener("click", () => {
     if (!touchpanelOn) {
       btnTouchPanel.src = "./src/icons/videogame_asset.png";
@@ -360,4 +369,19 @@ function controlPanelForMobilecontrole() {
   btnAttack.addEventListener("touchend", () => {
     keyboard.H = false;
   });
+}
+
+function checkScreenOrientation() {
+  const isDisplayPortrait = document.querySelector(".is-display-portrait");
+  const backgroundBody = document.querySelector("body");
+
+  setInterval(() => {
+    if (screen.orientation.type == "portrait-primary") {
+      isDisplayPortrait.classList.add("active");
+      backgroundBody.classList.remove("backgroundBody");
+    } else if (isDisplayPortrait.classList.contains("active")) {
+      isDisplayPortrait.classList.remove("active");
+      backgroundBody.classList.add("backgroundBody");
+    }
+  }, 500);
 }

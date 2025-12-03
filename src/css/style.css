@@ -194,6 +194,43 @@ footer {
   width: 280px;
 }
 
+.is-display-portrait {
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgb(0, 0, 0);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.turn-device {
+  margin: 10px;
+  width: 200px;
+  height: 200px;
+  fill: white;
+  rotate: -45deg;
+  animation: turn-device 2s ease-in-out 0s infinite;
+}
+
+@keyframes turn-device {
+  0% {
+    rotate: 45deg;
+  }
+
+  50% {
+    rotate: -45deg;
+  }
+
+  100% {
+    rotate: 45deg;
+  }
+}
+
 @media (max-width: 400px) {
   .container {
     padding: 1rem;

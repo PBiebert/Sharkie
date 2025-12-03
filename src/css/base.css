@@ -40,7 +40,10 @@ body {
   justify-content: center;
   backdrop-filter: brightness(0.8);
   color: white;
+  background-color: black;
+}
 
+.backgroundBody {
   background-image: url("../img/3. Background/html_background.jpg");
   background-position: center;
   background-size: cover;
