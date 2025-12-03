@@ -2,143 +2,159 @@ import { Keyboard } from "./classes/keyboard.class.js";
 import { World } from "./classes/world.class.js";
 import { AudioHub } from "./classes/audio-hub.class.js";
 
-//#region Variablen
-const fullscreenContainer = document.querySelector(".fullscreen-container");
-const overlay = document.querySelector(".overlay");
-const buttons = document.querySelectorAll("button");
-const btnControls = document.getElementById("btn-controls");
-const controlsSite = document.querySelector(".controls");
-const btnBack = document.getElementById("back");
-const startScreen = document.querySelector(".startScreen");
-const btnStart = document.getElementById("btn-start");
-const endScreen = document.querySelector(".endScreen");
-const resultText = document.getElementById("result-text");
-const btmHome = document.getElementById("home");
-const btmReplay = document.getElementById("replay");
-const btnSound = document.querySelector(".btn-sound");
-const btnScreen = document.querySelector(".btn-screen");
 let canvas = document.getElementById("canvas");
 let world;
 let keyboard = new Keyboard();
 let fullscreen = false;
-//#endregion
 
-// #region EventListner
 window.addEventListener("load", init);
 
-btnControls.addEventListener("click", () =>
-  openSite(startScreen, controlsSite)
-);
-
-btnBack.addEventListener("click", () => openSite(controlsSite, startScreen));
-
-btnStart.addEventListener("click", () => {
-  startScreen.classList.remove("active");
-
-  world = new World(canvas, keyboard);
-  checkResult();
-});
-
-btmHome.addEventListener("click", () => {
-  openSite(endScreen, startScreen);
-});
-
-btmReplay.addEventListener("click", () => {
-  endScreen.classList.remove("active");
-  overlay.style.backgroundImage = "none";
-
-  world = new World(canvas, keyboard);
-  checkResult();
-});
-
-window.addEventListener("keydown", (event) => {
-  switch (event.key) {
-    case "w":
-    case "ArrowUp":
-      keyboard.UP = true;
-      break;
-
-    case "d":
-    case "ArrowRight":
-      keyboard.RIGHT = true;
-      break;
-
-    case "s":
-    case "ArrowDown":
-      keyboard.DOWN = true;
-      break;
-
-    case "a":
-    case "ArrowLeft":
-      keyboard.LEFT = true;
-      break;
-
-    case " ":
-      keyboard.SPACE = true;
-      break;
-
-    case "h":
-      keyboard.H = true;
-      break;
-  }
-});
-
-window.addEventListener("keyup", (event) => {
-  switch (event.key) {
-    case "w":
-    case "ArrowUp":
-      keyboard.UP = false;
-
-      break;
-
-    case "d":
-    case "ArrowRight":
-      keyboard.RIGHT = false;
-      break;
-
-    case "s":
-    case "ArrowDown":
-      keyboard.DOWN = false;
-      break;
-
-    case "a":
-    case "ArrowLeft":
-      keyboard.LEFT = false;
-      break;
-
-    case " ":
-      keyboard.SPACE = false;
-      break;
-
-    case "h":
-      keyboard.H = false;
-      break;
-
-    case "Escape":
-      break;
-  }
-});
-
-btnSound.addEventListener("click", () => {
-  if (AudioHub.playSounds) {
-    muteSound();
-  } else {
-    playSound();
-  }
-});
-
-btnScreen.addEventListener("click", () => {
-  if (!fullscreen) {
-    setFullscreen();
-  } else {
-    exitFullscreen();
-  }
-});
-// #endregion
-
 function init() {
-  controlPanelMobileAction();
+  controlPanelForMobilecontrole();
+  touchpanelOnOff();
+  setKeyEventsToControle();
+  setStartScreenButtonAction();
+  setEndScreenButtonAction();
+  setControllsScreenButtonAction();
+  setHeadLineButtonAction();
   setHoverSound();
+}
+
+function setStartScreenButtonAction() {
+  const btnControls = document.getElementById("btn-controls");
+  const controlsSite = document.querySelector(".controls");
+  const startScreen = document.querySelector(".startScreen");
+  const btnStart = document.getElementById("btn-start");
+
+  btnControls.addEventListener("click", () =>
+    openSite(startScreen, controlsSite)
+  );
+
+  btnStart.addEventListener("click", () => {
+    startScreen.classList.remove("active");
+
+    world = new World(canvas, keyboard);
+    checkResult();
+  });
+}
+
+function setControllsScreenButtonAction() {
+  const btnBack = document.getElementById("back");
+  const controlsSite = document.querySelector(".controls");
+  const startScreen = document.querySelector(".startScreen");
+
+  btnBack.addEventListener("click", () => openSite(controlsSite, startScreen));
+}
+
+function setEndScreenButtonAction() {
+  const btmHome = document.getElementById("home");
+  const btmReplay = document.getElementById("replay");
+  const startScreen = document.querySelector(".startScreen");
+  const endScreen = document.querySelector(".endScreen");
+  const overlay = document.querySelector(".overlay");
+
+  btmHome.addEventListener("click", () => {
+    openSite(endScreen, startScreen);
+  });
+
+  btmReplay.addEventListener("click", () => {
+    endScreen.classList.remove("active");
+    overlay.style.backgroundImage = "none";
+
+    world = new World(canvas, keyboard);
+    checkResult();
+  });
+}
+
+function setKeyEventsToControle() {
+  window.addEventListener("keydown", (event) => {
+    switch (event.key) {
+      case "w":
+      case "ArrowUp":
+        keyboard.UP = true;
+        break;
+
+      case "d":
+      case "ArrowRight":
+        keyboard.RIGHT = true;
+        break;
+
+      case "s":
+      case "ArrowDown":
+        keyboard.DOWN = true;
+        break;
+
+      case "a":
+      case "ArrowLeft":
+        keyboard.LEFT = true;
+        break;
+
+      case " ":
+        keyboard.SPACE = true;
+        break;
+
+      case "h":
+        keyboard.H = true;
+        break;
+    }
+  });
+
+  window.addEventListener("keyup", (event) => {
+    switch (event.key) {
+      case "w":
+      case "ArrowUp":
+        keyboard.UP = false;
+
+        break;
+
+      case "d":
+      case "ArrowRight":
+        keyboard.RIGHT = false;
+        break;
+
+      case "s":
+      case "ArrowDown":
+        keyboard.DOWN = false;
+        break;
+
+      case "a":
+      case "ArrowLeft":
+        keyboard.LEFT = false;
+        break;
+
+      case " ":
+        keyboard.SPACE = false;
+        break;
+
+      case "h":
+        keyboard.H = false;
+        break;
+
+      case "Escape":
+        break;
+    }
+  });
+}
+
+function setHeadLineButtonAction() {
+  const btnSound = document.querySelector(".btn-sound");
+  const btnScreen = document.querySelector(".btn-screen");
+
+  btnSound.addEventListener("click", () => {
+    if (AudioHub.playSounds) {
+      muteSound();
+    } else {
+      playSound();
+    }
+  });
+
+  btnScreen.addEventListener("click", () => {
+    if (!fullscreen) {
+      setFullscreen();
+    } else {
+      exitFullscreen();
+    }
+  });
 }
 
 function openSite(from, to) {
@@ -164,6 +180,9 @@ function stopAllIntervalls() {
 }
 
 function ShowEndscreen(gameResult) {
+  const endScreen = document.querySelector(".endScreen");
+  const resultText = document.getElementById("result-text");
+
   endScreen.classList.add("active");
 
   if (gameResult == "win") {
@@ -175,6 +194,8 @@ function ShowEndscreen(gameResult) {
 }
 
 function setHoverSound() {
+  const buttons = document.querySelectorAll("button");
+
   buttons.forEach((button) => {
     if (!button.classList.contains("control-button")) {
       button.addEventListener("mouseover", () =>
@@ -185,24 +206,51 @@ function setHoverSound() {
 }
 
 function muteSound() {
+  const btnSound = document.querySelector(".btn-sound");
+
   AudioHub.playSounds = false;
   AudioHub.stop(AudioHub.backgroundMusic);
   btnSound.src = "./src/icons/mute.png";
 }
 
 function playSound() {
+  const btnSound = document.querySelector(".btn-sound");
+
   AudioHub.playSounds = true;
   AudioHub.backgroundSound(AudioHub.backgroundMusic);
   btnSound.src = "./src/icons/note.png";
 }
 
+function touchpanelOnOff() {
+  const btnTouchPanel = document.querySelector(".btn-touch-panel");
+  const controlContainer = document.querySelector(".control-container");
+  let touchpanelOn = false;
+
+  btnTouchPanel.addEventListener("click", () => {
+    if (!touchpanelOn) {
+      btnTouchPanel.src = "./src/icons/videogame_asset.png";
+      controlContainer.classList.add("active");
+      touchpanelOn = true;
+    } else {
+      btnTouchPanel.src = "./src/icons/videogame_asset_off.png";
+      controlContainer.classList.remove("active");
+      touchpanelOn = false;
+    }
+  });
+}
+
 function setFullscreen() {
+  const fullscreenContainer = document.querySelector(".fullscreen-container");
+  const btnScreen = document.querySelector(".btn-screen");
+
   fullscreenContainer.requestFullscreen();
   btnScreen.src = "./src/icons/fullscreen_exit.png";
   fullscreen = true;
 }
 
 function exitFullscreen() {
+  const btnScreen = document.querySelector(".btn-screen");
+
   if (document.fullscreenElement) {
     document.exitFullscreen();
     btnScreen.src = "./src/icons/fullscreen.png";
@@ -213,7 +261,7 @@ function exitFullscreen() {
   }
 }
 
-function controlPanelMobileAction() {
+function controlPanelForMobilecontrole() {
   const btnUpLeft = document.getElementById("btn-control-up-left");
   const btnUp = document.getElementById("btn-control-up");
   const btnUpRight = document.getElementById("btn-control-up-right");
