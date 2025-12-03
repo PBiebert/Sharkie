@@ -7,6 +7,8 @@ export class Endboss extends MovableObject {
   width = 1041 / 3;
   height = 1216 / 3;
   speedX = 1;
+  damage = 40;
+  energy = 100;
 
   offset = {
     top: 200,
@@ -18,7 +20,7 @@ export class Endboss extends MovableObject {
   y = -350;
 
   hasHitbox = false;
-  introActive = false;
+  // introActive = false;
   introPlayed = false;
   visibility = 290;
 

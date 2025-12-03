@@ -17,7 +17,7 @@ export class ThrowableObjects extends MovableObject {
   startX;
   startY;
   maxDistance = 250;
-  damage = 50;
+  damage = 20;
 
   viewDirection = "right";
 

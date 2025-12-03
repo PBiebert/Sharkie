@@ -13,13 +13,10 @@ export class Character extends MovableObject {
     bottom: 60,
     left: 40,
   };
-
   x = 0;
-
   hasHitbox = true;
   shotKeyPressed = false;
   viewDirektion = "right";
-
   energy = 100;
 
   isReadyToSleep = false;
@@ -39,13 +36,14 @@ export class Character extends MovableObject {
     this.animate();
   }
   animate() {
-    // setInterval(() => {
-    //   console.clear();
-    //   console.log("X = " + this.x);
-    //   console.log("rX = " + this.rX);
-    //   console.log("Y = " + this.y);
-    //   console.log("rY = " + this.rY);
-    // }, 500);
+    setInterval(() => {
+      console.log(this.energy);
+      //   console.clear();
+      //   console.log("X = " + this.x);
+      //   console.log("rX = " + this.rX);
+      //   console.log("Y = " + this.y);
+      //   console.log("rY = " + this.rY);
+    }, 500);
 
     setInterval(() => {
       this.checkMovementKeys();

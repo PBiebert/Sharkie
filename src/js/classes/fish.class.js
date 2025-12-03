@@ -20,6 +20,7 @@ export class Fish extends MovableObject {
   hasHitbox = true;
   visibility = 600;
   transitionPlayed = false;
+  energy = 40;
 
   constructor(
     IMAGES_SWIMMING,

@@ -13,7 +13,7 @@ export class JellyFish extends MovableObject {
     left: 0,
   };
   hasHitbox = true;
-  energy = 100;
+  energy = 40;
 
   constructor(IMAGES_SWIMMING, IMAGES_DEAD, x, y) {
     super();

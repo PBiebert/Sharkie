@@ -28,6 +28,7 @@ export class MovableObject extends DrawableObject {
   contactWithCharacter = false;
   visibility = 500;
   isEndboss = false;
+  damage = 15;
 
   constructor() {
     super();
@@ -107,8 +108,8 @@ export class MovableObject extends DrawableObject {
     return this.y < this.groundY;
   }
 
-  hit() {
-    this.energy -= 10;
+  hit(damageValue = this.damage) {
+    this.energy -= damageValue;
 
     AudioHub.hurtSound(AudioHub.hurt);
     if (this.energy < 0) {

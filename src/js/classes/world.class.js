@@ -42,7 +42,7 @@ export class World {
           this.character.isColliding(enemy) &&
           !this.character.cooldownActive
         ) {
-          this.character.hit();
+          this.character.hit(enemy.damage);
           this.character.cooldown();
           this.statusBar.setPercentage(
             this.character.energy,
@@ -76,7 +76,7 @@ export class World {
           if (bubble.isColliding(enemy) && !enemy.cooldownActive) {
             this.throwableObject.splice(bubbleIndex, 1);
             enemy.energy -= bubble.damage;
-            enemy.hit();
+            console.log("Enemy energy:", enemy.energy);
             enemy.cooldown();
             if (enemy.isDead()) {
               setTimeout(() => {
