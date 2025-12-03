@@ -48,7 +48,7 @@ body {
 }
 
 canvas {
-  background-color: black;
+  background-color: rgb(255, 255, 255);
   display: block;
 }
 
@@ -57,6 +57,7 @@ h1 {
 }
 
 button {
+  position: relative;
   width: 30%;
   height: 10%;
   background-color: #1d49d8;
@@ -68,6 +69,7 @@ button {
   font-weight: bold;
   transition: all 125ms ease-in-out;
   cursor: pointer;
+  user-select: none;
 }
 
 button:hover {
@@ -112,26 +114,6 @@ td {
   justify-content: center;
   align-items: center;
 }
-
-/* .fullscreen-container:fullscreen h1 {
-  font-size: 10rem;
-}
-
-.fullscreen-container:fullscreen button {
-  height: 100px;
-  width: 400px;
-  font-size: 3rem;
-}
-
-.fullscreen-container:fullscreen .key {
-  height: 60px;
-  width: 60px;
-  font-size: 2rem;
-}
-
-.fullscreen-container:fullscreen td {
-  font-size: 2rem;
-} */
 
 .fullscreen-container:fullscreen canvas {
   height: 100%;
