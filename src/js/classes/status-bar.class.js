@@ -7,9 +7,11 @@ export class StatusBar extends DrawableObject {
   y = -10;
 
   percentage = 100;
+  name = "";
 
-  constructor() {
+  constructor(name = "") {
     super();
+    this.name = name;
   }
 
   setPercentage(energy, IMAGES_ARRAY) {
@@ -31,6 +33,16 @@ export class StatusBar extends DrawableObject {
       return 4;
     } else if (this.percentage >= 0) {
       return 5;
+    }
+  }
+
+  draw(ctx) {
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    if (this.name) {
+      ctx.font = "22px Arial";
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center";
+      ctx.fillText(this.name, this.x + 110, this.y + 43);
     }
   }
 }

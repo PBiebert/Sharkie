@@ -13,7 +13,7 @@ export class Character extends MovableObject {
     bottom: 60,
     left: 40,
   };
-  x = 0;
+  x = 7000;
   hasHitbox = true;
   shotKeyPressed = false;
   viewDirektion = "right";
@@ -37,7 +37,7 @@ export class Character extends MovableObject {
   }
   animate() {
     setInterval(() => {
-      console.log(this.energy);
+      // console.log(this.energy);
       //   console.clear();
       //   console.log("X = " + this.x);
       //   console.log("rX = " + this.rX);

@@ -16,11 +16,13 @@ export class World {
   ctx;
   keyboard;
   camera_x = 0;
-  statusBar = new HealthBar();
+  statusBarCharacter = new HealthBar(0, -10);
+  statusBarEndboss = new HealthBar(400, -10, "Fredy"); // Für Endboss, aber mit anderen Bildern
   counterBar = { "coins": new CoinCounter(), "bubbles": new BubbleCounter() };
   throwableObject = [];
   currentCharacterDamage = false;
   currentEnemyDamage = false;
+  showEndbossHealthBar = false;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -33,6 +35,7 @@ export class World {
     this.draw();
     this.checkCollisions();
     this.characterPosition();
+    this.checkEndbossSpawn();
   }
 
   checkCollisions() {
@@ -44,7 +47,7 @@ export class World {
         ) {
           this.character.hit(enemy.damage);
           this.character.cooldown();
-          this.statusBar.setPercentage(
+          this.statusBarCharacter.setPercentage(
             this.character.energy,
             ImageAssets.LIFE_BAR
           );
@@ -103,6 +106,16 @@ export class World {
     }, 1000 / 60);
   }
 
+  checkEndbossSpawn() {
+    setInterval(() => {
+      const boss = this.filterBoss();
+      if (boss && boss.introPlayed) {
+        this.showEndbossHealthBar = true;
+        this.statusBarEndboss.setPercentage(boss.energy, ImageAssets.LIFE_BAR);
+      }
+    }, 1000 / 60);
+  }
+
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //Löscht das dargestellte Bild
 
@@ -115,9 +128,13 @@ export class World {
     this.addToMap(this.character);
 
     this.ctx.translate(-this.camera_x, 0);
-    this.addToMap(this.statusBar);
+    this.addToMap(this.statusBarCharacter);
     this.addToMap(this.counterBar.coins);
     this.addToMap(this.counterBar.bubbles);
+
+    if (this.showEndbossHealthBar) {
+      this.addToMap(this.statusBarEndboss);
+    }
 
     let self = this;
     requestAnimationFrame(() => {
