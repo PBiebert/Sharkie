@@ -45,11 +45,25 @@ body {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.container {
+  max-width: 1400px;
+  width: 100%;
+
+  margin: 0 auto;
+  padding: 1rem 2rem;
 }
 
 canvas {
   background-color: rgb(255, 255, 255);
   display: block;
+}
+
+a {
+  color: white;
+  text-decoration: none;
 }
 
 h1 {

@@ -155,3 +155,59 @@
     font-size: 2.2rem;
   }
 }
+
+.impressum {
+  font-family: var(--font-general), sans-serif, monospace; /* Standartschriftart*/
+  display: flex;
+  min-height: 100vh;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  backdrop-filter: brightness(0.5);
+}
+
+.impressum h1 {
+  font-size: 3rem;
+}
+
+.impressum h3 {
+  font-size: 1.5rem;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.impressum p {
+  font-size: 1rem;
+}
+
+footer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding: 2rem;
+}
+
+#back-to-game {
+  height: 2.5rem;
+  width: 280px;
+}
+
+@media (max-width: 400px) {
+  .container {
+    padding: 1rem;
+  }
+
+  footer {
+    padding: 1rem 0;
+  }
+
+  .impressum h1 {
+    font-size: 2rem;
+  }
+
+  .impressum h3 {
+    font-size: 1.25rem;
+    margin: 1rem 0 0.5rem 0;
+  }
+}
