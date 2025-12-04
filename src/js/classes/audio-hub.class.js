@@ -1,3 +1,5 @@
+// Fertig
+
 export class AudioHub {
   static backgroundMusic = new Audio("src/audio/background.mp3");
   static bubbleSound = new Audio("src/audio/bubble.mp3");
@@ -11,7 +13,7 @@ export class AudioHub {
 
   static backgroundSound(sound) {
     if (AudioHub.playSounds) {
-      sound.volume = 0.2;
+      sound.volume = 0.5;
       sound.currentTime = 0;
       sound.play();
     }
@@ -19,7 +21,7 @@ export class AudioHub {
 
   static hoverSound(sound) {
     if (AudioHub.playSounds) {
-      sound.volume = 0.7;
+      sound.volume = 1;
       sound.currentTime = 0.06;
       sound.play();
     }
@@ -27,7 +29,7 @@ export class AudioHub {
 
   static hurtSound(sound) {
     if (AudioHub.playSounds) {
-      sound.volume = 0.5;
+      sound.volume = 0.8;
       sound.currentTime = 0.3;
       sound.play();
     }
@@ -35,7 +37,7 @@ export class AudioHub {
 
   static attackSound(sound) {
     if (AudioHub.playSounds) {
-      sound.volume = 0.5;
+      sound.volume = 0.8;
       sound.currentTime = 0;
       sound.play();
     }
@@ -43,7 +45,7 @@ export class AudioHub {
 
   static collectSound(sound) {
     if (AudioHub.playSounds) {
-      sound.volume = 0.1;
+      sound.volume = 0.4;
       sound.currentTime = 0;
       sound.play();
     }

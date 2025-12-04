@@ -79,8 +79,8 @@ export class World {
           if (bubble.isColliding(enemy) && !enemy.cooldownActive) {
             this.throwableObject.splice(bubbleIndex, 1);
             enemy.energy -= bubble.damage;
-            console.log("Enemy energy:", enemy.energy);
             enemy.cooldown();
+            AudioHub.hurtSound(AudioHub.hurt);
             if (enemy.isDead()) {
               setTimeout(() => {
                 this.level.enemies.splice(enemyIndex, 1);

@@ -5,8 +5,12 @@ import { ThrowableObjects } from "./throwable-objects.class.js";
 
 export class Character extends MovableObject {
   isCharacter = true;
-  height = 1000 / 4; //Bildgröße durch 4
-  width = 815 / 4; //Bildgröße durch 4
+  height = 1000 / 4;
+  width = 815 / 4;
+  shotKeyPressed = false;
+  isReadyToSleep = false;
+  viewDirektion = "right";
+  energy = 100;
   offset = {
     top: 130,
     right: 40,
@@ -14,15 +18,59 @@ export class Character extends MovableObject {
     left: 40,
   };
   x = 7000;
-  hasHitbox = true;
-  shotKeyPressed = false;
-  viewDirektion = "right";
-  energy = 100;
-
-  isReadyToSleep = false;
+  hasHitbox = false;
 
   constructor() {
     super();
+    this.loadAllCharacterImages();
+    this.y = this.groundY;
+    this.applyGravity();
+    this.animate();
+  }
+
+  animate() {
+    this.startMovementLoop();
+
+    setInterval(() => {
+      if (this.hasShot) {
+        this.handleBubbleAttackState();
+        return;
+      }
+
+      if (this.isDead()) {
+        this.handleDeadState();
+        return;
+      }
+
+      if (this.isHurt()) {
+        this.handleHurtState();
+        return;
+      }
+
+      if (this.isMovingHorizontally()) {
+        this.handleSwimmingState();
+        return;
+      }
+
+      if (this.isSleep) {
+        this.handleSleepState();
+        return;
+      }
+
+      if (this.isTimeToGetTired()) {
+        this.handleTiredState();
+        return;
+      }
+
+      if (this.isTransitioningToSleep()) {
+        this.handleTransitionToSleepState();
+        return;
+      }
+      this.handleStandingState();
+    }, this.speedImgChange);
+  }
+
+  loadAllCharacterImages() {
     this.loadImage(ImageAssets.CHARAKTER_STANDING[0]);
     this.loadImages(ImageAssets.CHARAKTER_STANDING);
     this.loadImages(ImageAssets.CHARAKTER_LONG_STANDING);
@@ -31,82 +79,6 @@ export class Character extends MovableObject {
     this.loadImages(ImageAssets.CHARAKTER_HURT);
     this.loadImages(ImageAssets.CHARAKTER_DEAD);
     this.loadImages(ImageAssets.CHARAKTER_BUBBLE_ATTACK);
-    this.y = this.groundY;
-    this.applyGravity();
-    this.animate();
-  }
-  animate() {
-    setInterval(() => {
-      // console.log(this.energy);
-      //   console.clear();
-      //   console.log("X = " + this.x);
-      //   console.log("rX = " + this.rX);
-      //   console.log("Y = " + this.y);
-      //   console.log("rY = " + this.rY);
-    }, 500);
-
-    setInterval(() => {
-      this.checkMovementKeys();
-      this.sprint();
-      this.updateCameraPosition();
-    }, 1000 / 60); //60 fps
-
-    setInterval(() => {
-      if (this.hasShot) {
-        this.playAnimation(ImageAssets.CHARAKTER_BUBBLE_ATTACK);
-
-        if (
-          this.currentImage ==
-          ImageAssets.CHARAKTER_BUBBLE_ATTACK.length - 1
-        ) {
-          this.hasShot = false;
-        }
-        return;
-      }
-
-      if (this.isDead()) {
-        this.playAnimation(ImageAssets.CHARAKTER_DEAD);
-        this.floatsToTheSurface();
-        return;
-      }
-      if (this.isHurt()) {
-        this.playAnimation(ImageAssets.CHARAKTER_HURT);
-        return;
-      }
-      if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-        this.playAnimation(ImageAssets.CHARAKTER_SWIMMING);
-        this.resetSleep();
-        return;
-      }
-
-      if (this.isSleep) {
-        this.playAnimation(ImageAssets.CHARAKTER_SLEEP);
-        return;
-      }
-      // 2. Wenn Zeit abgelaufen, aber noch nicht bereit zu schlafen: erst LongStanding
-      if (
-        !this.isReadyToSleep &&
-        Date.now() >= this.lastStanding + this.timeToSleep
-      ) {
-        this.isReadyToSleep = true;
-        this.currentImage = 0; // Animation LongStanding von vorne starten
-      }
-      // 3. Wenn bereit zu schlafen, aber noch nicht schlafend: LongStanding abspielen
-      if (this.isReadyToSleep && !this.isSleep) {
-        this.playAnimation(ImageAssets.CHARAKTER_LONG_STANDING);
-        if (
-          this.currentImage ===
-          ImageAssets.CHARAKTER_LONG_STANDING.length - 1
-        ) {
-          this.isSleep = true;
-          this.isReadyToSleep = false;
-          this.currentImage = 0;
-        }
-        return;
-      }
-      // 4. Standard: Stehen
-      this.playAnimation(ImageAssets.CHARAKTER_STANDING);
-    }, this.speedImgChange);
   }
 
   floatsToTheSurface() {
@@ -119,43 +91,28 @@ export class Character extends MovableObject {
     if (this.isDead()) {
       return;
     }
-    if (
-      this.world.keyboard.RIGHT &&
-      this.x < this.world.level.levelLength - this.rWidth - 140
-    ) {
-      this.moveRight();
-      this.otherDirection = false;
-      this.viewDirektion = "right";
+    if (this.canMoveRight()) {
+      this.handleMoveRight();
     }
-    if (this.world.keyboard.LEFT && this.x > 0 - this.offset.left) {
-      this.moveLeft();
-      this.otherDirection = true;
-      this.viewDirektion = "left";
+    if (this.canMoveLeft()) {
+      this.handleMoveLeft();
     }
-    if (this.world.keyboard.UP) {
-      this.moveUp();
-      this.resetSleep();
+    if (this.canMoveUp()) {
+      this.handleMoveUp();
     }
-    if (this.world.keyboard.DOWN && this.y < this.groundY) {
-      this.moveDown();
+    if (this.canMoveDown()) {
+      this.handleMoveDown();
     }
 
-    if (this.world.keyboard.H && !this.shotKeyPressed) {
-      if (this.world.counterBar.bubbles.count > 0) {
-        this.shotKeyPressed = true; // Sofort blockieren
-        this.shot();
-        this.world.counterBar.bubbles.count -= 1;
-        setTimeout(() => {
-          this.shotKeyPressed = false;
-        }, this.cooldownLength);
-      }
+    if (this.canShootBubble()) {
+      this.handleShootBubble();
     }
   }
 
   updateCameraPosition() {
-    if (this.x <= 100) {
+    if (this.isAtLevelStart()) {
       this.world.camera_x = 0;
-    } else if (this.x < this.world.level.levelLength - 720) {
+    } else if (this.isBeforeLevelEnd()) {
       this.world.camera_x = -this.x + 100;
     } else {
       this.world.camera_x = -(this.world.level.levelLength - 720) + 100;
@@ -180,5 +137,155 @@ export class Character extends MovableObject {
     this.isStand = false;
     this.isReadyToSleep = false;
     this.lastStanding = Date.now();
+  }
+
+  handleBubbleAttackAnimation() {
+    if (this.isLastBubbleAttackFrame()) {
+      this.hasShot = false;
+    }
+  }
+
+  isLastBubbleAttackFrame() {
+    return this.currentImage == ImageAssets.CHARAKTER_BUBBLE_ATTACK.length - 1;
+  }
+
+  isMovingHorizontally() {
+    return this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
+  }
+
+  isTimeToGetTired() {
+    return (
+      !this.isReadyToSleep && Date.now() >= this.lastStanding + this.timeToSleep
+    );
+  }
+
+  isTransitioningToSleep() {
+    return this.isReadyToSleep && !this.isSleep;
+  }
+
+  isLastLongStandingFrame() {
+    return this.currentImage === ImageAssets.CHARAKTER_LONG_STANDING.length - 1;
+  }
+
+  canMoveRight() {
+    return (
+      this.world.keyboard.RIGHT &&
+      this.x < this.world.level.levelLength - this.rWidth - 140
+    );
+  }
+
+  canMoveLeft() {
+    return this.world.keyboard.LEFT && this.x > 0 - this.offset.left;
+  }
+
+  canMoveUp() {
+    return this.world.keyboard.UP;
+  }
+
+  canMoveDown() {
+    return this.world.keyboard.DOWN && this.y < this.groundY;
+  }
+
+  canShootBubble() {
+    return this.world.keyboard.H && !this.shotKeyPressed;
+  }
+
+  hasBubbleAmmo() {
+    return this.world.counterBar.bubbles.count > 0;
+  }
+
+  isAtLevelStart() {
+    return this.x <= 100;
+  }
+
+  isBeforeLevelEnd() {
+    return this.x < this.world.level.levelLength - 720;
+  }
+
+  startMovementLoop() {
+    setInterval(() => {
+      this.checkMovementKeys();
+      this.sprint();
+      this.updateCameraPosition();
+    }, 1000 / 60);
+  }
+
+  handleBubbleAttackState() {
+    this.playAnimation(ImageAssets.CHARAKTER_BUBBLE_ATTACK);
+    this.handleBubbleAttackAnimation();
+  }
+
+  handleDeadState() {
+    this.playAnimation(ImageAssets.CHARAKTER_DEAD);
+    this.floatsToTheSurface();
+  }
+
+  handleHurtState() {
+    this.playAnimation(ImageAssets.CHARAKTER_HURT);
+  }
+
+  handleSwimmingState() {
+    this.playAnimation(ImageAssets.CHARAKTER_SWIMMING);
+    this.resetSleep();
+  }
+
+  handleSleepState() {
+    this.playAnimation(ImageAssets.CHARAKTER_SLEEP);
+  }
+
+  handleTiredState() {
+    this.isReadyToSleep = true;
+    this.currentImage = 0;
+  }
+
+  handleTransitionToSleepState() {
+    this.playAnimation(ImageAssets.CHARAKTER_LONG_STANDING);
+
+    if (this.isLastLongStandingFrame()) {
+      this.finishLongStandingState();
+      return;
+    }
+  }
+
+  finishLongStandingState() {
+    this.isSleep = true;
+    this.isReadyToSleep = false;
+    this.currentImage = 0;
+  }
+
+  handleStandingState() {
+    this.playAnimation(ImageAssets.CHARAKTER_STANDING);
+  }
+
+  handleMoveRight() {
+    this.moveRight();
+    this.otherDirection = false;
+    this.viewDirektion = "right";
+  }
+
+  handleMoveLeft() {
+    this.moveLeft();
+    this.otherDirection = true;
+    this.viewDirektion = "left";
+  }
+
+  handleMoveUp() {
+    this.moveUp();
+    this.resetSleep();
+  }
+
+  handleMoveDown() {
+    this.moveDown();
+  }
+
+  handleShootBubble() {
+    if (this.hasBubbleAmmo()) {
+      this.shotKeyPressed = true;
+      this.shot();
+      this.world.counterBar.bubbles.count -= 1;
+      setTimeout(() => {
+        this.shotKeyPressed = false;
+      }, this.cooldownLength);
+    }
   }
 }
