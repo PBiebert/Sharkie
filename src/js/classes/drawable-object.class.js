@@ -1,5 +1,6 @@
 export class DrawableObject {
-  img; // Variable für das Bild des Objekts
+  // Fertig
+  img;
   imageCache = {};
   currentImage = 0;
   x = 100;
@@ -38,7 +39,6 @@ export class DrawableObject {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
-  //Hitbox erstellen
   drawFrame(ctx) {
     if (this.hasHitbox) {
       ctx.beginPath();

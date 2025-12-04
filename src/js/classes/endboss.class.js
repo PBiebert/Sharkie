@@ -1,7 +1,7 @@
 import { AudioHub } from "./audio-hub.class.js";
 import { ImageAssets } from "./image-Assets.class.js";
 import { MovableObject } from "./movable-object.class.js";
-
+// fertig
 export class Endboss extends MovableObject {
   isEndboss = true;
   width = 1041 / 3;
@@ -26,63 +26,111 @@ export class Endboss extends MovableObject {
 
   constructor(levelLength) {
     super();
+    this.loadAllCharacterImages();
+    this.x = levelLength - 450;
+    this.checkCharacterWithinSight(this.visibility);
+    this.animate();
+  }
 
+  loadAllCharacterImages() {
     this.loadImage(ImageAssets.BOSS_SWIMMING[0]);
     this.loadImages(ImageAssets.BOSS_INTRO);
     this.loadImages(ImageAssets.BOSS_SWIMMING);
     this.loadImages(ImageAssets.BOSS_ATTACK);
     this.loadImages(ImageAssets.BOSS_HURT);
     this.loadImages(ImageAssets.BOSS_DEAD);
-    this.x = levelLength - 450;
-    this.checkCharacterWithinSight(this.visibility);
-    this.animate();
   }
 
   animate() {
-    const introInterval = setInterval(() => {
-      if (this.seeCharacter && !this.introPlayed) {
-        // Nur wenn Charakter gesehen und Intro noch nicht gespielt
-        this.y = 0; // Endboss wird sichtbar (Y-Position)
-        this.introPlayed = true; // Intro wurde jetzt gespielt
-        this.introActive = true; // Intro läuft jetzt
-        this.currentImage = 0; // Animation startet bei Frame 0
-        this.img = this.imageCache[ImageAssets.BOSS_INTRO[0]]; // Erstes Intro-Bild anzeigen
+    this.startIntroLoop();
+    this.startAnimationLoop();
+    this.startFollowLoop();
+  }
 
-        clearInterval(introInterval); // Dieses Intervall wird nicht mehr benötigt
+  shouldPlayIntro() {
+    return this.seeCharacter && !this.introPlayed;
+  }
+
+  startIntroSequence(introInterval) {
+    this.y = 0;
+    this.introPlayed = true;
+    this.introActive = true;
+    this.currentImage = 0;
+    this.img = this.imageCache[ImageAssets.BOSS_INTRO[0]];
+
+    clearInterval(introInterval);
+  }
+
+  handleDeadState() {
+    this.playAnimation(ImageAssets.BOSS_DEAD);
+  }
+
+  handleHurtState() {
+    this.playAnimation(ImageAssets.BOSS_HURT);
+  }
+
+  handleIntroAnimation() {
+    this.playAnimation(ImageAssets.BOSS_INTRO);
+    if (this.currentImage === 0) {
+      AudioHub.backgroundSound(AudioHub.dangerous);
+      this.introActive = false;
+    }
+  }
+
+  handleAttakeState() {
+    this.playAnimation(ImageAssets.BOSS_ATTACK);
+  }
+
+  handleSwimmingState() {
+    this.playAnimation(ImageAssets.BOSS_SWIMMING);
+  }
+
+  shouldFollowCharacter() {
+    return this.seeCharacter && !this.introActive;
+  }
+
+  followCharacter() {
+    this.visibility = 600;
+    this.moveToCharacter();
+  }
+
+  startIntroLoop() {
+    const introInterval = setInterval(() => {
+      if (this.shouldPlayIntro()) {
+        this.startIntroSequence(introInterval);
       }
     }, 1000 / 60);
+  }
 
+  startAnimationLoop() {
     setInterval(() => {
       if (this.isDead()) {
-        this.playAnimation(ImageAssets.BOSS_DEAD);
+        this.handleDeadState();
+        return;
+      }
+
+      if (this.introActive) {
+        this.handleIntroAnimation();
         return;
       }
 
       if (this.isHurt()) {
-        this.playAnimation(ImageAssets.BOSS_HURT);
+        this.handleHurtState();
         return;
       }
-      if (this.introActive) {
-        this.playAnimation(ImageAssets.BOSS_INTRO);
-        if (this.currentImage === 0) {
-          AudioHub.backgroundSound(AudioHub.dangerous);
-          this.introActive = false;
-        }
-        return;
-      }
-      if (this.contactWithCharacter) {
-        this.playAnimation(ImageAssets.BOSS_ATTACK);
-        return;
-      }
-      this.playAnimation(ImageAssets.BOSS_SWIMMING);
-    }, this.speedImgChange);
 
+      if (this.contactWithCharacter) {
+        this.handleAttakeState();
+        return;
+      }
+      this.handleSwimmingState();
+    }, this.speedImgChange);
+  }
+
+  startFollowLoop() {
     setInterval(() => {
-      if (this.seeCharacter && !this.introActive) {
-        this.visibility = 700; // Sichtweite erhöhen, damit Endboss länger verfolgt
-        console.log(this.visibility);
-        // Nur wenn Charakter gesehen und kein Intro läuft
-        this.moveToCharacter(); // Bewegung Richtung Charakter
+      if (this.shouldFollowCharacter()) {
+        this.followCharacter();
       }
     }, 1000 / 60);
   }

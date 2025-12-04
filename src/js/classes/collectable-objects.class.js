@@ -1,7 +1,7 @@
 import { DrawableObject } from "./drawable-object.class.js";
 
 export class CollectableObjects extends DrawableObject {
-  img; // Variable für das Bild des Objekts
+  img;
   imageCache = {};
   currentImage = 0;
   x = 100;

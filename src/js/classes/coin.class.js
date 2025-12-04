@@ -1,3 +1,5 @@
+// Fertig
+
 import { CollectableObjects } from "./collectable-objects.class.js";
 import { ImageAssets } from "./image-Assets.class.js";
 

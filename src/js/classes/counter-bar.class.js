@@ -1,5 +1,5 @@
 import { DrawableObject } from "./drawable-object.class.js";
-
+// Fertig
 export class CounterBar extends DrawableObject {
   width = 99 / 3;
   height = 93 / 3;

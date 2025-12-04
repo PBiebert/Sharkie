@@ -1,3 +1,5 @@
+// Fertig
+
 import { CounterBar } from "./counter-bar.class.js";
 import { ImageAssets } from "./image-Assets.class.js";
 

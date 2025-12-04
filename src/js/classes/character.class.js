@@ -1,3 +1,5 @@
+// Fertig
+
 import { AudioHub } from "./audio-hub.class.js";
 import { ImageAssets } from "./image-Assets.class.js";
 import { MovableObject } from "./movable-object.class.js";
