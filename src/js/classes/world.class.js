@@ -17,7 +17,7 @@ export class World {
   keyboard;
   camera_x = 0;
   statusBarCharacter = new HealthBar(0, -10);
-  statusBarEndboss = new HealthBar(400, -10, "Fredy"); // Für Endboss, aber mit anderen Bildern
+  statusBarEndboss = new HealthBar(400, -10, "Fredy");
   counterBar = { "coins": new CoinCounter(), "bubbles": new BubbleCounter() };
   throwableObject = [];
   currentCharacterDamage = false;
@@ -40,56 +40,94 @@ export class World {
 
   checkCollisions() {
     setInterval(() => {
-      this.level.enemies.forEach((enemy) => {
-        if (
-          this.character.isColliding(enemy) &&
-          !this.character.cooldownActive
-        ) {
-          this.character.hit(enemy.damage);
-          this.character.cooldown();
-          this.statusBarCharacter.setPercentage(
-            this.character.energy,
-            ImageAssets.LIFE_BAR
-          );
-          this.character.resetSleep();
-
-          this.currentCharacterDamage = true;
-        } else {
-          this.currentCharacterDamage = false;
-        }
-      });
-
-      this.level.objects.forEach((object, index) => {
-        if (this.character.isColliding(object)) {
-          if (object instanceof Coin) {
-            this.level.objects.splice(index, 1);
-            this.counterBar.coins.count++;
-            AudioHub.collectSound(AudioHub.collect);
-          }
-          if (object instanceof Bubble) {
-            this.level.objects.splice(index, 1);
-            this.counterBar.bubbles.count++;
-            AudioHub.collectSound(AudioHub.blubbCollect);
-          }
-        }
-      });
-
-      this.throwableObject.forEach((bubble, bubbleIndex) => {
-        this.level.enemies.forEach((enemy, enemyIndex) => {
-          if (bubble.isColliding(enemy) && !enemy.cooldownActive) {
-            this.throwableObject.splice(bubbleIndex, 1);
-            enemy.energy -= bubble.damage;
-            enemy.cooldown();
-            AudioHub.hurtSound(AudioHub.hurt);
-            if (enemy.isDead()) {
-              setTimeout(() => {
-                this.level.enemies.splice(enemyIndex, 1);
-              }, 500);
-            }
-          }
-        });
-      });
+      this.handleCharacterEnemyCollisions();
+      this.handleCharacterObjectCollisions();
+      this.handleBubbleEnemyCollisions();
     }, 1000 / 60);
+  }
+
+  handleCharacterEnemyCollisions() {
+    this.level.enemies.forEach((enemy) => {
+      if (this.shouldCharacterTakeDamage(enemy)) {
+        this.applyCharacterDamage(enemy);
+      } else {
+        this.currentCharacterDamage = false;
+      }
+    });
+  }
+
+  shouldCharacterTakeDamage(enemy) {
+    return this.character.isColliding(enemy) && !this.character.cooldownActive;
+  }
+
+  applyCharacterDamage(enemy) {
+    this.character.hit(enemy.damage);
+    this.character.cooldown();
+    this.updateCharacterHealthBar();
+    this.character.resetSleep();
+    this.currentCharacterDamage = true;
+  }
+
+  updateCharacterHealthBar() {
+    this.statusBarCharacter.setPercentage(
+      this.character.energy,
+      ImageAssets.LIFE_BAR
+    );
+  }
+
+  handleCharacterObjectCollisions() {
+    this.level.objects.forEach((object, index) => {
+      if (this.character.isColliding(object)) {
+        this.handleObjectCollection(object, index);
+      }
+    });
+  }
+
+  handleObjectCollection(object, index) {
+    if (object instanceof Coin) {
+      this.collectCoin(index);
+    }
+    if (object instanceof Bubble) {
+      this.collectBubble(index);
+    }
+  }
+
+  collectCoin(index) {
+    this.level.objects.splice(index, 1);
+    this.counterBar.coins.count++;
+    AudioHub.collectSound(AudioHub.collect);
+  }
+
+  collectBubble(index) {
+    this.level.objects.splice(index, 1);
+    this.counterBar.bubbles.count++;
+    AudioHub.collectSound(AudioHub.blubbCollect);
+  }
+
+  handleBubbleEnemyCollisions() {
+    this.throwableObject.forEach((bubble, bubbleIndex) => {
+      this.level.enemies.forEach((enemy, enemyIndex) => {
+        if (this.shouldBubbleDamageEnemy(bubble, enemy)) {
+          this.applyBubbleDamage(bubbleIndex, enemy, enemyIndex, bubble);
+        }
+      });
+    });
+  }
+
+  shouldBubbleDamageEnemy(bubble, enemy) {
+    return bubble.isColliding(enemy) && !enemy.cooldownActive;
+  }
+
+  applyBubbleDamage(bubbleIndex, enemy, enemyIndex, bubble) {
+    this.throwableObject.splice(bubbleIndex, 1);
+    enemy.energy -= bubble.damage;
+    enemy.cooldown();
+    AudioHub.hurtSound(AudioHub.hurt);
+    if (enemy.isDead()) {
+      setTimeout(() => {
+        this.level.enemies.splice(enemyIndex, 1);
+      }, 500);
+    }
   }
 
   characterPosition() {
@@ -174,7 +212,6 @@ export class World {
     object.x = object.x * -1;
   }
 
-  // übergibt die referenz zur world an alle MovableObjects damit auf keybord zugegriffen werden kann
   setWorld() {
     this.character.world = this;
     this.level.enemies.forEach((enemy) => {

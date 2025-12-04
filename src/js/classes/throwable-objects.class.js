@@ -40,7 +40,7 @@ export class ThrowableObjects extends MovableObject {
     this.startX = this.x;
 
     setInterval(() => {
-      if (this.viewDirection == "right") {
+      if (this.isFacingRight()) {
         this.x += this.speedX;
         if (this.x >= this.startX + this.maxDistance) {
           this.speedX -= 0.05;
@@ -48,14 +48,32 @@ export class ThrowableObjects extends MovableObject {
           if (this.speedX <= 0) this.speedX = 0;
         }
       }
-      if (this.viewDirection == "left") {
+      if (this.isFacingLeft()) {
         this.x -= this.speedX;
-        if (this.x <= this.startX - this.maxDistance) {
+        if (this.hasReachedLeftLimit()) {
           this.speedX -= 0.05;
           this.y -= this.speedY;
-          if (this.speedX <= 0) this.speedX = 0;
+          if (this.isStopped()) {
+            this.speedX = 0;
+          }
         }
       }
     }, 1000 / 60);
+  }
+
+  isFacingRight() {
+    return this.viewDirection === "right";
+  }
+
+  isFacingLeft() {
+    return this.viewDirection == "left";
+  }
+
+  hasReachedLeftLimit() {
+    return this.x <= this.startX - this.maxDistance;
+  }
+
+  isStopped() {
+    return this.speedX <= 0;
   }
 }

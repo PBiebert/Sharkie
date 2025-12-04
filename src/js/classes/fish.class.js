@@ -1,5 +1,5 @@
 import { MovableObject } from "./movable-object.class.js";
-
+// fertig
 export class Fish extends MovableObject {
   isFish = true;
   width = 241 / 3; //Bildgröße durch 2
