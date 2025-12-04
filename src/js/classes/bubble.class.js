@@ -17,8 +17,12 @@ export class Bubble extends CollectableObjects {
     super();
     this.x = x;
     this.y = y;
+    this.loadAllCharacterImages();
+    this.animate(ImageAssets.BUBBLE);
+  }
+
+  loadAllCharacterImages() {
     this.loadImage(ImageAssets.BUBBLE[0]);
     this.loadImages(ImageAssets.BUBBLE);
-    this.animate(ImageAssets.BUBBLE);
   }
 }

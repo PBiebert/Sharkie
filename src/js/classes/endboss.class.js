@@ -26,13 +26,13 @@ export class Endboss extends MovableObject {
 
   constructor(levelLength) {
     super();
-    this.loadAllCharacterImages();
+    this.loadAllImages();
     this.x = levelLength - 450;
     this.checkCharacterWithinSight(this.visibility);
     this.animate();
   }
 
-  loadAllCharacterImages() {
+  loadAllImages() {
     this.loadImage(ImageAssets.BOSS_SWIMMING[0]);
     this.loadImages(ImageAssets.BOSS_INTRO);
     this.loadImages(ImageAssets.BOSS_SWIMMING);

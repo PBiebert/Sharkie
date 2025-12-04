@@ -11,8 +11,11 @@ export class Coin extends CollectableObjects {
     super();
     this.x = x;
     this.y = y;
+    this.loadAllCharacterImages();
+    this.animate(ImageAssets.COIN);
+  }
+  loadAllCharacterImages() {
     this.loadImage(ImageAssets.COIN[0]);
     this.loadImages(ImageAssets.COIN);
-    this.animate(ImageAssets.COIN);
   }
 }

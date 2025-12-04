@@ -31,12 +31,6 @@ export class Fish extends MovableObject {
     y
   ) {
     super();
-    this.loadImage(IMAGES_SWIMMING[0]);
-    this.loadImages(IMAGES_SWIMMING);
-    this.loadImages(IMAGES_TRANSITION);
-    this.loadImages(IMAGE_BUBBLE_SWIMMING);
-    this.loadImages(IMAGE_DEAD);
-
     this.IMAGES_SWIMMING = IMAGES_SWIMMING;
     this.IMAGES_TRANSITION = IMAGES_TRANSITION;
     this.IMAGE_BUBBLE_SWIMMING = IMAGE_BUBBLE_SWIMMING;
@@ -44,45 +38,78 @@ export class Fish extends MovableObject {
     this.x = x;
     this.y = y;
     this.speedX = this.minSpeedLeft + Math.random() * 0.75;
+    this.loadAllImages();
     this.animate();
+  }
+
+  loadAllImages() {
+    this.loadImage(this.IMAGES_SWIMMING[0]);
+    this.loadImages(this.IMAGES_SWIMMING);
+    this.loadImages(this.IMAGES_TRANSITION);
+    this.loadImages(this.IMAGE_BUBBLE_SWIMMING);
+    this.loadImages(this.IMAGE_DEAD);
   }
 
   animate() {
     setInterval(() => {
-      if (
-        this.characterData.x + this.characterData.width >=
-        this.x - this.visibility
-      ) {
+      if (this.isCharacterInVisibilityRange()) {
         this.moveLeft();
       }
     }, 1000 / 60);
 
     setInterval(() => {
       if (this.isDead()) {
-        this.playAnimation(this.IMAGE_DEAD);
+        this.handleDeadState();
         return;
       }
 
-      if (
-        this.characterData.x + this.characterData.width >=
-        this.x - (this.visibility - 300)
-      ) {
+      if (this.isCharacterInTransitionRange()) {
         if (!this.transitionPlayed) {
-          this.playAnimation(this.IMAGES_TRANSITION);
-          if (this.currentImage === this.IMAGES_TRANSITION.length - 1) {
-            this.transitionPlayed = true;
-            this.currentImage = 0;
-          }
+          this.handleTransitionAnimation();
         } else {
-          this.playAnimation(this.IMAGE_BUBBLE_SWIMMING);
+          this.handleBubbleSwimmingState();
         }
       } else {
-        this.transitionPlayed = false;
-
-        if (this.characterData.x > this.x) {
-          this.playAnimation(this.IMAGES_SWIMMING);
-        }
+        this.handleNormalSwimming();
       }
     }, this.speedImgChange);
+  }
+
+  isCharacterInVisibilityRange() {
+    return (
+      this.characterData.x + this.characterData.width >=
+      this.x - this.visibility
+    );
+  }
+
+  handleDeadState() {
+    this.playAnimation(this.IMAGE_DEAD);
+  }
+
+  isCharacterInTransitionRange() {
+    return (
+      this.characterData.x + this.characterData.width >=
+      this.x - (this.visibility - 300)
+    );
+  }
+
+  handleTransitionAnimation() {
+    this.playAnimation(this.IMAGES_TRANSITION);
+    if (this.currentImage === this.IMAGES_TRANSITION.length - 1) {
+      this.transitionPlayed = true;
+      this.currentImage = 0;
+    }
+  }
+
+  handleBubbleSwimmingState() {
+    this.playAnimation(this.IMAGE_BUBBLE_SWIMMING);
+  }
+
+  handleNormalSwimming() {
+    this.transitionPlayed = false;
+
+    if (this.characterData.x > this.x) {
+      this.playAnimation(this.IMAGES_SWIMMING);
+    }
   }
 }
