@@ -1,5 +1,14 @@
+/**
+ * Provides all image asset paths used in the game.
+ * Contains static arrays for different game objects and states.
+ *
+ * @class
+ */
 export class ImageAssets {
-  // Charakter
+  /**
+   * Standing images for the character.
+   * @type {string[]}
+   */
   static CHARAKTER_STANDING = [
     "src/img/1.Sharkie/1.IDLE/1.png",
     "src/img/1.Sharkie/1.IDLE/2.png",
@@ -21,31 +30,41 @@ export class ImageAssets {
     "src/img/1.Sharkie/1.IDLE/18.png",
   ];
 
-  // noch nicht implementiert
+  /**
+   * Long standing images for the character.
+   * @type {string[]}
+   */
   static CHARAKTER_LONG_STANDING = [
-    "src/img/1.Sharkie/2.Long_IDLE/i1.png",
-    "src/img/1.Sharkie/2.Long_IDLE/i2.png",
-    "src/img/1.Sharkie/2.Long_IDLE/i3.png",
-    "src/img/1.Sharkie/2.Long_IDLE/i4.png",
-    "src/img/1.Sharkie/2.Long_IDLE/i5.png",
-    "src/img/1.Sharkie/2.Long_IDLE/i6.png",
-    "src/img/1.Sharkie/2.Long_IDLE/i7.png",
-    "src/img/1.Sharkie/2.Long_IDLE/i8.png",
-    "src/img/1.Sharkie/2.Long_IDLE/i9.png",
-    "src/img/1.Sharkie/2.Long_IDLE/i10.png",
-    "src/img/1.Sharkie/2.Long_IDLE/i11.png",
-    "src/img/1.Sharkie/2.Long_IDLE/i12.png",
-    "src/img/1.Sharkie/2.Long_IDLE/i13.png",
-    "src/img/1.Sharkie/2.Long_IDLE/i14.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I1.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I2.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I3.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I4.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I5.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I6.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I7.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I8.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I9.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I10.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I11.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I12.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I13.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I14.png",
   ];
+  /**
+   * Sleeping images for the character.
+   * @type {string[]}
+   */
   static CHARAKTER_SLEEP = [
-    "src/img/1.Sharkie/2.Long_IDLE/i11.png",
-    "src/img/1.Sharkie/2.Long_IDLE/i12.png",
-    "src/img/1.Sharkie/2.Long_IDLE/i13.png",
-    "src/img/1.Sharkie/2.Long_IDLE/i14.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I11.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I12.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I13.png",
+    "src/img/1.Sharkie/2.Long_IDLE/I14.png",
   ];
 
-  // noch nicht implementiert
+  /**
+   * Swimming images for the character.
+   * @type {string[]}
+   */
   static CHARAKTER_SWIMMING = [
     "src/img/1.Sharkie/3.Swim/1.png",
     "src/img/1.Sharkie/3.Swim/2.png",
@@ -55,7 +74,10 @@ export class ImageAssets {
     "src/img/1.Sharkie/3.Swim/6.png",
   ];
 
-  // noch nicht implementiert
+  /**
+   * Bubble attack images for the character.
+   * @type {string[]}
+   */
   static CHARAKTER_BUBBLE_ATTACK = [
     "src/img/1.Sharkie/4.Attack/Bubble trap/Op2 (Without Bubbles)/1.png",
     "src/img/1.Sharkie/4.Attack/Bubble trap/Op2 (Without Bubbles)/2.png",
@@ -66,7 +88,10 @@ export class ImageAssets {
     "src/img/1.Sharkie/4.Attack/Bubble trap/Op2 (Without Bubbles)/7.png",
   ];
 
-  // noch nicht implementiert
+  /**
+   * Fin slap attack images for the character.
+   * @type {string[]}
+   */
   static CHARAKTER_FIN_SLAP_ATTACK = [
     "src/img/1.Sharkie/4.Attack/Fin slap/1.png",
     "src/img/1.Sharkie/4.Attack/Fin slap/2.png",
@@ -78,14 +103,22 @@ export class ImageAssets {
     "src/img/1.Sharkie/4.Attack/Fin slap/8.png",
   ];
 
+  /**
+   * Hurt images for the character.
+   * @type {string[]}
+   */
   static CHARAKTER_HURT = [
-    "/src/img/1.Sharkie/5.Hurt/1.Poisoned/1.png",
-    "/src/img/1.Sharkie/5.Hurt/1.Poisoned/2.png",
-    "/src/img/1.Sharkie/5.Hurt/1.Poisoned/3.png",
-    "/src/img/1.Sharkie/5.Hurt/1.Poisoned/4.png",
-    "/src/img/1.Sharkie/5.Hurt/1.Poisoned/5.png",
+    "src/img/1.Sharkie/5.Hurt/1.Poisoned/1.png",
+    "src/img/1.Sharkie/5.Hurt/1.Poisoned/2.png",
+    "src/img/1.Sharkie/5.Hurt/1.Poisoned/3.png",
+    "src/img/1.Sharkie/5.Hurt/1.Poisoned/4.png",
+    "src/img/1.Sharkie/5.Hurt/1.Poisoned/5.png",
   ];
 
+  /**
+   * Dead images for the character.
+   * @type {string[]}
+   */
   static CHARAKTER_DEAD = [
     "src/img/1.Sharkie/6.dead/1.Poisoned/1.png",
     "src/img/1.Sharkie/6.dead/1.Poisoned/2.png",
@@ -101,7 +134,10 @@ export class ImageAssets {
     "src/img/1.Sharkie/6.dead/1.Poisoned/12.png",
   ];
 
-  // Jelly-Fish Green
+  /**
+   * Green jellyfish swimming images.
+   * @type {string[]}
+   */
   static JELLY_FISH_GREEN_SWIMMING = [
     "src/img/2.Enemy/2.Jelly_fish/Súper dangerous/Green 1.png",
     "src/img/2.Enemy/2.Jelly_fish/Súper dangerous/Green 2.png",
@@ -109,6 +145,10 @@ export class ImageAssets {
     "src/img/2.Enemy/2.Jelly_fish/Súper dangerous/Green 4.png",
   ];
 
+  /**
+   * Green jellyfish dead images.
+   * @type {string[]}
+   */
   static JELLY_FISH_GREEN_DEAD = [
     "src/img/2.Enemy/2.Jelly_fish/Dead/green/g1.png",
     "src/img/2.Enemy/2.Jelly_fish/Dead/green/g2.png",
@@ -116,7 +156,10 @@ export class ImageAssets {
     "src/img/2.Enemy/2.Jelly_fish/Dead/green/g4.png",
   ];
 
-  //   Jelly-Fish Lila
+  /**
+   * Purple jellyfish swimming images.
+   * @type {string[]}
+   */
   static JELLY_FISH_LILA_SWIMMING = [
     "src/img/2.Enemy/2.Jelly_fish/Regular damage/Lila 1.png",
     "src/img/2.Enemy/2.Jelly_fish/Regular damage/Lila 2.png",
@@ -124,6 +167,10 @@ export class ImageAssets {
     "src/img/2.Enemy/2.Jelly_fish/Regular damage/Lila 4.png",
   ];
 
+  /**
+   * Purple jellyfish dead images.
+   * @type {string[]}
+   */
   static JELLY_FISH_LILA_DEAD = [
     "src/img/2.Enemy/2.Jelly_fish/Dead/Lila/L1.png",
     "src/img/2.Enemy/2.Jelly_fish/Dead/Lila/L2.png",
@@ -131,7 +178,10 @@ export class ImageAssets {
     "src/img/2.Enemy/2.Jelly_fish/Dead/Lila/L4.png",
   ];
 
-  //   Jelly-Fish Pink
+  /**
+   * Pink jellyfish swimming images.
+   * @type {string[]}
+   */
   static JELLY_FISH_PINK_SWIMMING = [
     "src/img/2.Enemy/2.Jelly_fish/Súper dangerous/Pink 1.png",
     "src/img/2.Enemy/2.Jelly_fish/Súper dangerous/Pink 2.png",
@@ -139,6 +189,10 @@ export class ImageAssets {
     "src/img/2.Enemy/2.Jelly_fish/Súper dangerous/Pink 4.png",
   ];
 
+  /**
+   * Pink jellyfish dead images.
+   * @type {string[]}
+   */
   static JELLY_FISH_PINK_DEAD = [
     "src/img/2.Enemy/2.Jelly_fish/Dead/Pink/P1.png",
     "src/img/2.Enemy/2.Jelly_fish/Dead/Pink/P2.png",
@@ -146,7 +200,10 @@ export class ImageAssets {
     "src/img/2.Enemy/2.Jelly_fish/Dead/Pink/P4.png",
   ];
 
-  //   Jelly-Fish-Yellow
+  /**
+   * Yellow jellyfish swimming images.
+   * @type {string[]}
+   */
   static JELLY_FISH_YELLOW_SWIMMING = [
     "src/img/2.Enemy/2.Jelly_fish/Regular damage/Yellow 1.png",
     "src/img/2.Enemy/2.Jelly_fish/Regular damage/Yellow 2.png",
@@ -154,6 +211,10 @@ export class ImageAssets {
     "src/img/2.Enemy/2.Jelly_fish/Regular damage/Yellow 4.png",
   ];
 
+  /**
+   * Yellow jellyfish dead images.
+   * @type {string[]}
+   */
   static JELLY_FISH_YELLOW_DEAD = [
     "src/img/2.Enemy/2.Jelly_fish/Dead/Yellow/y1.png",
     "src/img/2.Enemy/2.Jelly_fish/Dead/Yellow/y2.png",
@@ -161,7 +222,10 @@ export class ImageAssets {
     "src/img/2.Enemy/2.Jelly_fish/Dead/Yellow/y4.png",
   ];
 
-  //   Fish Green
+  /**
+   * Green fish swimming images.
+   * @type {string[]}
+   */
   static FISH_GREEN_SWIMMING = [
     "src/img/2.Enemy/1.Puffer fish/1.Swim/1.swim1.png",
     "src/img/2.Enemy/1.Puffer fish/1.Swim/1.swim2.png",
@@ -170,6 +234,10 @@ export class ImageAssets {
     "src/img/2.Enemy/1.Puffer fish/1.Swim/1.swim5.png",
   ];
 
+  /**
+   * Green fish transition images.
+   * @type {string[]}
+   */
   static FISH_GREEN_TRANSITION = [
     "src/img/2.Enemy/1.Puffer fish/2.transition/1.transition1.png",
     "src/img/2.Enemy/1.Puffer fish/2.transition/1.transition2.png",
@@ -178,6 +246,10 @@ export class ImageAssets {
     "src/img/2.Enemy/1.Puffer fish/2.transition/1.transition5.png",
   ];
 
+  /**
+   * Green fish bubble swimming images.
+   * @type {string[]}
+   */
   static FISH_GREEN_BUBBLE_SWIMMING = [
     "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/1.bubbleswim1.png",
     "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/1.bubbleswim2.png",
@@ -186,13 +258,20 @@ export class ImageAssets {
     "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/1.bubbleswim5.png",
   ];
 
+  /**
+   * Green fish dead images.
+   * @type {string[]}
+   */
   static FISH_GREEN_DEAD = [
     "src/img/2.Enemy/1.Puffer fish/4.DIE/1.Dead 1.png",
     "src/img/2.Enemy/1.Puffer fish/4.DIE/1.Dead 2.png",
     "src/img/2.Enemy/1.Puffer fish/4.DIE/1.Dead 3.png",
   ];
 
-  //   Fish Pink
+  /**
+   * Pink fish swimming images.
+   * @type {string[]}
+   */
   static FISH_PINK_SWIMMING = [
     "src/img/2.Enemy/1.Puffer fish/1.Swim/3.swim1.png",
     "src/img/2.Enemy/1.Puffer fish/1.Swim/3.swim2.png",
@@ -201,7 +280,10 @@ export class ImageAssets {
     "src/img/2.Enemy/1.Puffer fish/1.Swim/3.swim5.png",
   ];
 
-  // noch nicht implementiert
+  /**
+   * Pink fish transition images.
+   * @type {string[]}
+   */
   static FISH_PINK_TRANSITION = [
     "src/img/2.Enemy/1.Puffer fish/2.transition/3.transition1.png",
     "src/img/2.Enemy/1.Puffer fish/2.transition/3.transition2.png",
@@ -210,7 +292,10 @@ export class ImageAssets {
     "src/img/2.Enemy/1.Puffer fish/2.transition/3.transition5.png",
   ];
 
-  // noch nicht implementiert
+  /**
+   * Pink fish bubble swimming images.
+   * @type {string[]}
+   */
   static FISH_PINK_BUBBLE_SWIMMING = [
     "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/3.bubbleswim1.png",
     "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/3.bubbleswim2.png",
@@ -219,14 +304,20 @@ export class ImageAssets {
     "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/3.bubbleswim5.png",
   ];
 
-  // noch nicht implementiert
+  /**
+   * Pink fish dead images.
+   * @type {string[]}
+   */
   static FISH_PINK_DEAD = [
     "src/img/2.Enemy/1.Puffer fish/4.DIE/2.png",
     "src/img/2.Enemy/1.Puffer fish/4.DIE/2.2.png",
     "src/img/2.Enemy/1.Puffer fish/4.DIE/2.3.png",
   ];
 
-  //   Fish Red
+  /**
+   * Red fish swimming images.
+   * @type {string[]}
+   */
   static FISH_RED_SWIMMING = [
     "src/img/2.Enemy/1.Puffer fish/1.Swim/2.swim1.png",
     "src/img/2.Enemy/1.Puffer fish/1.Swim/2.swim2.png",
@@ -235,7 +326,10 @@ export class ImageAssets {
     "src/img/2.Enemy/1.Puffer fish/1.Swim/2.swim5.png",
   ];
 
-  // noch nicht implementiert
+  /**
+   * Red fish transition images.
+   * @type {string[]}
+   */
   static FISH_RED_TRANSITION = [
     "src/img/2.Enemy/1.Puffer fish/2.transition/2.transition1.png",
     "src/img/2.Enemy/1.Puffer fish/2.transition/2.transition2.png",
@@ -244,7 +338,10 @@ export class ImageAssets {
     "src/img/2.Enemy/1.Puffer fish/2.transition/2.transition5.png",
   ];
 
-  // noch nicht implementiert
+  /**
+   * Red fish bubble swimming images.
+   * @type {string[]}
+   */
   static FISH_RED_BUBBLE_SWIMMING = [
     "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/2.bubbleswim1.png",
     "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/2.bubbleswim2.png",
@@ -253,15 +350,20 @@ export class ImageAssets {
     "src/img/2.Enemy/1.Puffer fish/3.Bubbleeswim/2.bubbleswim5.png",
   ];
 
-  // noch nicht implementiert
+  /**
+   * Red fish dead images.
+   * @type {string[]}
+   */
   static FISH_RED_DEAD = [
     "src/img/2.Enemy/1.Puffer fish/4.DIE/3.png",
     "src/img/2.Enemy/1.Puffer fish/4.DIE/3.2.png",
     "src/img/2.Enemy/1.Puffer fish/4.DIE/3.3.png",
   ];
 
-  //   End Boss
-  // noch nicht implementiert
+  /**
+   * Endboss intro images.
+   * @type {string[]}
+   */
   static BOSS_INTRO = [
     "src/img/2.Enemy/3 Final Enemy/1.Introduce/1.png",
     "src/img/2.Enemy/3 Final Enemy/1.Introduce/2.png",
@@ -275,6 +377,10 @@ export class ImageAssets {
     "src/img/2.Enemy/3 Final Enemy/1.Introduce/10.png",
   ];
 
+  /**
+   * Endboss swimming images.
+   * @type {string[]}
+   */
   static BOSS_SWIMMING = [
     "src/img/2.Enemy/3 Final Enemy/2.floating/1.png",
     "src/img/2.Enemy/3 Final Enemy/2.floating/2.png",
@@ -291,7 +397,10 @@ export class ImageAssets {
     "src/img/2.Enemy/3 Final Enemy/2.floating/13.png",
   ];
 
-  // noch nicht implementiert
+  /**
+   * Endboss attack images.
+   * @type {string[]}
+   */
   static BOSS_ATTACK = [
     "src/img/2.Enemy/3 Final Enemy/Attack/1.png",
     "src/img/2.Enemy/3 Final Enemy/Attack/2.png",
@@ -301,7 +410,10 @@ export class ImageAssets {
     "src/img/2.Enemy/3 Final Enemy/Attack/6.png",
   ];
 
-  // noch nicht implementiert
+  /**
+   * Endboss hurt images.
+   * @type {string[]}
+   */
   static BOSS_HURT = [
     "src/img/2.Enemy/3 Final Enemy/Hurt/1.png",
     "src/img/2.Enemy/3 Final Enemy/Hurt/2.png",
@@ -309,7 +421,10 @@ export class ImageAssets {
     "src/img/2.Enemy/3 Final Enemy/Hurt/4.png",
   ];
 
-  // noch nicht implementiert
+  /**
+   * Endboss dead images.
+   * @type {string[]}
+   */
   static BOSS_DEAD = [
     "src/img/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2.png",
     "src/img/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 6.png",
@@ -319,7 +434,10 @@ export class ImageAssets {
     "src/img/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 10.png",
   ];
 
-  //   Coin
+  /**
+   * Coin images.
+   * @type {string[]}
+   */
   static COIN = [
     "src/img/4. Marcadores/1. Coins/1.png",
     "src/img/4. Marcadores/1. Coins/2.png",
@@ -327,7 +445,10 @@ export class ImageAssets {
     "src/img/4. Marcadores/1. Coins/4.png",
   ];
 
-  //   Health Bar
+  /**
+   * Life bar images.
+   * @type {string[]}
+   */
   static LIFE_BAR = [
     "src/img/4. Marcadores/green/Life/100_life.png",
     "src/img/4. Marcadores/green/Life/80_life.png",
@@ -337,7 +458,10 @@ export class ImageAssets {
     "src/img/4. Marcadores/green/Life/0_life.png",
   ];
 
-  //   Bubble
+  /**
+   * Bubble images for animation.
+   * @type {string[]}
+   */
   static BUBBLE = [
     "src/img/4. Marcadores/Posión/Animada/1.png",
     "src/img/4. Marcadores/Posión/Animada/2.png",
@@ -349,9 +473,16 @@ export class ImageAssets {
     "src/img/4. Marcadores/Posión/Animada/8.png",
   ];
 
-  //   Bubble Counter
+  /**
+   * Bubble images for counter bar.
+   * @type {string[]}
+   */
   static BUBBLE_IMAGES = ["src/img/4. Marcadores/Posión/normal.png"];
 
+  /**
+   * Bubble shot images.
+   * @type {string[]}
+   */
   static BUBBLE_SHOT = [
     "src/img/1.Sharkie/4.Attack/Bubble trap/Poisoned Bubble (for whale).png",
   ];

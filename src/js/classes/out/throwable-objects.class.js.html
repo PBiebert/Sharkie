@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: throwable-objects.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: throwable-objects.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { ImageAssets } from "./image-Assets.class.js";
+import { MovableObject } from "./movable-object.class.js";
+
+/**
+ * Represents a throwable object (e.g. bubble) in the game.
+ * Handles movement, direction, and collision logic.
+ *
+ * @class
+ * @extends MovableObject
+ */
+export class ThrowableObjects extends MovableObject {
+  /**
+   * The height of the throwable object.
+   * @type {number}
+   */
+  height = 204 / 4;
+
+  /**
+   * The width of the throwable object.
+   * @type {number}
+   */
+  width = 202 / 4;
+
+  /**
+   * Offset for collision detection.
+   * @type {{top: number, right: number, bottom: number, left: number}}
+   */
+  offset = {
+    top: 5,
+    right: 5,
+    bottom: 5,
+    left: 5,
+  };
+
+  /**
+   * Indicates whether the object has a hitbox.
+   * @type {boolean}
+   */
+  hasHitbox = false;
+
+  /**
+   * The horizontal speed of the throwable object.
+   * @type {number}
+   */
+  speedX = 5;
+
+  /**
+   * The vertical speed of the throwable object.
+   * @type {number}
+   */
+  speedY = 1;
+
+  /**
+   * Reference to the game world.
+   * @type {Object}
+   */
+  world;
+
+  /**
+   * The starting x-coordinate of the throw.
+   * @type {number}
+   */
+  startX;
+
+  /**
+   * The starting y-coordinate of the throw.
+   * @type {number}
+   */
+  startY;
+
+  /**
+   * The maximum distance the object can travel.
+   * @type {number}
+   */
+  maxDistance = 250;
+
+  /**
+   * The damage value this object can deal.
+   * @type {number}
+   */
+  damage = 20;
+
+  /**
+   * The direction the object is facing ("right" or "left").
+   * @type {string}
+   */
+  viewDirection = "right";
+
+  /**
+   * Creates a new throwable object.
+   *
+   * @param {Object} world - Reference to the game world.
+   * @param {number} x - The x-coordinate where the object is thrown.
+   * @param {number} y - The y-coordinate where the object is thrown.
+   * @param {string} viewDirection - The direction of the throw ("right" or "left").
+   */
+  constructor(world, x, y, viewDirection) {
+    super();
+    this.loadImage(ImageAssets.BUBBLE_SHOT);
+    this.world = world;
+    this.viewDirection = viewDirection;
+    this.throw(x, y);
+  }
+
+  /**
+   * Initiates the throw and handles the object's movement.
+   *
+   * @param {number} x - The starting x-coordinate.
+   * @param {number} y - The starting y-coordinate.
+   */
+  throw(x, y) {
+    if (this.viewDirection == "right") {
+      this.x = x + 100;
+    }
+    if (this.viewDirection == "left") {
+      this.x = x + 50;
+    }
+    this.y = y + 135;
+    this.startX = this.x;
+
+    setInterval(() => {
+      if (this.isFacingRight()) {
+        this.x += this.speedX;
+        if (this.x >= this.startX + this.maxDistance) {
+          this.speedX -= 0.05;
+          this.y -= this.speedY;
+          if (this.speedX &lt;= 0) this.speedX = 0;
+        }
+      }
+      if (this.isFacingLeft()) {
+        this.x -= this.speedX;
+        if (this.hasReachedLeftLimit()) {
+          this.speedX -= 0.05;
+          this.y -= this.speedY;
+          if (this.isStopped()) {
+            this.speedX = 0;
+          }
+        }
+      }
+    }, 1000 / 60);
+  }
+
+  /**
+   * Checks if the object is facing right.
+   * @returns {boolean}
+   */
+  isFacingRight() {
+    return this.viewDirection === "right";
+  }
+
+  /**
+   * Checks if the object is facing left.
+   * @returns {boolean}
+   */
+  isFacingLeft() {
+    return this.viewDirection == "left";
+  }
+
+  /**
+   * Checks if the object has reached its left movement limit.
+   * @returns {boolean}
+   */
+  hasReachedLeftLimit() {
+    return this.x &lt;= this.startX - this.maxDistance;
+  }
+
+  /**
+   * Checks if the object has stopped moving (speedX &lt;= 0).
+   * @returns {boolean}
+   */
+  isStopped() {
+    return this.speedX &lt;= 0;
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AudioHub.html">AudioHub</a></li><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Bubble.html">Bubble</a></li><li><a href="BubbleCounter.html">BubbleCounter</a></li><li><a href="Character.html">Character</a></li><li><a href="Coin.html">Coin</a></li><li><a href="CoinCounter.html">CoinCounter</a></li><li><a href="CollectableObjects.html">CollectableObjects</a></li><li><a href="CounterBar.html">CounterBar</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Fish.html">Fish</a></li><li><a href="GreenFish.html">GreenFish</a></li><li><a href="HealthBar.html">HealthBar</a></li><li><a href="ImageAssets.html">ImageAssets</a></li><li><a href="JellyFish.html">JellyFish</a></li><li><a href="JellyFishGreen.html">JellyFishGreen</a></li><li><a href="JellyFishLila.html">JellyFishLila</a></li><li><a href="JellyFishPink.html">JellyFishPink</a></li><li><a href="JellyFishYellow.html">JellyFishYellow</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="LightBeam.html">LightBeam</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="PinkFish.html">PinkFish</a></li><li><a href="RedFish.html">RedFish</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObjects.html">ThrowableObjects</a></li><li><a href="World.html">World</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Thu Dec 04 2025 23:26:51 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

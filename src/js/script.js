@@ -7,8 +7,14 @@ let world;
 let keyboard = new Keyboard();
 let fullscreen = false;
 
+/**
+ * Initializes the game and sets up all event listeners and UI controls.
+ */
 window.addEventListener("load", init);
 
+/**
+ * Main initialization function for the game.
+ */
 function init() {
   controlPanelForMobilecontrole();
   touchpanelOnOff();
@@ -21,6 +27,9 @@ function init() {
   checkScreenOrientation();
 }
 
+/**
+ * Sets up the start screen and controls screen button actions.
+ */
 function setStartScreenButtonAction() {
   const btnControls = document.getElementById("btn-controls");
   const controlsSite = document.querySelector(".controls");
@@ -40,6 +49,9 @@ function setStartScreenButtonAction() {
   });
 }
 
+/**
+ * Sets up the controls screen back button action.
+ */
 function setControllsScreenButtonAction() {
   const btnBack = document.getElementById("back");
   const controlsSite = document.querySelector(".controls");
@@ -48,6 +60,9 @@ function setControllsScreenButtonAction() {
   btnBack.addEventListener("click", () => openSite(controlsSite, startScreen));
 }
 
+/**
+ * Sets up the end screen home and replay button actions.
+ */
 function setEndScreenButtonAction() {
   const btmHome = document.getElementById("home");
   const btmReplay = document.getElementById("replay");
@@ -69,6 +84,9 @@ function setEndScreenButtonAction() {
   });
 }
 
+/**
+ * Adds keyboard event listeners for controlling the game.
+ */
 function setKeyEventsToControle() {
   window.addEventListener("keydown", (event) => {
     switch (event.key) {
@@ -139,6 +157,9 @@ function setKeyEventsToControle() {
   });
 }
 
+/**
+ * Sets up the sound and fullscreen toggle buttons in the header.
+ */
 function setHeadLineButtonAction() {
   const btnSound = document.querySelector(".btn-sound");
   const btnScreen = document.querySelector(".btn-screen");
@@ -160,11 +181,19 @@ function setHeadLineButtonAction() {
   });
 }
 
+/**
+ * Switches between two UI screens.
+ * @param {HTMLElement} from - The current screen element.
+ * @param {HTMLElement} to - The target screen element to show.
+ */
 function openSite(from, to) {
   from.classList.remove("active");
   to.classList.add("active");
 }
 
+/**
+ * Checks the game result at intervals and shows the end screen if the game is over or won.
+ */
 function checkResult() {
   let resultInterval = setInterval(() => {
     const result = world.gameResult();
@@ -178,10 +207,17 @@ function checkResult() {
   }, 100);
 }
 
+/**
+ * Stops all running intervals in the game.
+ */
 function stopAllIntervalls() {
   for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
 
+/**
+ * Displays the end screen with the game result.
+ * @param {string} gameResult - The result of the game ("win" or "gameOver").
+ */
 function ShowEndscreen(gameResult) {
   const endScreen = document.querySelector(".endScreen");
   const resultText = document.getElementById("result-text");
@@ -196,6 +232,9 @@ function ShowEndscreen(gameResult) {
   }
 }
 
+/**
+ * Adds hover sound effect to all buttons except control buttons.
+ */
 function setHoverSound() {
   const buttons = document.querySelectorAll("button");
 
@@ -208,6 +247,9 @@ function setHoverSound() {
   });
 }
 
+/**
+ * Mutes all game sounds and updates the sound button icon.
+ */
 function muteSound() {
   const btnSound = document.querySelector(".btn-sound");
 
@@ -216,6 +258,9 @@ function muteSound() {
   btnSound.src = "./src/icons/mute.png";
 }
 
+/**
+ * Enables all game sounds and updates the sound button icon.
+ */
 function playSound() {
   const btnSound = document.querySelector(".btn-sound");
 
@@ -224,12 +269,15 @@ function playSound() {
   btnSound.src = "./src/icons/note.png";
 }
 
+/**
+ * Toggles the touch control panel for mobile devices.
+ */
 function touchpanelOnOff() {
   const btnTouchPanel = document.querySelector(".btn-touch-panel");
   const controlContainer = document.querySelector(".control-container");
   let touchpanelOn = false;
 
-  if (window.innerWidth < 720) {
+  if (window.innerWidth < 950) {
     touchpanelOn = true;
     btnTouchPanel.src = "./src/icons/videogame_asset.png";
     controlContainer.classList.add("active");
@@ -248,6 +296,9 @@ function touchpanelOnOff() {
   });
 }
 
+/**
+ * Sets the game to fullscreen mode and updates the fullscreen button icon.
+ */
 function setFullscreen() {
   const fullscreenContainer = document.querySelector(".fullscreen-container");
   const btnScreen = document.querySelector(".btn-screen");
@@ -257,6 +308,9 @@ function setFullscreen() {
   fullscreen = true;
 }
 
+/**
+ * Exits fullscreen mode and updates the fullscreen button icon.
+ */
 function exitFullscreen() {
   const btnScreen = document.querySelector(".btn-screen");
 
@@ -270,6 +324,9 @@ function exitFullscreen() {
   }
 }
 
+/**
+ * Sets up the control panel for mobile controls with touch events.
+ */
 function controlPanelForMobilecontrole() {
   const btnUpLeft = document.getElementById("btn-control-up-left");
   const btnUp = document.getElementById("btn-control-up");
@@ -371,6 +428,9 @@ function controlPanelForMobilecontrole() {
   });
 }
 
+/**
+ * Checks the screen orientation and updates the UI accordingly.
+ */
 function checkScreenOrientation() {
   const isDisplayPortrait = document.querySelector(".is-display-portrait");
   const backgroundBody = document.querySelector("body");

@@ -12,6 +12,12 @@ import { Endboss } from "../classes/endboss.class.js";
 import { Bubble } from "../classes/bubble.class.js";
 import { LightBeam } from "../classes/light.class.js";
 
+/**
+ * Creates and returns the first level of the game.
+ * Initializes all objects, enemies, background, and light beams.
+ *
+ * @returns {Level} The constructed level instance.
+ */
 export function createLevel1() {
   let levelLength;
   const lightBeamsCoordinates = [0, 1000, 2000, 3000, 4000, 5000, 6000, 7000];
@@ -167,10 +173,20 @@ export function createLevel1() {
   setEndboss();
   lightBeamIntervall();
 
+  /**
+   * Sets the level length based on the background rendering.
+   */
   function setLevelLength() {
     level.levelLength = levelLength;
   }
 
+  /**
+   * Renders the background objects for the level.
+   *
+   * @param {Level} level - The level instance.
+   * @param {number} backgroundRepeats - Number of background repetitions.
+   * @param {Array} backgroundImages - Array of background image paths.
+   */
   function renderBackground(level, backgroundRepeats, backgroundImages) {
     let repeats = backgroundRepeats;
     let insertPosition = -100;
@@ -194,6 +210,9 @@ export function createLevel1() {
     levelLength = insertPosition;
   }
 
+  /**
+   * Adds light beams to the level based on predefined coordinates.
+   */
   function setLightBeamsFromCoordinates() {
     lightBeamsCoordinates.forEach((lightbeamCoordinate) => {
       const lightbeam = new LightBeam(lightbeamCoordinate);
@@ -201,6 +220,12 @@ export function createLevel1() {
     });
   }
 
+  /**
+   * Instantiates and adds entities (objects or enemies) to the target array.
+   *
+   * @param {Array} dataArray - Array of entity data objects.
+   * @param {Array} targetArray - The array to which new entities are added.
+   */
   function setEntitiesFromData(dataArray, targetArray) {
     dataArray.forEach((entitie) => {
       const className = entitie.type;
@@ -209,10 +234,16 @@ export function createLevel1() {
     });
   }
 
+  /**
+   * Adds the endboss to the level's enemies array.
+   */
   function setEndboss() {
     level.enemies.push(new Endboss(levelLength));
   }
 
+  /**
+   * Periodically adds new light beams to the level.
+   */
   function lightBeamIntervall() {
     setInterval(() => {
       level.lightBeams.push(new LightBeam(levelLength));

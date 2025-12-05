@@ -1,15 +1,55 @@
 import { AudioHub } from "./audio-hub.class.js";
 import { ImageAssets } from "./image-Assets.class.js";
 import { MovableObject } from "./movable-object.class.js";
-// fertig
+
+/**
+ * Represents the endboss character in the game.
+ * Handles movement, animations, and interactions with the player.
+ *
+ * @class
+ * @extends MovableObject
+ */
 export class Endboss extends MovableObject {
+  /**
+   * Indicates this is the endboss.
+   * @type {boolean}
+   */
   isEndboss = true;
+
+  /**
+   * The width of the endboss.
+   * @type {number}
+   */
   width = 1041 / 3;
+
+  /**
+   * The height of the endboss.
+   * @type {number}
+   */
   height = 1216 / 3;
+
+  /**
+   * The horizontal speed of the endboss.
+   * @type {number}
+   */
   speedX = 1;
+
+  /**
+   * The damage dealt by the endboss.
+   * @type {number}
+   */
   damage = 40;
+
+  /**
+   * The energy of the endboss.
+   * @type {number}
+   */
   energy = 100;
 
+  /**
+   * Offset for collision detection.
+   * @type {{top: number, right: number, bottom: number, left: number}}
+   */
   offset = {
     top: 200,
     right: 30,
@@ -17,13 +57,40 @@ export class Endboss extends MovableObject {
     left: 20,
   };
 
+  /**
+   * The y-coordinate of the endboss.
+   * @type {number}
+   */
   y = -350;
 
+  /**
+   * Indicates whether the endboss has a hitbox.
+   * @type {boolean}
+   */
   hasHitbox = false;
-  // introActive = false;
+
+  /**
+   * Indicates whether the intro sequence is active.
+   * @type {boolean}
+   */
+  introActive = false;
+
+  /**
+   * Indicates whether the intro sequence has been played.
+   * @type {boolean}
+   */
   introPlayed = false;
+
+  /**
+   * The visibility range for detecting the player.
+   * @type {number}
+   */
   visibility = 290;
 
+  /**
+   * Creates a new endboss instance.
+   * @param {number} levelLength - The length of the level for positioning.
+   */
   constructor(levelLength) {
     super();
     this.loadAllImages();
@@ -32,6 +99,9 @@ export class Endboss extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Loads all images for the endboss animations.
+   */
   loadAllImages() {
     this.loadImage(ImageAssets.BOSS_SWIMMING[0]);
     this.loadImages(ImageAssets.BOSS_INTRO);
@@ -41,16 +111,27 @@ export class Endboss extends MovableObject {
     this.loadImages(ImageAssets.BOSS_DEAD);
   }
 
+  /**
+   * Starts all animation loops for the endboss.
+   */
   animate() {
     this.startIntroLoop();
     this.startAnimationLoop();
     this.startFollowLoop();
   }
 
+  /**
+   * Determines if the intro sequence should be played.
+   * @returns {boolean}
+   */
   shouldPlayIntro() {
     return this.seeCharacter && !this.introPlayed;
   }
 
+  /**
+   * Starts the intro sequence and sets relevant states.
+   * @param {number} introInterval - The interval ID for the intro loop.
+   */
   startIntroSequence(introInterval) {
     this.y = 0;
     this.introPlayed = true;
@@ -61,14 +142,23 @@ export class Endboss extends MovableObject {
     clearInterval(introInterval);
   }
 
+  /**
+   * Handles the dead state animation.
+   */
   handleDeadState() {
     this.playAnimation(ImageAssets.BOSS_DEAD);
   }
 
+  /**
+   * Handles the hurt state animation.
+   */
   handleHurtState() {
     this.playAnimation(ImageAssets.BOSS_HURT);
   }
 
+  /**
+   * Handles the intro animation and triggers sound.
+   */
   handleIntroAnimation() {
     this.playAnimation(ImageAssets.BOSS_INTRO);
     if (this.currentImage === 0) {
@@ -77,23 +167,39 @@ export class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Handles the attack state animation.
+   */
   handleAttakeState() {
     this.playAnimation(ImageAssets.BOSS_ATTACK);
   }
 
+  /**
+   * Handles the swimming state animation.
+   */
   handleSwimmingState() {
     this.playAnimation(ImageAssets.BOSS_SWIMMING);
   }
 
+  /**
+   * Determines if the endboss should follow the character.
+   * @returns {boolean}
+   */
   shouldFollowCharacter() {
     return this.seeCharacter && !this.introActive;
   }
 
+  /**
+   * Makes the endboss follow the character.
+   */
   followCharacter() {
     this.visibility = 600;
     this.moveToCharacter();
   }
 
+  /**
+   * Starts the intro loop to check if the intro should be played.
+   */
   startIntroLoop() {
     const introInterval = setInterval(() => {
       if (this.shouldPlayIntro()) {
@@ -102,6 +208,9 @@ export class Endboss extends MovableObject {
     }, 1000 / 60);
   }
 
+  /**
+   * Starts the main animation loop for the endboss.
+   */
   startAnimationLoop() {
     setInterval(() => {
       if (this.isDead()) {
@@ -127,6 +236,9 @@ export class Endboss extends MovableObject {
     }, this.speedImgChange);
   }
 
+  /**
+   * Starts the loop for following the character.
+   */
   startFollowLoop() {
     setInterval(() => {
       if (this.shouldFollowCharacter()) {

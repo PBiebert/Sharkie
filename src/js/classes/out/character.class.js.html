@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: character.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: character.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { AudioHub } from "./audio-hub.class.js";
+import { ImageAssets } from "./image-Assets.class.js";
+import { MovableObject } from "./movable-object.class.js";
+import { ThrowableObjects } from "./throwable-objects.class.js";
+
+/**
+ * Represents the main character in the game.
+ * Contains logic for movement, animations, and interactions.
+ *
+ * @class
+ * @extends MovableObject
+ */
+export class Character extends MovableObject {
+  /**
+   * Indicates whether this is the character.
+   * @type {boolean}
+   */
+  isCharacter = true;
+
+  /**
+   * The height of the character.
+   * @type {number}
+   */
+  height = 1000 / 4;
+
+  /**
+   * The width of the character.
+   * @type {number}
+   */
+  width = 815 / 4;
+
+  /**
+   * Indicates whether the shoot key is pressed.
+   * @type {boolean}
+   */
+  shotKeyPressed = false;
+
+  /**
+   * Indicates whether the character is ready to sleep.
+   * @type {boolean}
+   */
+  isReadyToSleep = false;
+
+  /**
+   * The viewing direction of the character ("right" or "left").
+   * @type {string}
+   */
+  viewDirektion = "right";
+
+  /**
+   * The character's energy.
+   * @type {number}
+   */
+  energy = 100;
+
+  /**
+   * Offset for collision detection.
+   * @type {{top: number, right: number, bottom: number, left: number}}
+   */
+  offset = {
+    top: 130,
+    right: 40,
+    bottom: 60,
+    left: 40,
+  };
+
+  /**
+   * The x-coordinate of the character.
+   * @type {number}
+   */
+  x = 0;
+
+  /**
+   * Indicates whether the character has a hitbox.
+   * @type {boolean}
+   */
+  hasHitbox = false;
+
+  /**
+   * Creates a new instance of the character.
+   */
+  constructor() {
+    super();
+    this.loadAllCharacterImages();
+    this.y = this.groundY;
+    this.applyGravity();
+    this.animate();
+  }
+
+  /**
+   * Starts the animation loop of the character.
+   */
+  animate() {
+    this.startMovementLoop();
+
+    setInterval(() => {
+      if (this.hasShot) {
+        this.handleBubbleAttackState();
+        return;
+      }
+
+      if (this.isDead()) {
+        this.handleDeadState();
+        return;
+      }
+
+      if (this.isHurt()) {
+        this.handleHurtState();
+        return;
+      }
+
+      if (this.isMovingHorizontally()) {
+        this.handleSwimmingState();
+        return;
+      }
+
+      if (this.isSleep) {
+        this.handleSleepState();
+        return;
+      }
+
+      if (this.isTimeToGetTired()) {
+        this.handleTiredState();
+        return;
+      }
+
+      if (this.isTransitioningToSleep()) {
+        this.handleTransitionToSleepState();
+        return;
+      }
+      this.handleStandingState();
+    }, this.speedImgChange);
+  }
+
+  /**
+   * Loads all images for the different character states.
+   */
+  loadAllCharacterImages() {
+    this.loadImage(ImageAssets.CHARAKTER_STANDING[0]);
+    this.loadImages(ImageAssets.CHARAKTER_STANDING);
+    this.loadImages(ImageAssets.CHARAKTER_LONG_STANDING);
+    this.loadImages(ImageAssets.CHARAKTER_SLEEP);
+    this.loadImages(ImageAssets.CHARAKTER_SWIMMING);
+    this.loadImages(ImageAssets.CHARAKTER_HURT);
+    this.loadImages(ImageAssets.CHARAKTER_DEAD);
+    this.loadImages(ImageAssets.CHARAKTER_BUBBLE_ATTACK);
+  }
+
+  /**
+   * Lets the character float to the surface when dead.
+   */
+  floatsToTheSurface() {
+    if (this.y >= -50) {
+      this.y -= 3;
+    }
+  }
+
+  /**
+   * Checks pressed movement keys and executes the corresponding action.
+   */
+  checkMovementKeys() {
+    if (this.isDead()) {
+      return;
+    }
+    if (this.canMoveRight()) {
+      this.handleMoveRight();
+    }
+    if (this.canMoveLeft()) {
+      this.handleMoveLeft();
+    }
+    if (this.canMoveUp()) {
+      this.handleMoveUp();
+    }
+    if (this.canMoveDown()) {
+      this.handleMoveDown();
+    }
+
+    if (this.canShootBubble()) {
+      this.handleShootBubble();
+    }
+  }
+
+  /**
+   * Updates the camera position based on the character's position.
+   */
+  updateCameraPosition() {
+    if (this.isAtLevelStart()) {
+      this.world.camera_x = 0;
+    } else if (this.isBeforeLevelEnd()) {
+      this.world.camera_x = -this.x + 100;
+    } else {
+      this.world.camera_x = -(this.world.level.levelLength - 720) + 100;
+    }
+  }
+
+  /**
+   * Executes the shooting animation and creates a bubble object.
+   */
+  shot() {
+    this.hasShot = true;
+    this.currentImage = 0;
+    this.resetSleep();
+    AudioHub.attackSound(AudioHub.bubbleSound);
+
+    setTimeout(() => {
+      this.world.throwableObject.push(
+        new ThrowableObjects(this.world, this.x, this.y, this.viewDirektion)
+      );
+    }, 500);
+  }
+
+  /**
+   * Resets all sleep states.
+   */
+  resetSleep() {
+    this.isSleep = false;
+    this.isStand = false;
+    this.isReadyToSleep = false;
+    this.lastStanding = Date.now();
+  }
+
+  /**
+   * Ends the bubble attack when the last animation frame is reached.
+   */
+  handleBubbleAttackAnimation() {
+    if (this.isLastBubbleAttackFrame()) {
+      this.hasShot = false;
+    }
+  }
+
+  /**
+   * Checks if the last frame of the bubble attack is reached.
+   * @returns {boolean}
+   */
+  isLastBubbleAttackFrame() {
+    return this.currentImage == ImageAssets.CHARAKTER_BUBBLE_ATTACK.length - 1;
+  }
+
+  /**
+   * Checks if the character is moving horizontally.
+   * @returns {boolean}
+   */
+  isMovingHorizontally() {
+    return this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
+  }
+
+  /**
+   * Checks if it is time to get tired.
+   * @returns {boolean}
+   */
+  isTimeToGetTired() {
+    return (
+      !this.isReadyToSleep &amp;&amp; Date.now() >= this.lastStanding + this.timeToSleep
+    );
+  }
+
+  /**
+   * Checks if the character is transitioning to sleep.
+   * @returns {boolean}
+   */
+  isTransitioningToSleep() {
+    return this.isReadyToSleep &amp;&amp; !this.isSleep;
+  }
+
+  /**
+   * Checks if the last frame of long standing is reached.
+   * @returns {boolean}
+   */
+  isLastLongStandingFrame() {
+    return this.currentImage === ImageAssets.CHARAKTER_LONG_STANDING.length - 1;
+  }
+
+  /**
+   * Checks if the character can move right.
+   * @returns {boolean}
+   */
+  canMoveRight() {
+    return (
+      this.world.keyboard.RIGHT &amp;&amp;
+      this.x &lt; this.world.level.levelLength - this.rWidth - 140
+    );
+  }
+
+  /**
+   * Checks if the character can move left.
+   * @returns {boolean}
+   */
+  canMoveLeft() {
+    return this.world.keyboard.LEFT &amp;&amp; this.x > 0 - this.offset.left;
+  }
+
+  /**
+   * Checks if the character can swim up.
+   * @returns {boolean}
+   */
+  canMoveUp() {
+    return this.world.keyboard.UP;
+  }
+
+  /**
+   * Checks if the character can swim down.
+   * @returns {boolean}
+   */
+  canMoveDown() {
+    return this.world.keyboard.DOWN &amp;&amp; this.y &lt; this.groundY;
+  }
+
+  /**
+   * Checks if the character can shoot a bubble.
+   * @returns {boolean}
+   */
+  canShootBubble() {
+    return this.world.keyboard.H &amp;&amp; !this.shotKeyPressed;
+  }
+
+  /**
+   * Checks if there is bubble ammo left.
+   * @returns {boolean}
+   */
+  hasBubbleAmmo() {
+    return this.world.counterBar.bubbles.count > 0;
+  }
+
+  /**
+   * Checks if the character is at the start of the level.
+   * @returns {boolean}
+   */
+  isAtLevelStart() {
+    return this.x &lt;= 100;
+  }
+
+  /**
+   * Checks if the character is before the end of the level.
+   * @returns {boolean}
+   */
+  isBeforeLevelEnd() {
+    return this.x &lt; this.world.level.levelLength - 720;
+  }
+
+  /**
+   * Starts the movement loop of the character.
+   */
+  startMovementLoop() {
+    setInterval(() => {
+      this.checkMovementKeys();
+      this.sprint();
+      this.updateCameraPosition();
+    }, 1000 / 60);
+  }
+
+  /**
+   * Handles the bubble attack state.
+   */
+  handleBubbleAttackState() {
+    this.playAnimation(ImageAssets.CHARAKTER_BUBBLE_ATTACK);
+    this.handleBubbleAttackAnimation();
+  }
+
+  /**
+   * Handles the state when the character is dead.
+   */
+  handleDeadState() {
+    this.playAnimation(ImageAssets.CHARAKTER_DEAD);
+    this.floatsToTheSurface();
+  }
+
+  /**
+   * Handles the state when the character is hurt.
+   */
+  handleHurtState() {
+    this.playAnimation(ImageAssets.CHARAKTER_HURT);
+  }
+
+  /**
+   * Handles the state when the character is swimming.
+   */
+  handleSwimmingState() {
+    this.playAnimation(ImageAssets.CHARAKTER_SWIMMING);
+    this.resetSleep();
+  }
+
+  /**
+   * Handles the state when the character is sleeping.
+   */
+  handleSleepState() {
+    this.playAnimation(ImageAssets.CHARAKTER_SLEEP);
+  }
+
+  /**
+   * Handles the state when the character gets tired.
+   */
+  handleTiredState() {
+    this.isReadyToSleep = true;
+    this.currentImage = 0;
+  }
+
+  /**
+   * Handles the transition to the sleep state.
+   */
+  handleTransitionToSleepState() {
+    this.playAnimation(ImageAssets.CHARAKTER_LONG_STANDING);
+
+    if (this.isLastLongStandingFrame()) {
+      this.finishLongStandingState();
+      return;
+    }
+  }
+
+  /**
+   * Ends the long standing state and puts the character to sleep.
+   */
+  finishLongStandingState() {
+    this.isSleep = true;
+    this.isReadyToSleep = false;
+    this.currentImage = 0;
+  }
+
+  /**
+   * Handles the state when the character is standing.
+   */
+  handleStandingState() {
+    this.playAnimation(ImageAssets.CHARAKTER_STANDING);
+  }
+
+  /**
+   * Handles movement to the right.
+   */
+  handleMoveRight() {
+    this.moveRight();
+    this.otherDirection = false;
+    this.viewDirektion = "right";
+  }
+
+  /**
+   * Handles movement to the left.
+   */
+  handleMoveLeft() {
+    this.moveLeft();
+    this.otherDirection = true;
+    this.viewDirektion = "left";
+  }
+
+  /**
+   * Handles movement upwards.
+   */
+  handleMoveUp() {
+    this.moveUp();
+    this.resetSleep();
+  }
+
+  /**
+   * Handles movement downwards.
+   */
+  handleMoveDown() {
+    this.moveDown();
+  }
+
+  /**
+   * Handles shooting a bubble.
+   */
+  handleShootBubble() {
+    if (this.hasBubbleAmmo()) {
+      this.shotKeyPressed = true;
+      this.shot();
+      this.world.counterBar.bubbles.count -= 1;
+      setTimeout(() => {
+        this.shotKeyPressed = false;
+      }, this.cooldownLength);
+    }
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AudioHub.html">AudioHub</a></li><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Bubble.html">Bubble</a></li><li><a href="BubbleCounter.html">BubbleCounter</a></li><li><a href="Character.html">Character</a></li><li><a href="Coin.html">Coin</a></li><li><a href="CoinCounter.html">CoinCounter</a></li><li><a href="CollectableObjects.html">CollectableObjects</a></li><li><a href="CounterBar.html">CounterBar</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Fish.html">Fish</a></li><li><a href="GreenFish.html">GreenFish</a></li><li><a href="HealthBar.html">HealthBar</a></li><li><a href="ImageAssets.html">ImageAssets</a></li><li><a href="JellyFish.html">JellyFish</a></li><li><a href="JellyFishGreen.html">JellyFishGreen</a></li><li><a href="JellyFishLila.html">JellyFishLila</a></li><li><a href="JellyFishPink.html">JellyFishPink</a></li><li><a href="JellyFishYellow.html">JellyFishYellow</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="LightBeam.html">LightBeam</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="PinkFish.html">PinkFish</a></li><li><a href="RedFish.html">RedFish</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObjects.html">ThrowableObjects</a></li><li><a href="World.html">World</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Thu Dec 04 2025 23:26:51 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

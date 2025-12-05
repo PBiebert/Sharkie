@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: level1.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: level1.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Level } from "../classes/level.class.js";
+import { Coin } from "../classes/coin.class.js";
+import { BackgroundObject } from "../classes/background-object.class.js";
+import { GreenFish } from "../classes/fish-green.class.js";
+import { PinkFish } from "../classes/fish-pink.class.js";
+import { RedFish } from "../classes/fish-red.class.js";
+import { JellyFishGreen } from "../classes/jelly-fish-green.class.js";
+import { JellyFishLila } from "../classes/jelly-fish-lila.class.js";
+import { JellyFishPink } from "../classes/jelly-fish-pink.class.js";
+import { JellyFishYellow } from "../classes/jelly-fish-yellow.class.js";
+import { Endboss } from "../classes/endboss.class.js";
+import { Bubble } from "../classes/bubble.class.js";
+import { LightBeam } from "../classes/light.class.js";
+
+/**
+ * Creates and returns the first level of the game.
+ * Initializes all objects, enemies, background, and light beams.
+ *
+ * @returns {Level} The constructed level instance.
+ */
+export function createLevel1() {
+  let levelLength;
+  const lightBeamsCoordinates = [0, 1000, 2000, 3000, 4000, 5000, 6000, 7000];
+  const objectsData = [
+    { type: Coin, x: 900, y: 400 },
+    { type: Coin, x: 1000, y: 400 },
+    { type: Coin, x: 1100, y: 400 },
+    { type: Coin, x: 1200, y: 400 },
+    { type: Coin, x: 1300, y: 400 },
+    { type: Coin, x: 1500, y: 350 },
+    { type: Coin, x: 1550, y: 330 },
+    { type: Coin, x: 1600, y: 320 },
+    { type: Coin, x: 1650, y: 330 },
+    { type: Coin, x: 1700, y: 350 },
+    { type: Coin, x: 2000, y: 250 },
+    { type: Coin, x: 2100, y: 250 },
+    { type: Coin, x: 2200, y: 250 },
+    { type: Coin, x: 2300, y: 250 },
+    { type: Coin, x: 2400, y: 250 },
+    { type: Coin, x: 2700, y: 320 },
+    { type: Coin, x: 2750, y: 340 },
+    { type: Coin, x: 2800, y: 360 },
+    { type: Coin, x: 2850, y: 340 },
+    { type: Coin, x: 2900, y: 320 },
+    { type: Coin, x: 3200, y: 400 },
+    { type: Coin, x: 3300, y: 400 },
+    { type: Coin, x: 3400, y: 400 },
+    { type: Coin, x: 3500, y: 400 },
+    { type: Coin, x: 3600, y: 400 },
+    { type: Coin, x: 3900, y: 350 },
+    { type: Coin, x: 3950, y: 330 },
+    { type: Coin, x: 4000, y: 320 },
+    { type: Coin, x: 4050, y: 330 },
+    { type: Coin, x: 4100, y: 350 },
+    { type: Coin, x: 4500, y: 250 },
+    { type: Coin, x: 4600, y: 250 },
+    { type: Coin, x: 4700, y: 250 },
+    { type: Coin, x: 4800, y: 250 },
+    { type: Coin, x: 4900, y: 250 },
+    { type: Coin, x: 5200, y: 320 },
+    { type: Coin, x: 5250, y: 340 },
+    { type: Coin, x: 5300, y: 360 },
+    { type: Coin, x: 5350, y: 340 },
+    { type: Coin, x: 5400, y: 320 },
+    { type: Coin, x: 6000, y: 400 },
+    { type: Coin, x: 6100, y: 400 },
+    { type: Coin, x: 6200, y: 400 },
+    { type: Coin, x: 6300, y: 400 },
+    { type: Coin, x: 6400, y: 400 },
+    { type: Coin, x: 7000, y: 350 },
+    { type: Coin, x: 7100, y: 330 },
+    { type: Coin, x: 7200, y: 320 },
+    { type: Coin, x: 7300, y: 330 },
+    { type: Coin, x: 7400, y: 350 },
+    { type: Coin, x: 7600, y: 10 },
+    { type: Coin, x: 7600, y: 80 },
+    { type: Coin, x: 7600, y: 150 },
+    { type: Coin, x: 7600, y: 220 },
+    { type: Coin, x: 7600, y: 290 },
+    { type: Coin, x: 7600, y: 360 },
+    { type: Coin, x: 7600, y: 430 },
+
+    { type: Bubble, x: 1100, y: 80 },
+    { type: Bubble, x: 1150, y: 120 },
+    { type: Bubble, x: 1200, y: 80 },
+    { type: Bubble, x: 1250, y: 120 },
+    { type: Bubble, x: 2000, y: 50 },
+    { type: Bubble, x: 2050, y: 350 },
+    { type: Bubble, x: 2100, y: 50 },
+    { type: Bubble, x: 2150, y: 350 },
+    { type: Bubble, x: 2200, y: 50 },
+    { type: Bubble, x: 3010, y: 180 },
+    { type: Bubble, x: 3070, y: 120 },
+    { type: Bubble, x: 3130, y: 180 },
+    { type: Bubble, x: 3190, y: 120 },
+    { type: Bubble, x: 4000, y: 170 },
+    { type: Bubble, x: 4050, y: 120 },
+    { type: Bubble, x: 4100, y: 170 },
+    { type: Bubble, x: 4150, y: 120 },
+    { type: Bubble, x: 4200, y: 170 },
+    { type: Bubble, x: 5010, y: 0 },
+    { type: Bubble, x: 5070, y: 40 },
+    { type: Bubble, x: 5130, y: 0 },
+    { type: Bubble, x: 5190, y: 40 },
+    { type: Bubble, x: 5900, y: 250 },
+    { type: Bubble, x: 5950, y: 200 },
+    { type: Bubble, x: 6000, y: 250 },
+    { type: Bubble, x: 6050, y: 200 },
+    { type: Bubble, x: 6100, y: 250 },
+    { type: Bubble, x: 6910, y: 180 },
+    { type: Bubble, x: 6970, y: 120 },
+    { type: Bubble, x: 7030, y: 180 },
+    { type: Bubble, x: 7090, y: 120 },
+    { type: Bubble, x: 7200, y: 170 },
+    { type: Bubble, x: 7300, y: 120 },
+    { type: Bubble, x: 7400, y: 170 },
+    { type: Bubble, x: 7500, y: 120 },
+  ];
+
+  const enemiesData = [
+    { type: JellyFishGreen, x: 1300, y: 220 },
+    { type: JellyFishLila, x: 1800, y: 320 },
+    { type: JellyFishPink, x: 2480, y: 420 },
+    { type: JellyFishYellow, x: 3250, y: 250 },
+    { type: JellyFishGreen, x: 3650, y: 350 },
+    { type: JellyFishLila, x: 4270, y: 300 },
+    { type: JellyFishPink, x: 5000, y: 200 },
+    { type: JellyFishYellow, x: 5450, y: 420 },
+    { type: JellyFishGreen, x: 5700, y: 320 },
+    { type: JellyFishYellow, x: 6200, y: 300 },
+    { type: JellyFishLila, x: 6600, y: 250 },
+    { type: JellyFishPink, x: 7650, y: 350 },
+    { type: JellyFishGreen, x: 7800, y: 150 },
+    { type: GreenFish, x: 1350, y: 60 },
+    { type: PinkFish, x: 1550, y: 410 },
+    { type: RedFish, x: 1750, y: 180 },
+    { type: GreenFish, x: 2100, y: 320 },
+    { type: PinkFish, x: 2500, y: 120 },
+    { type: RedFish, x: 2700, y: 390 },
+    { type: GreenFish, x: 3200, y: 240 },
+    { type: PinkFish, x: 3500, y: 70 },
+    { type: RedFish, x: 3900, y: 430 },
+    { type: GreenFish, x: 4300, y: 200 },
+    { type: PinkFish, x: 4700, y: 350 },
+    { type: RedFish, x: 4900, y: 30 },
+    { type: GreenFish, x: 5500, y: 400 },
+    { type: PinkFish, x: 5700, y: 160 },
+    { type: RedFish, x: 5900, y: 270 },
+    { type: GreenFish, x: 6300, y: 90 },
+    { type: PinkFish, x: 6700, y: 380 },
+    { type: RedFish, x: 6900, y: 210 },
+    { type: GreenFish, x: 7300, y: 300 },
+    { type: PinkFish, x: 7600, y: 50 },
+    { type: RedFish, x: 7900, y: 430 },
+  ];
+
+  let backgroundImagesLevel = [
+    "src/img/3. Background/Layers/5. Water/D1.png",
+    "src/img/3. Background/Layers/4.Fondo 2/D1.png",
+    "src/img/3. Background/Layers/3.Fondo 1/D1.png",
+    "src/img/3. Background/Layers/2. Floor/D1.png",
+    "src/img/3. Background/Layers/5. Water/D2.png",
+    "src/img/3. Background/Layers/4.Fondo 2/D2.png",
+    "src/img/3. Background/Layers/3.Fondo 1/D2.png",
+    "src/img/3. Background/Layers/2. Floor/D2.png",
+  ];
+  let level = new Level([], [], [], 0, []);
+  renderBackground(level, 6, backgroundImagesLevel);
+  setLevelLength();
+  setLightBeamsFromCoordinates();
+  setEntitiesFromData(objectsData, level.objects);
+  setEntitiesFromData(enemiesData, level.enemies);
+  setEndboss();
+  lightBeamIntervall();
+
+  /**
+   * Sets the level length based on the background rendering.
+   */
+  function setLevelLength() {
+    level.levelLength = levelLength;
+  }
+
+  /**
+   * Renders the background objects for the level.
+   *
+   * @param {Level} level - The level instance.
+   * @param {number} backgroundRepeats - Number of background repetitions.
+   * @param {Array} backgroundImages - Array of background image paths.
+   */
+  function renderBackground(level, backgroundRepeats, backgroundImages) {
+    let repeats = backgroundRepeats;
+    let insertPosition = -100;
+
+    for (let i = 0; i &lt; repeats; i++) {
+      level.backgroundObjects.push(
+        // 1.Teil vom Hintergrund
+        new BackgroundObject(backgroundImages[0], insertPosition + 0),
+        new BackgroundObject(backgroundImages[1], insertPosition + 0),
+        new BackgroundObject(backgroundImages[2], insertPosition + 0),
+        new BackgroundObject(backgroundImages[3], insertPosition + 0),
+
+        // 2. teil vom Hintergrund
+        new BackgroundObject(backgroundImages[4], insertPosition + 720),
+        new BackgroundObject(backgroundImages[5], insertPosition + 720),
+        new BackgroundObject(backgroundImages[6], insertPosition + 720),
+        new BackgroundObject(backgroundImages[7], insertPosition + 720)
+      );
+      insertPosition += 1440;
+    }
+    levelLength = insertPosition;
+  }
+
+  /**
+   * Adds light beams to the level based on predefined coordinates.
+   */
+  function setLightBeamsFromCoordinates() {
+    lightBeamsCoordinates.forEach((lightbeamCoordinate) => {
+      const lightbeam = new LightBeam(lightbeamCoordinate);
+      level.lightBeams.push(lightbeam);
+    });
+  }
+
+  /**
+   * Instantiates and adds entities (objects or enemies) to the target array.
+   *
+   * @param {Array} dataArray - Array of entity data objects.
+   * @param {Array} targetArray - The array to which new entities are added.
+   */
+  function setEntitiesFromData(dataArray, targetArray) {
+    dataArray.forEach((entitie) => {
+      const className = entitie.type;
+      const newObject = new className(entitie.x, entitie.y);
+      targetArray.push(newObject);
+    });
+  }
+
+  /**
+   * Adds the endboss to the level's enemies array.
+   */
+  function setEndboss() {
+    level.enemies.push(new Endboss(levelLength));
+  }
+
+  /**
+   * Periodically adds new light beams to the level.
+   */
+  function lightBeamIntervall() {
+    setInterval(() => {
+      level.lightBeams.push(new LightBeam(levelLength));
+    }, 30000);
+  }
+
+  return level;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#createLevel1">createLevel1</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Thu Dec 04 2025 23:28:03 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
