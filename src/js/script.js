@@ -1,6 +1,5 @@
 import { Keyboard } from "./classes/keyboard.class.js";
 import { World } from "./classes/world.class.js";
-import { AudioHub } from "./classes/audio-hub.class.js";
 
 let canvas = document.getElementById("canvas");
 let world;
@@ -9,32 +8,36 @@ let fullscreen = false;
 
 /**
  * Initializes the game and sets up all event listeners and UI controls.
+ * Called on window load.
  */
 window.addEventListener("load", init);
 
 /**
  * Main initialization function for the game.
+ * Sets up all UI controls and event listeners.
  */
 function init() {
   controlPanelForMobilecontrole();
   touchpanelOnOff();
   setKeyEventsToControle();
   setStartScreenButtonAction();
+  setSkipScreenButtonAction();
   setEndScreenButtonAction();
   setControllsScreenButtonAction();
   setHeadLineButtonAction();
-  setHoverSound();
   checkScreenOrientation();
 }
 
 /**
  * Sets up the start screen and controls screen button actions.
+ * Handles transition from start screen to intro and from start screen to controls.
  */
 function setStartScreenButtonAction() {
   const btnControls = document.getElementById("btn-controls");
   const controlsSite = document.querySelector(".controls");
   const startScreen = document.querySelector(".startScreen");
   const btnStart = document.getElementById("btn-start");
+  const introScreen = document.querySelector(".intro");
 
   btnControls.addEventListener("click", () =>
     openSite(startScreen, controlsSite)
@@ -42,6 +45,36 @@ function setStartScreenButtonAction() {
 
   btnStart.addEventListener("click", () => {
     startScreen.classList.remove("active");
+    introScreen.classList.add("active");
+    moveIntroUp();
+  });
+}
+
+/**
+ * Animates the intro text moving up.
+ */
+function moveIntroUp() {
+  const introText = document.querySelector(".text");
+  let bottomValue = -920;
+
+  const interval = setInterval(() => {
+    bottomValue += 0.3;
+    introText.style.bottom = bottomValue + "px";
+    if (bottomValue >= 420) {
+      clearInterval(interval);
+    }
+  }, 1000 / 60);
+}
+
+/**
+ * Sets up the skip button in the intro screen to start the game.
+ */
+function setSkipScreenButtonAction() {
+  const btnSkip = document.getElementById("btn-skip");
+  const introScreen = document.querySelector(".intro");
+
+  btnSkip.addEventListener("click", () => {
+    introScreen.classList.remove("active");
 
     world = new World(canvas, keyboard);
     checkResult();
@@ -51,6 +84,7 @@ function setStartScreenButtonAction() {
 
 /**
  * Sets up the controls screen back button action.
+ * Allows returning from controls screen to start screen.
  */
 function setControllsScreenButtonAction() {
   const btnBack = document.getElementById("back");
@@ -62,6 +96,7 @@ function setControllsScreenButtonAction() {
 
 /**
  * Sets up the end screen home and replay button actions.
+ * Handles navigation from end screen to home or replay.
  */
 function setEndScreenButtonAction() {
   const btmHome = document.getElementById("home");
@@ -86,6 +121,7 @@ function setEndScreenButtonAction() {
 
 /**
  * Adds keyboard event listeners for controlling the game.
+ * Handles keydown and keyup events for movement and actions.
  */
 function setKeyEventsToControle() {
   window.addEventListener("keydown", (event) => {
@@ -159,18 +195,10 @@ function setKeyEventsToControle() {
 
 /**
  * Sets up the sound and fullscreen toggle buttons in the header.
+ * Handles entering/exiting fullscreen.
  */
 function setHeadLineButtonAction() {
-  const btnSound = document.querySelector(".btn-sound");
   const btnScreen = document.querySelector(".btn-screen");
-
-  btnSound.addEventListener("click", () => {
-    if (AudioHub.playSounds) {
-      muteSound();
-    } else {
-      playSound();
-    }
-  });
 
   btnScreen.addEventListener("click", () => {
     if (!fullscreen) {
@@ -193,6 +221,7 @@ function openSite(from, to) {
 
 /**
  * Checks the game result at intervals and shows the end screen if the game is over or won.
+ * Starts a polling interval to check for win/lose state.
  */
 function checkResult() {
   let resultInterval = setInterval(() => {
@@ -209,6 +238,7 @@ function checkResult() {
 
 /**
  * Stops all running intervals in the game.
+ * Useful for cleanup before showing end screen.
  */
 function stopAllIntervalls() {
   for (let i = 1; i < 9999; i++) window.clearInterval(i);
@@ -234,43 +264,15 @@ function ShowEndscreen(gameResult) {
 
 /**
  * Adds hover sound effect to all buttons except control buttons.
+ * (Function now does nothing, sound removed)
  */
 function setHoverSound() {
-  const buttons = document.querySelectorAll("button");
-
-  buttons.forEach((button) => {
-    if (!button.classList.contains("control-button")) {
-      button.addEventListener("mouseover", () =>
-        AudioHub.hoverSound(AudioHub.click)
-      );
-    }
-  });
-}
-
-/**
- * Mutes all game sounds and updates the sound button icon.
- */
-function muteSound() {
-  const btnSound = document.querySelector(".btn-sound");
-
-  AudioHub.playSounds = false;
-  AudioHub.stop(AudioHub.backgroundMusic);
-  btnSound.src = "./src/icons/mute.png";
-}
-
-/**
- * Enables all game sounds and updates the sound button icon.
- */
-function playSound() {
-  const btnSound = document.querySelector(".btn-sound");
-
-  AudioHub.playSounds = true;
-  AudioHub.backgroundSound(AudioHub.backgroundMusic);
-  btnSound.src = "./src/icons/note.png";
+  // Sound logic removed
 }
 
 /**
  * Toggles the touch control panel for mobile devices.
+ * Handles showing/hiding the mobile control overlay.
  */
 function touchpanelOnOff() {
   const btnTouchPanel = document.querySelector(".btn-touch-panel");
@@ -326,6 +328,7 @@ function exitFullscreen() {
 
 /**
  * Sets up the control panel for mobile controls with touch events.
+ * Maps touch events to keyboard actions for mobile gameplay.
  */
 function controlPanelForMobilecontrole() {
   const btnUpLeft = document.getElementById("btn-control-up-left");
@@ -430,6 +433,7 @@ function controlPanelForMobilecontrole() {
 
 /**
  * Checks the screen orientation and updates the UI accordingly.
+ * Shows a message if the device is in portrait mode.
  */
 function checkScreenOrientation() {
   const isDisplayPortrait = document.querySelector(".is-display-portrait");

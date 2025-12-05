@@ -37,17 +37,20 @@ let fullscreen = false;
 
 /**
  * Initializes the game and sets up all event listeners and UI controls.
+ * Called on window load.
  */
 window.addEventListener("load", init);
 
 /**
  * Main initialization function for the game.
+ * Sets up all UI controls and event listeners.
  */
 function init() {
   controlPanelForMobilecontrole();
   touchpanelOnOff();
   setKeyEventsToControle();
   setStartScreenButtonAction();
+  setSkipScreenButtonAction();
   setEndScreenButtonAction();
   setControllsScreenButtonAction();
   setHeadLineButtonAction();
@@ -57,12 +60,14 @@ function init() {
 
 /**
  * Sets up the start screen and controls screen button actions.
+ * Handles transition from start screen to intro and from start screen to controls.
  */
 function setStartScreenButtonAction() {
   const btnControls = document.getElementById("btn-controls");
   const controlsSite = document.querySelector(".controls");
   const startScreen = document.querySelector(".startScreen");
   const btnStart = document.getElementById("btn-start");
+  const introScreen = document.querySelector(".intro");
 
   btnControls.addEventListener("click", () =>
     openSite(startScreen, controlsSite)
@@ -70,6 +75,36 @@ function setStartScreenButtonAction() {
 
   btnStart.addEventListener("click", () => {
     startScreen.classList.remove("active");
+    introScreen.classList.add("active");
+    moveIntroUp();
+  });
+}
+
+/**
+ * Animates the intro text moving up.
+ */
+function moveIntroUp() {
+  const introText = document.querySelector(".text");
+  let bottomValue = -920;
+
+  const interval = setInterval(() => {
+    bottomValue += 0.3;
+    introText.style.bottom = bottomValue + "px";
+    if (bottomValue >= 420) {
+      clearInterval(interval);
+    }
+  }, 1000 / 60);
+}
+
+/**
+ * Sets up the skip button in the intro screen to start the game.
+ */
+function setSkipScreenButtonAction() {
+  const btnSkip = document.getElementById("btn-skip");
+  const introScreen = document.querySelector(".intro");
+
+  btnSkip.addEventListener("click", () => {
+    introScreen.classList.remove("active");
 
     world = new World(canvas, keyboard);
     checkResult();
@@ -79,6 +114,7 @@ function setStartScreenButtonAction() {
 
 /**
  * Sets up the controls screen back button action.
+ * Allows returning from controls screen to start screen.
  */
 function setControllsScreenButtonAction() {
   const btnBack = document.getElementById("back");
@@ -90,6 +126,7 @@ function setControllsScreenButtonAction() {
 
 /**
  * Sets up the end screen home and replay button actions.
+ * Handles navigation from end screen to home or replay.
  */
 function setEndScreenButtonAction() {
   const btmHome = document.getElementById("home");
@@ -114,6 +151,7 @@ function setEndScreenButtonAction() {
 
 /**
  * Adds keyboard event listeners for controlling the game.
+ * Handles keydown and keyup events for movement and actions.
  */
 function setKeyEventsToControle() {
   window.addEventListener("keydown", (event) => {
@@ -187,6 +225,7 @@ function setKeyEventsToControle() {
 
 /**
  * Sets up the sound and fullscreen toggle buttons in the header.
+ * Handles muting/unmuting sound and entering/exiting fullscreen.
  */
 function setHeadLineButtonAction() {
   const btnSound = document.querySelector(".btn-sound");
@@ -221,6 +260,7 @@ function openSite(from, to) {
 
 /**
  * Checks the game result at intervals and shows the end screen if the game is over or won.
+ * Starts a polling interval to check for win/lose state.
  */
 function checkResult() {
   let resultInterval = setInterval(() => {
@@ -237,6 +277,7 @@ function checkResult() {
 
 /**
  * Stops all running intervals in the game.
+ * Useful for cleanup before showing end screen.
  */
 function stopAllIntervalls() {
   for (let i = 1; i &lt; 9999; i++) window.clearInterval(i);
@@ -299,6 +340,7 @@ function playSound() {
 
 /**
  * Toggles the touch control panel for mobile devices.
+ * Handles showing/hiding the mobile control overlay.
  */
 function touchpanelOnOff() {
   const btnTouchPanel = document.querySelector(".btn-touch-panel");
@@ -354,6 +396,7 @@ function exitFullscreen() {
 
 /**
  * Sets up the control panel for mobile controls with touch events.
+ * Maps touch events to keyboard actions for mobile gameplay.
  */
 function controlPanelForMobilecontrole() {
   const btnUpLeft = document.getElementById("btn-control-up-left");
@@ -458,6 +501,7 @@ function controlPanelForMobilecontrole() {
 
 /**
  * Checks the screen orientation and updates the UI accordingly.
+ * Shows a message if the device is in portrait mode.
  */
 function checkScreenOrientation() {
   const isDisplayPortrait = document.querySelector(".is-display-portrait");
@@ -483,13 +527,13 @@ function checkScreenOrientation() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ShowEndscreen">ShowEndscreen</a></li><li><a href="global.html#checkResult">checkResult</a></li><li><a href="global.html#checkScreenOrientation">checkScreenOrientation</a></li><li><a href="global.html#controlPanelForMobilecontrole">controlPanelForMobilecontrole</a></li><li><a href="global.html#exitFullscreen">exitFullscreen</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#muteSound">muteSound</a></li><li><a href="global.html#openSite">openSite</a></li><li><a href="global.html#playSound">playSound</a></li><li><a href="global.html#setControllsScreenButtonAction">setControllsScreenButtonAction</a></li><li><a href="global.html#setEndScreenButtonAction">setEndScreenButtonAction</a></li><li><a href="global.html#setFullscreen">setFullscreen</a></li><li><a href="global.html#setHeadLineButtonAction">setHeadLineButtonAction</a></li><li><a href="global.html#setHoverSound">setHoverSound</a></li><li><a href="global.html#setKeyEventsToControle">setKeyEventsToControle</a></li><li><a href="global.html#setStartScreenButtonAction">setStartScreenButtonAction</a></li><li><a href="global.html#stopAllIntervalls">stopAllIntervalls</a></li><li><a href="global.html#touchpanelOnOff">touchpanelOnOff</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ShowEndscreen">ShowEndscreen</a></li><li><a href="global.html#checkResult">checkResult</a></li><li><a href="global.html#checkScreenOrientation">checkScreenOrientation</a></li><li><a href="global.html#controlPanelForMobilecontrole">controlPanelForMobilecontrole</a></li><li><a href="global.html#exitFullscreen">exitFullscreen</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#moveIntroUp">moveIntroUp</a></li><li><a href="global.html#muteSound">muteSound</a></li><li><a href="global.html#openSite">openSite</a></li><li><a href="global.html#playSound">playSound</a></li><li><a href="global.html#setControllsScreenButtonAction">setControllsScreenButtonAction</a></li><li><a href="global.html#setEndScreenButtonAction">setEndScreenButtonAction</a></li><li><a href="global.html#setFullscreen">setFullscreen</a></li><li><a href="global.html#setHeadLineButtonAction">setHeadLineButtonAction</a></li><li><a href="global.html#setHoverSound">setHoverSound</a></li><li><a href="global.html#setKeyEventsToControle">setKeyEventsToControle</a></li><li><a href="global.html#setSkipScreenButtonAction">setSkipScreenButtonAction</a></li><li><a href="global.html#setStartScreenButtonAction">setStartScreenButtonAction</a></li><li><a href="global.html#stopAllIntervalls">stopAllIntervalls</a></li><li><a href="global.html#touchpanelOnOff">touchpanelOnOff</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Thu Dec 04 2025 23:29:53 GMT+0100 (Mitteleuropäische Normalzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Dec 05 2025 16:02:11 GMT+0100 (Mitteleuropäische Normalzeit)
 </footer>
 
 <script> prettyPrint(); </script>
