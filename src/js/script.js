@@ -1,5 +1,6 @@
 import { Keyboard } from "./classes/keyboard.class.js";
 import { World } from "./classes/world.class.js";
+import { AudioHub } from "./classes/audio-hub.class.js";
 
 let canvas = document.getElementById("canvas");
 let world;
@@ -25,6 +26,7 @@ function init() {
   setEndScreenButtonAction();
   setControllsScreenButtonAction();
   setHeadLineButtonAction();
+  setHoverSound();
   checkScreenOrientation();
 }
 
@@ -195,10 +197,19 @@ function setKeyEventsToControle() {
 
 /**
  * Sets up the sound and fullscreen toggle buttons in the header.
- * Handles entering/exiting fullscreen.
+ * Handles muting/unmuting sound and entering/exiting fullscreen.
  */
 function setHeadLineButtonAction() {
+  const btnSound = document.querySelector(".btn-sound");
   const btnScreen = document.querySelector(".btn-screen");
+
+  btnSound.addEventListener("click", () => {
+    if (AudioHub.playSounds) {
+      muteSound();
+    } else {
+      playSound();
+    }
+  });
 
   btnScreen.addEventListener("click", () => {
     if (!fullscreen) {
@@ -264,10 +275,39 @@ function ShowEndscreen(gameResult) {
 
 /**
  * Adds hover sound effect to all buttons except control buttons.
- * (Function now does nothing, sound removed)
  */
 function setHoverSound() {
-  // Sound logic removed
+  const buttons = document.querySelectorAll("button");
+
+  buttons.forEach((button) => {
+    if (!button.classList.contains("control-button")) {
+      button.addEventListener("mouseover", () =>
+        AudioHub.hoverSound(AudioHub.click)
+      );
+    }
+  });
+}
+
+/**
+ * Mutes all game sounds and updates the sound button icon.
+ */
+function muteSound() {
+  const btnSound = document.querySelector(".btn-sound");
+
+  AudioHub.playSounds = false;
+  AudioHub.stop(AudioHub.backgroundMusic);
+  btnSound.src = "./src/icons/mute.png";
+}
+
+/**
+ * Enables all game sounds and updates the sound button icon.
+ */
+function playSound() {
+  const btnSound = document.querySelector(".btn-sound");
+
+  AudioHub.playSounds = true;
+  AudioHub.backgroundSound(AudioHub.backgroundMusic);
+  btnSound.src = "./src/icons/note.png";
 }
 
 /**
