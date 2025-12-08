@@ -31,7 +31,7 @@ function init() {
   disableContextmenuOnControlButtons();
   checkScreenOrientation();
 }
- 
+
 /**
  * Sets up the start screen and controls screen button actions.
  * Handles transition from start screen to intro and from start screen to controls.
@@ -293,6 +293,9 @@ function setHoverSound() {
   });
 }
 
+/**
+ * Disables the right-click context menu on all control buttons.
+ */
 function disableContextmenuOnControlButtons() {
   const buttons = document.querySelectorAll("button");
   buttons.forEach((button) => {
@@ -485,6 +488,10 @@ function controlPanelForMobilecontrole() {
   });
 }
 
+/**
+ * Enables mouse control for the mobile control panel.
+ * Maps mouse events (mousedown/mouseup) on control buttons to keyboard actions.
+ */
 function enableMobileControlPanelWithMouse() {
   const btnUpLeft = document.getElementById("btn-control-up-left");
   const btnUp = document.getElementById("btn-control-up");

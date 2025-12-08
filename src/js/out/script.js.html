@@ -47,6 +47,7 @@ window.addEventListener("load", init);
  */
 function init() {
   controlPanelForMobilecontrole();
+  enableMobileControlPanelWithMouse();
   touchpanelOnOff();
   setKeyEventsToControle();
   setStartScreenButtonAction();
@@ -55,6 +56,7 @@ function init() {
   setControllsScreenButtonAction();
   setHeadLineButtonAction();
   setHoverSound();
+  disableContextmenuOnControlButtons();
   checkScreenOrientation();
 }
 
@@ -85,12 +87,15 @@ function setStartScreenButtonAction() {
  */
 function moveIntroUp() {
   const introText = document.querySelector(".text");
+  const btnSkip = document.getElementById("btn-skip");
   let bottomValue = -920;
+  btnSkip.innerText = "Skip";
 
   const interval = setInterval(() => {
-    bottomValue += 0.3;
+    bottomValue += 0.5;
     introText.style.bottom = bottomValue + "px";
-    if (bottomValue >= 420) {
+    if (bottomValue >= -32) {
+      btnSkip.innerText = "Next";
       clearInterval(interval);
     }
   }, 1000 / 60);
@@ -317,6 +322,18 @@ function setHoverSound() {
 }
 
 /**
+ * Disables the right-click context menu on all control buttons.
+ */
+function disableContextmenuOnControlButtons() {
+  const buttons = document.querySelectorAll("button");
+  buttons.forEach((button) => {
+    if (button.classList.contains("control-button")) {
+      button.addEventListener("contextmenu", (event) => event.preventDefault());
+    }
+  });
+}
+
+/**
  * Mutes all game sounds and updates the sound button icon.
  */
 function muteSound() {
@@ -500,6 +517,111 @@ function controlPanelForMobilecontrole() {
 }
 
 /**
+ * Enables mouse control for the mobile control panel.
+ * Maps mouse events (mousedown/mouseup) on control buttons to keyboard actions.
+ */
+function enableMobileControlPanelWithMouse() {
+  const btnUpLeft = document.getElementById("btn-control-up-left");
+  const btnUp = document.getElementById("btn-control-up");
+  const btnUpRight = document.getElementById("btn-control-up-right");
+  const btnLeft = document.getElementById("btn-control-left");
+  const btnRight = document.getElementById("btn-control-right");
+  const btnDownLeft = document.getElementById("btn-control-down-left");
+  const btnDown = document.getElementById("btn-control-down");
+  const btnDownRight = document.getElementById("btn-control-down-right");
+  const btnSprint = document.getElementById("btn-control-sprint");
+  const btnAttack = document.getElementById("btn-control-attack");
+
+  btnUpLeft.addEventListener("mousedown", () => {
+    keyboard.UP = true;
+    keyboard.LEFT = true;
+  });
+
+  btnUpLeft.addEventListener("mouseup", () => {
+    keyboard.UP = false;
+    keyboard.LEFT = false;
+  });
+
+  btnUp.addEventListener("mousedown", () => {
+    keyboard.UP = true;
+  });
+
+  btnUp.addEventListener("mouseup", () => {
+    keyboard.UP = false;
+  });
+
+  btnUpRight.addEventListener("mousedown", () => {
+    keyboard.UP = true;
+    keyboard.RIGHT = true;
+  });
+
+  btnUpRight.addEventListener("mouseup", () => {
+    keyboard.UP = false;
+    keyboard.RIGHT = false;
+  });
+
+  btnLeft.addEventListener("mousedown", () => {
+    keyboard.LEFT = true;
+  });
+
+  btnLeft.addEventListener("mouseup", () => {
+    keyboard.LEFT = false;
+  });
+
+  btnRight.addEventListener("mousedown", () => {
+    keyboard.RIGHT = true;
+  });
+
+  btnRight.addEventListener("mouseup", () => {
+    keyboard.RIGHT = false;
+  });
+
+  btnDownLeft.addEventListener("mousedown", () => {
+    keyboard.DOWN = true;
+    keyboard.LEFT = true;
+  });
+
+  btnDownLeft.addEventListener("mouseup", () => {
+    keyboard.DOWN = false;
+    keyboard.LEFT = false;
+  });
+
+  btnDown.addEventListener("mousedown", () => {
+    keyboard.DOWN = true;
+  });
+
+  btnDown.addEventListener("mouseup", () => {
+    keyboard.DOWN = false;
+  });
+
+  btnDownRight.addEventListener("mousedown", () => {
+    keyboard.DOWN = true;
+    keyboard.RIGHT = true;
+  });
+
+  btnDownRight.addEventListener("mouseup", () => {
+    keyboard.DOWN = false;
+    keyboard.RIGHT = false;
+  });
+
+  btnSprint.addEventListener("mousedown", () => {
+    keyboard.SPACE = true;
+  });
+
+  btnSprint.addEventListener("mouseup", () => {
+    keyboard.SPACE = false;
+  });
+
+  btnAttack.addEventListener("mousedown", () => {
+    keyboard.H = true;
+  });
+
+  btnAttack.addEventListener("mouseup", () => {
+    keyboard.H = false;
+  });
+}
+
+/**
  * Checks the screen orientation and updates the UI accordingly.
  * Shows a message if the device is in portrait mode.
  */
@@ -527,13 +649,13 @@ function checkScreenOrientation() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ShowEndscreen">ShowEndscreen</a></li><li><a href="global.html#checkResult">checkResult</a></li><li><a href="global.html#checkScreenOrientation">checkScreenOrientation</a></li><li><a href="global.html#controlPanelForMobilecontrole">controlPanelForMobilecontrole</a></li><li><a href="global.html#exitFullscreen">exitFullscreen</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#moveIntroUp">moveIntroUp</a></li><li><a href="global.html#muteSound">muteSound</a></li><li><a href="global.html#openSite">openSite</a></li><li><a href="global.html#playSound">playSound</a></li><li><a href="global.html#setControllsScreenButtonAction">setControllsScreenButtonAction</a></li><li><a href="global.html#setEndScreenButtonAction">setEndScreenButtonAction</a></li><li><a href="global.html#setFullscreen">setFullscreen</a></li><li><a href="global.html#setHeadLineButtonAction">setHeadLineButtonAction</a></li><li><a href="global.html#setHoverSound">setHoverSound</a></li><li><a href="global.html#setKeyEventsToControle">setKeyEventsToControle</a></li><li><a href="global.html#setSkipScreenButtonAction">setSkipScreenButtonAction</a></li><li><a href="global.html#setStartScreenButtonAction">setStartScreenButtonAction</a></li><li><a href="global.html#stopAllIntervalls">stopAllIntervalls</a></li><li><a href="global.html#touchpanelOnOff">touchpanelOnOff</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ShowEndscreen">ShowEndscreen</a></li><li><a href="global.html#checkResult">checkResult</a></li><li><a href="global.html#checkScreenOrientation">checkScreenOrientation</a></li><li><a href="global.html#controlPanelForMobilecontrole">controlPanelForMobilecontrole</a></li><li><a href="global.html#disableContextmenuOnControlButtons">disableContextmenuOnControlButtons</a></li><li><a href="global.html#enableMobileControlPanelWithMouse">enableMobileControlPanelWithMouse</a></li><li><a href="global.html#exitFullscreen">exitFullscreen</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#moveIntroUp">moveIntroUp</a></li><li><a href="global.html#muteSound">muteSound</a></li><li><a href="global.html#openSite">openSite</a></li><li><a href="global.html#playSound">playSound</a></li><li><a href="global.html#setControllsScreenButtonAction">setControllsScreenButtonAction</a></li><li><a href="global.html#setEndScreenButtonAction">setEndScreenButtonAction</a></li><li><a href="global.html#setFullscreen">setFullscreen</a></li><li><a href="global.html#setHeadLineButtonAction">setHeadLineButtonAction</a></li><li><a href="global.html#setHoverSound">setHoverSound</a></li><li><a href="global.html#setKeyEventsToControle">setKeyEventsToControle</a></li><li><a href="global.html#setSkipScreenButtonAction">setSkipScreenButtonAction</a></li><li><a href="global.html#setStartScreenButtonAction">setStartScreenButtonAction</a></li><li><a href="global.html#stopAllIntervalls">stopAllIntervalls</a></li><li><a href="global.html#touchpanelOnOff">touchpanelOnOff</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Dec 05 2025 16:02:11 GMT+0100 (Mitteleuropäische Normalzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Dec 08 2025 13:21:48 GMT+0100 (Mitteleuropäische Normalzeit)
 </footer>
 
 <script> prettyPrint(); </script>

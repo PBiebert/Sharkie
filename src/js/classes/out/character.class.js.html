@@ -29,7 +29,8 @@
             <pre class="prettyprint source linenums"><code>import { AudioHub } from "./audio-hub.class.js";
 import { ImageAssets } from "./image-Assets.class.js";
 import { MovableObject } from "./movable-object.class.js";
-import { ThrowableObjects } from "./throwable-objects.class.js";
+import { nomalBubbleAttake } from "./nomal-bubble-attake.class.js";
+import { toxicBubbleAttake } from "./toxic-bubble-attake.class.js";
 
 /**
  * Represents the main character in the game.
@@ -223,18 +224,51 @@ export class Character extends MovableObject {
 
   /**
    * Executes the shooting animation and creates a bubble object.
+   * @param {string} ammoType - The type of bubble ammo ("normal" or "toxic").
+   * @returns {void}
    */
-  shot() {
+  shot(ammoType) {
     this.hasShot = true;
     this.currentImage = 0;
     this.resetSleep();
     AudioHub.attackSound(AudioHub.bubbleSound);
 
     setTimeout(() => {
-      this.world.throwableObject.push(
-        new ThrowableObjects(this.world, this.x, this.y, this.viewDirektion)
-      );
+      if (this.isToxicBubble(ammoType)) {
+        this.world.throwableObject.push(
+          new toxicBubbleAttake(this.world, this.x, this.y, this.viewDirektion)
+        );
+      } else {
+        this.world.throwableObject.push(
+          new nomalBubbleAttake(this.world, this.x, this.y, this.viewDirektion)
+        );
+      }
     }, 500);
+  }
+
+  /**
+   * Checks if the ammo type is toxic.
+   * @param {string} ammoType - The type of bubble ammo.
+   * @returns {boolean}
+   */
+  isToxicBubble(ammoType) {
+    return ammoType == "toxic";
+  }
+
+  /**
+   * Handles shooting a bubble.
+   */
+  handleShootBubble() {
+    this.shotKeyPressed = true;
+    if (this.hasBubbleAmmo()) {
+      this.shot("toxic");
+      this.world.counterBar.bubbles.count -= 1;
+    } else {
+      this.shot("normal");
+    }
+    setTimeout(() => {
+      this.shotKeyPressed = false;
+    }, this.cooldownLength);
   }
 
   /**
@@ -482,20 +516,6 @@ export class Character extends MovableObject {
   handleMoveDown() {
     this.moveDown();
   }
-
-  /**
-   * Handles shooting a bubble.
-   */
-  handleShootBubble() {
-    if (this.hasBubbleAmmo()) {
-      this.shotKeyPressed = true;
-      this.shot();
-      this.world.counterBar.bubbles.count -= 1;
-      setTimeout(() => {
-        this.shotKeyPressed = false;
-      }, this.cooldownLength);
-    }
-  }
 }
 </code></pre>
         </article>
@@ -507,13 +527,13 @@ export class Character extends MovableObject {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AudioHub.html">AudioHub</a></li><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Bubble.html">Bubble</a></li><li><a href="BubbleCounter.html">BubbleCounter</a></li><li><a href="Character.html">Character</a></li><li><a href="Coin.html">Coin</a></li><li><a href="CoinCounter.html">CoinCounter</a></li><li><a href="CollectableObjects.html">CollectableObjects</a></li><li><a href="CounterBar.html">CounterBar</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Fish.html">Fish</a></li><li><a href="GreenFish.html">GreenFish</a></li><li><a href="HealthBar.html">HealthBar</a></li><li><a href="ImageAssets.html">ImageAssets</a></li><li><a href="JellyFish.html">JellyFish</a></li><li><a href="JellyFishGreen.html">JellyFishGreen</a></li><li><a href="JellyFishLila.html">JellyFishLila</a></li><li><a href="JellyFishPink.html">JellyFishPink</a></li><li><a href="JellyFishYellow.html">JellyFishYellow</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="LightBeam.html">LightBeam</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="PinkFish.html">PinkFish</a></li><li><a href="RedFish.html">RedFish</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObjects.html">ThrowableObjects</a></li><li><a href="World.html">World</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AudioHub.html">AudioHub</a></li><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Bubble.html">Bubble</a></li><li><a href="BubbleCounter.html">BubbleCounter</a></li><li><a href="Character.html">Character</a></li><li><a href="Coin.html">Coin</a></li><li><a href="CoinCounter.html">CoinCounter</a></li><li><a href="CollectableObjects.html">CollectableObjects</a></li><li><a href="CounterBar.html">CounterBar</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Fish.html">Fish</a></li><li><a href="GreenFish.html">GreenFish</a></li><li><a href="HealthBar.html">HealthBar</a></li><li><a href="ImageAssets.html">ImageAssets</a></li><li><a href="JellyFish.html">JellyFish</a></li><li><a href="JellyFishGreen.html">JellyFishGreen</a></li><li><a href="JellyFishLila.html">JellyFishLila</a></li><li><a href="JellyFishPink.html">JellyFishPink</a></li><li><a href="JellyFishYellow.html">JellyFishYellow</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="LightBeam.html">LightBeam</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="PinkFish.html">PinkFish</a></li><li><a href="RedFish.html">RedFish</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObjects.html">ThrowableObjects</a></li><li><a href="World.html">World</a></li><li><a href="nomalBubbleAttake.html">nomalBubbleAttake</a></li><li><a href="toxicBubbleAttake.html">toxicBubbleAttake</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Thu Dec 04 2025 23:26:51 GMT+0100 (Mitteleuropäische Normalzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Dec 08 2025 13:22:00 GMT+0100 (Mitteleuropäische Normalzeit)
 </footer>
 
 <script> prettyPrint(); </script>

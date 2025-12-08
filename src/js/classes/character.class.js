@@ -193,7 +193,7 @@ export class Character extends MovableObject {
       this.world.camera_x = -(this.world.level.levelLength - 720) + 100;
     }
   }
- 
+
   /**
    * Executes the shooting animation and creates a bubble object.
    * @param {string} ammoType - The type of bubble ammo ("normal" or "toxic").

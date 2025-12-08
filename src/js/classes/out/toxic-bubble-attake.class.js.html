@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: fish-red.class.js</title>
+    <title>JSDoc: Source: toxic-bubble-attake.class.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: fish-red.class.js</h1>
+    <h1 class="page-title">Source: toxic-bubble-attake.class.js</h1>
 
     
 
@@ -26,32 +26,36 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { Fish } from "./fish.class.js";
-import { ImageAssets } from "./image-Assets.class.js";
+            <pre class="prettyprint source linenums"><code>import { ImageAssets } from "./image-Assets.class.js";
+import { ThrowableObjects } from "./throwable-objects.class.js";
 
 /**
- * Represents a red fish enemy in the game.
- * Inherits from Fish.
+ * Represents a toxic bubble used as a throwable object.
+ * Causes additional damage on impact.
  *
  * @class
- * @extends Fish
+ * @extends ThrowableObjects
  */
-export class RedFish extends Fish {
+export class toxicBubbleAttake extends ThrowableObjects {
+  height = 204 / 4;
+  width = 202 / 4;
+  offset = {
+    top: 5,
+    right: 5,
+    bottom: 5,
+    left: 5,
+  };
+  damage = 20;
+
   /**
-   * Creates a new red fish instance.
-   *
-   * @param {number} x - The x-coordinate of the fish.
-   * @param {number} y - The y-coordinate of the fish.
+   * Creates a new toxic bubble.
+   * @param {object} world - The current game world.
+   * @param {number} x - The x position of the bubble.
+   * @param {number} y - The y position of the bubble.
+   * @param {string} viewDirection - The viewing direction of the bubble.
    */
-  constructor(x, y) {
-    super(
-      ImageAssets.FISH_RED_SWIMMING,
-      ImageAssets.FISH_RED_TRANSITION,
-      ImageAssets.FISH_RED_BUBBLE_SWIMMING,
-      ImageAssets.FISH_RED_DEAD,
-      x,
-      y
-    );
+  constructor(world, x, y, viewDirection) {
+    super(world, x, y, viewDirection, ImageAssets.TOXIC_BUBBLE_SHOT);
   }
 }
 </code></pre>
