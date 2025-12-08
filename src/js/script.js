@@ -2,20 +2,54 @@ import { Keyboard } from "./classes/keyboard.class.js";
 import { World } from "./classes/world.class.js";
 import { AudioHub } from "./classes/audio-hub.class.js";
 
+/**
+ * The canvas element for the game.
+ * @type {HTMLCanvasElement}
+ */
 let canvas = document.getElementById("canvas");
+
+/**
+ * The global World instance of the game.
+ * @type {World}
+ */
 let world;
+
+/**
+ * The global Keyboard instance for controls.
+ * @type {Keyboard}
+ */
 let keyboard = new Keyboard();
+
+/**
+ * Indicates whether fullscreen mode is active.
+ * @type {boolean}
+ */
 let fullscreen = false;
 
 /**
- * Initializes the game and sets up all event listeners and UI controls.
- * Called on window load.
+ * Indicates whether the touch panel is active.
+ * @type {boolean}
  */
-window.addEventListener("load", init);
+let touchpanelOn = false;
 
 /**
- * Main initialization function for the game.
- * Sets up all UI controls and event listeners.
+ * Indicates whether the settings have been applied after the first click.
+ * @type {boolean}
+ */
+let firstClickDone = false;
+
+/**
+ * Initializes the game after the page has loaded.
+ * Loads settings from localStorage, sets event listeners, and calls initialization functions.
+ */
+window.addEventListener("load", () => {
+  loadSettingsFromLocalStorage();
+  init();
+  setupFirstClickHandler();
+});
+
+/**
+ * Initializes all UI and control functions of the game.
  */
 function init() {
   controlPanelForMobilecontrole();
@@ -33,8 +67,90 @@ function init() {
 }
 
 /**
- * Sets up the start screen and controls screen button actions.
- * Handles transition from start screen to intro and from start screen to controls.
+ * Loads the settings for sound, fullscreen, and touch panel from localStorage and sets the corresponding variables.
+ */
+function loadSettingsFromLocalStorage() {
+  const soundSetting = localStorage.getItem("playSounds");
+  if (soundSetting !== null) {
+    AudioHub.playSounds = soundSetting === "true";
+  }
+  const fullscreenSetting = localStorage.getItem("fullscreen");
+  if (fullscreenSetting !== null) {
+    fullscreen = fullscreenSetting === "true";
+  }
+  const touchpanelSetting = localStorage.getItem("touchpanelOn");
+  if (touchpanelSetting !== null) {
+    touchpanelOn = touchpanelSetting === "true";
+  }
+}
+
+/**
+ * Adds a one-time click event listener that applies the saved settings on the first click.
+ */
+function setupFirstClickHandler() {
+  window.addEventListener("click", () => {
+    if (firstClickDone) return;
+    firstClickDone = true;
+    applySettingsOnFirstClick();
+  });
+}
+
+/**
+ * Applies the saved settings for sound, touch panel, and fullscreen on the first click.
+ */
+function applySettingsOnFirstClick() {
+  if (AudioHub.playSounds) {
+    playSound();
+  } else {
+    muteSound();
+  }
+  setTouchpanelState(touchpanelOn);
+  setFullscreenState(fullscreen);
+}
+
+/**
+ * Sets the state of the touch panel and updates the UI accordingly.
+ * @param {boolean} state - true to activate the touch panel, false to deactivate.
+ */
+function setTouchpanelState(state) {
+  const btnTouchPanel = document.querySelector(".btn-touch-panel");
+  const controlContainer = document.querySelector(".control-container");
+  if (state) {
+    btnTouchPanel.src = "./src/icons/videogame_asset.png";
+    controlContainer.classList.add("active");
+    touchpanelOn = true;
+  } else {
+    btnTouchPanel.src = "./src/icons/videogame_asset_off.png";
+    controlContainer.classList.remove("active");
+    touchpanelOn = false;
+  }
+}
+
+/**
+ * Sets the state of fullscreen mode and updates the UI accordingly.
+ * @param {boolean} state - true to activate fullscreen, false to deactivate.
+ */
+function setFullscreenState(state) {
+  const btnScreen = document.querySelector(".btn-screen");
+  const fullscreenContainer = document.querySelector(".fullscreen-container");
+  if (state && !document.fullscreenElement) {
+    fullscreenContainer.requestFullscreen();
+    btnScreen.src = "./src/icons/fullscreen_exit.png";
+    fullscreen = true;
+  } else if (!state && document.fullscreenElement) {
+    document.exitFullscreen();
+    btnScreen.src = "./src/icons/fullscreen.png";
+    fullscreen = false;
+  } else {
+    btnScreen.src = state
+      ? "./src/icons/fullscreen_exit.png"
+      : "./src/icons/fullscreen.png";
+    fullscreen = state;
+  }
+}
+
+/**
+ * Sets up the actions for the buttons on the start screen and controls screen.
  */
 function setStartScreenButtonAction() {
   const btnControls = document.getElementById("btn-controls");
@@ -55,7 +171,7 @@ function setStartScreenButtonAction() {
 }
 
 /**
- * Animates the intro text moving up.
+ * Animates the intro text moving upwards.
  */
 function moveIntroUp() {
   const introText = document.querySelector(".text");
@@ -76,7 +192,7 @@ function moveIntroUp() {
 }
 
 /**
- * Sets up the skip button in the intro screen to start the game.
+ * Sets the action for the skip button on the intro screen to start the game.
  */
 function setSkipScreenButtonAction() {
   const btnSkip = document.getElementById("btn-skip");
@@ -92,8 +208,7 @@ function setSkipScreenButtonAction() {
 }
 
 /**
- * Sets up the controls screen back button action.
- * Allows returning from controls screen to start screen.
+ * Sets the action for the back button on the controls screen.
  */
 function setControllsScreenButtonAction() {
   const btnBack = document.getElementById("back");
@@ -104,8 +219,7 @@ function setControllsScreenButtonAction() {
 }
 
 /**
- * Sets up the end screen home and replay button actions.
- * Handles navigation from end screen to home or replay.
+ * Sets up the actions for the buttons on the end screen (Home and Replay).
  */
 function setEndScreenButtonAction() {
   const btmHome = document.getElementById("home");
@@ -129,8 +243,8 @@ function setEndScreenButtonAction() {
 }
 
 /**
- * Adds keyboard event listeners for controlling the game.
- * Handles keydown and keyup events for movement and actions.
+ * Adds event listeners for keyboard controls.
+ * Sets the corresponding keyboard variables on keydown and keyup.
  */
 function setKeyEventsToControle() {
   window.addEventListener("keydown", (event) => {
@@ -170,7 +284,6 @@ function setKeyEventsToControle() {
       case "w":
       case "ArrowUp":
         keyboard.UP = false;
-
         break;
 
       case "d":
@@ -203,8 +316,7 @@ function setKeyEventsToControle() {
 }
 
 /**
- * Sets up the sound and fullscreen toggle buttons in the header.
- * Handles muting/unmuting sound and entering/exiting fullscreen.
+ * Sets up the actions for the sound and fullscreen buttons in the header.
  */
 function setHeadLineButtonAction() {
   const btnSound = document.querySelector(".btn-sound");
@@ -230,7 +342,7 @@ function setHeadLineButtonAction() {
 /**
  * Switches between two UI screens.
  * @param {HTMLElement} from - The current screen element.
- * @param {HTMLElement} to - The target screen element to show.
+ * @param {HTMLElement} to - The target screen element.
  */
 function openSite(from, to) {
   from.classList.remove("active");
@@ -238,8 +350,7 @@ function openSite(from, to) {
 }
 
 /**
- * Checks the game result at intervals and shows the end screen if the game is over or won.
- * Starts a polling interval to check for win/lose state.
+ * Regularly checks the game result and shows the end screen on win or game over.
  */
 function checkResult() {
   let resultInterval = setInterval(() => {
@@ -256,7 +367,6 @@ function checkResult() {
 
 /**
  * Stops all running intervals in the game.
- * Useful for cleanup before showing end screen.
  */
 function stopAllIntervalls() {
   for (let i = 1; i < 9999; i++) window.clearInterval(i);
@@ -281,7 +391,7 @@ function ShowEndscreen(gameResult) {
 }
 
 /**
- * Adds hover sound effect to all buttons except control buttons.
+ * Adds a hover sound effect to all buttons except control buttons.
  */
 function setHoverSound() {
   const buttons = document.querySelectorAll("button");
@@ -296,7 +406,7 @@ function setHoverSound() {
 }
 
 /**
- * Disables the right-click context menu on all control buttons.
+ * Disables the context menu (right-click) on all control buttons.
  */
 function disableContextmenuOnControlButtons() {
   const buttons = document.querySelectorAll("button");
@@ -316,6 +426,7 @@ function muteSound() {
   AudioHub.playSounds = false;
   AudioHub.stop(AudioHub.backgroundMusic);
   btnSound.src = "./src/icons/mute.png";
+  localStorage.setItem("playSounds", "false");
 }
 
 /**
@@ -327,21 +438,21 @@ function playSound() {
   AudioHub.playSounds = true;
   AudioHub.backgroundSound(AudioHub.backgroundMusic);
   btnSound.src = "./src/icons/note.png";
+  localStorage.setItem("playSounds", "true");
 }
 
 /**
- * Toggles the touch control panel for mobile devices.
- * Handles showing/hiding the mobile control overlay.
+ * Toggles the touch control panel for mobile devices and updates the UI.
  */
 function touchpanelOnOff() {
   const btnTouchPanel = document.querySelector(".btn-touch-panel");
   const controlContainer = document.querySelector(".control-container");
-  let touchpanelOn = false;
 
   if (window.innerWidth < 950) {
     touchpanelOn = true;
     btnTouchPanel.src = "./src/icons/videogame_asset.png";
     controlContainer.classList.add("active");
+    localStorage.setItem("touchpanelOn", "true");
   }
 
   btnTouchPanel.addEventListener("click", () => {
@@ -349,16 +460,18 @@ function touchpanelOnOff() {
       btnTouchPanel.src = "./src/icons/videogame_asset.png";
       controlContainer.classList.add("active");
       touchpanelOn = true;
+      localStorage.setItem("touchpanelOn", "true");
     } else {
       btnTouchPanel.src = "./src/icons/videogame_asset_off.png";
       controlContainer.classList.remove("active");
       touchpanelOn = false;
+      localStorage.setItem("touchpanelOn", "false");
     }
   });
 }
 
 /**
- * Sets the game to fullscreen mode and updates the fullscreen button icon.
+ * Activates fullscreen mode and updates the fullscreen button icon.
  */
 function setFullscreen() {
   const fullscreenContainer = document.querySelector(".fullscreen-container");
@@ -367,6 +480,7 @@ function setFullscreen() {
   fullscreenContainer.requestFullscreen();
   btnScreen.src = "./src/icons/fullscreen_exit.png";
   fullscreen = true;
+  localStorage.setItem("fullscreen", "true");
 }
 
 /**
@@ -379,15 +493,17 @@ function exitFullscreen() {
     document.exitFullscreen();
     btnScreen.src = "./src/icons/fullscreen.png";
     fullscreen = false;
+    localStorage.setItem("fullscreen", "false");
   } else {
     btnScreen.src = "./src/icons/fullscreen.png";
     fullscreen = false;
+    localStorage.setItem("fullscreen", "false");
   }
 }
 
 /**
- * Sets up the control panel for mobile controls with touch events.
- * Maps touch events to keyboard actions for mobile gameplay.
+ * Initializes the control panel for mobile controls.
+ * Maps touch events to the corresponding keyboard variables.
  */
 function controlPanelForMobilecontrole() {
   const btnUpLeft = document.getElementById("btn-control-up-left");
@@ -491,8 +607,8 @@ function controlPanelForMobilecontrole() {
 }
 
 /**
- * Enables mouse control for the mobile control panel.
- * Maps mouse events (mousedown/mouseup) on control buttons to keyboard actions.
+ * Initializes mouse control for the mobile control panel.
+ * Maps mouse events to the corresponding keyboard variables.
  */
 function enableMobileControlPanelWithMouse() {
   const btnUpLeft = document.getElementById("btn-control-up-left");
@@ -596,10 +712,7 @@ function enableMobileControlPanelWithMouse() {
 }
 
 /**
- * Regularly checks the screen orientation and aspect ratio.
- * Shows a message if the device is in portrait mode –
- * either detected via the Orientation API or by comparing height and width.
- * Removes the background class in portrait mode, adds it in landscape mode.
+ * Regularly checks the screen orientation and shows a message in portrait mode.
  */
 function checkScreenOrientation() {
   const isDisplayPortrait = document.querySelector(".is-display-portrait");
@@ -617,8 +730,8 @@ function checkScreenOrientation() {
 }
 
 /**
- * Checks if the window is in portrait mode (height > width).
- * @returns {boolean} true if portrait, otherwise false
+ * Checks if the window is in portrait mode.
+ * @returns {boolean} true if portrait, otherwise false.
  */
 function CheckAaspectRatio() {
   if (
