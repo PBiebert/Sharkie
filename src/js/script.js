@@ -66,8 +66,10 @@ function moveIntroUp() {
   const interval = setInterval(() => {
     bottomValue += 0.5;
     introText.style.bottom = bottomValue + "px";
-    if (bottomValue >= -32) {
+    if (bottomValue >= 0) {
       btnSkip.innerText = "Next";
+    }
+    if (bottomValue >= 950) {
       clearInterval(interval);
     }
   }, 1000 / 60);
@@ -594,20 +596,35 @@ function enableMobileControlPanelWithMouse() {
 }
 
 /**
- * Checks the screen orientation and updates the UI accordingly.
- * Shows a message if the device is in portrait mode.
+ * Regularly checks the screen orientation and aspect ratio.
+ * Shows a message if the device is in portrait mode –
+ * either detected via the Orientation API or by comparing height and width.
+ * Removes the background class in portrait mode, adds it in landscape mode.
  */
 function checkScreenOrientation() {
   const isDisplayPortrait = document.querySelector(".is-display-portrait");
-  const backgroundBody = document.querySelector("body");
+  const body = document.querySelector("body");
 
   setInterval(() => {
-    if (screen.orientation.type == "portrait-primary") {
+    if (CheckAaspectRatio()) {
       isDisplayPortrait.classList.add("active");
-      backgroundBody.classList.remove("backgroundBody");
+      body.classList.remove("backgroundBody");
     } else if (isDisplayPortrait.classList.contains("active")) {
       isDisplayPortrait.classList.remove("active");
-      backgroundBody.classList.add("backgroundBody");
+      body.classList.add("backgroundBody");
     }
   }, 500);
+}
+
+/**
+ * Checks if the window is in portrait mode (height > width).
+ * @returns {boolean} true if portrait, otherwise false
+ */
+function CheckAaspectRatio() {
+  if (
+    screen.orientation.type == "portrait-primary" ||
+    window.innerHeight > window.innerWidth
+  ) {
+    return true;
+  }
 }
