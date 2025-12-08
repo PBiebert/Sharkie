@@ -1,5 +1,4 @@
 import { DrawableObject } from "./drawable-object.class.js";
-import { Character } from "./character.class.js";
 import { AudioHub } from "./audio-hub.class.js";
 
 /**
@@ -27,7 +26,7 @@ export class MovableObject extends DrawableObject {
    * @type {Object}
    */
   world;
-
+ 
   /**
    * Toggle for up/down movement (used by some subclasses).
    * @type {boolean}

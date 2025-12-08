@@ -116,7 +116,7 @@ export function createLevel1() {
     { type: Bubble, x: 7400, y: 170 },
     { type: Bubble, x: 7500, y: 120 },
   ];
-
+ 
   const enemiesData = [
     { type: JellyFishGreen, x: 1300, y: 220 },
     // { type: JellyFishLila, x: 1800, y: 320 },

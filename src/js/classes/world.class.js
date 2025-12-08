@@ -285,7 +285,7 @@ export class World {
       }
     }, 1000 / 60);
   }
-
+ 
   /**
    * Main draw loop for rendering all objects and UI elements.
    */

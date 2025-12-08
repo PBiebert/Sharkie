@@ -23,7 +23,7 @@ export class BubbleCounter extends CounterBar {
    * The current number of bubbles.
    * @type {number}
    */
-  count = 3;
+  count = 0;
 
   /**
    * Creates a new bubble counter.

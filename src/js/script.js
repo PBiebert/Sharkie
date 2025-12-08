@@ -31,7 +31,7 @@ function init() {
   disableContextmenuOnControlButtons();
   checkScreenOrientation();
 }
-
+ 
 /**
  * Sets up the start screen and controls screen button actions.
  * Handles transition from start screen to intro and from start screen to controls.

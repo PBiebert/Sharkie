@@ -483,7 +483,9 @@ export class ImageAssets {
    * Bubble shot images.
    * @type {string[]}
    */
-  static BUBBLE_SHOT = [
+  static TOXIC_BUBBLE_SHOT = [
     "src/img/1.Sharkie/4.Attack/Bubble trap/Poisoned Bubble (for whale).png",
   ];
+
+  static BUBBLE_SHOT = ["src/img/1.Sharkie/4.Attack/Bubble trap/Bubble.png"];
 }

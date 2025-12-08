@@ -1,7 +1,8 @@
 import { AudioHub } from "./audio-hub.class.js";
 import { ImageAssets } from "./image-Assets.class.js";
 import { MovableObject } from "./movable-object.class.js";
-import { ThrowableObjects } from "./throwable-objects.class.js";
+import { nomalBubbleAttake } from "./nomal-bubble-attake.class.js";
+import { toxicBubbleAttake } from "./toxic-bubble-attake.class.js";
 
 /**
  * Represents the main character in the game.
@@ -192,21 +193,54 @@ export class Character extends MovableObject {
       this.world.camera_x = -(this.world.level.levelLength - 720) + 100;
     }
   }
-
+ 
   /**
    * Executes the shooting animation and creates a bubble object.
+   * @param {string} ammoType - The type of bubble ammo ("normal" or "toxic").
+   * @returns {void}
    */
-  shot() {
+  shot(ammoType) {
     this.hasShot = true;
     this.currentImage = 0;
     this.resetSleep();
     AudioHub.attackSound(AudioHub.bubbleSound);
 
     setTimeout(() => {
-      this.world.throwableObject.push(
-        new ThrowableObjects(this.world, this.x, this.y, this.viewDirektion)
-      );
+      if (this.isToxicBubble(ammoType)) {
+        this.world.throwableObject.push(
+          new toxicBubbleAttake(this.world, this.x, this.y, this.viewDirektion)
+        );
+      } else {
+        this.world.throwableObject.push(
+          new nomalBubbleAttake(this.world, this.x, this.y, this.viewDirektion)
+        );
+      }
     }, 500);
+  }
+
+  /**
+   * Checks if the ammo type is toxic.
+   * @param {string} ammoType - The type of bubble ammo.
+   * @returns {boolean}
+   */
+  isToxicBubble(ammoType) {
+    return ammoType == "toxic";
+  }
+
+  /**
+   * Handles shooting a bubble.
+   */
+  handleShootBubble() {
+    this.shotKeyPressed = true;
+    if (this.hasBubbleAmmo()) {
+      this.shot("toxic");
+      this.world.counterBar.bubbles.count -= 1;
+    } else {
+      this.shot("normal");
+    }
+    setTimeout(() => {
+      this.shotKeyPressed = false;
+    }, this.cooldownLength);
   }
 
   /**
@@ -453,19 +487,5 @@ export class Character extends MovableObject {
    */
   handleMoveDown() {
     this.moveDown();
-  }
-
-  /**
-   * Handles shooting a bubble.
-   */
-  handleShootBubble() {
-    if (this.hasBubbleAmmo()) {
-      this.shotKeyPressed = true;
-      this.shot();
-      this.world.counterBar.bubbles.count -= 1;
-      setTimeout(() => {
-        this.shotKeyPressed = false;
-      }, this.cooldownLength);
-    }
   }
 }

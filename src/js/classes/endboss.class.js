@@ -27,7 +27,7 @@ export class Endboss extends MovableObject {
    * @type {number}
    */
   height = 1216 / 3;
-
+ 
   /**
    * The horizontal speed of the endboss.
    * @type {number}

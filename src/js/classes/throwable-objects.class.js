@@ -1,4 +1,3 @@
-import { ImageAssets } from "./image-Assets.class.js";
 import { MovableObject } from "./movable-object.class.js";
 
 /**
@@ -94,9 +93,9 @@ export class ThrowableObjects extends MovableObject {
    * @param {number} y - The y-coordinate where the object is thrown.
    * @param {string} viewDirection - The direction of the throw ("right" or "left").
    */
-  constructor(world, x, y, viewDirection) {
+  constructor(world, x, y, viewDirection, IMAGES) {
     super();
-    this.loadImage(ImageAssets.BUBBLE_SHOT);
+    this.loadImage(IMAGES);
     this.world = world;
     this.viewDirection = viewDirection;
     this.throw(x, y);
