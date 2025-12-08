@@ -19,6 +19,7 @@ window.addEventListener("load", init);
  */
 function init() {
   controlPanelForMobilecontrole();
+  enableMobileControlPanelWithMouse();
   touchpanelOnOff();
   setKeyEventsToControle();
   setStartScreenButtonAction();
@@ -27,6 +28,7 @@ function init() {
   setControllsScreenButtonAction();
   setHeadLineButtonAction();
   setHoverSound();
+  disableContextmenuOnControlButtons();
   checkScreenOrientation();
 }
 
@@ -291,6 +293,15 @@ function setHoverSound() {
   });
 }
 
+function disableContextmenuOnControlButtons() {
+  const buttons = document.querySelectorAll("button");
+  buttons.forEach((button) => {
+    if (button.classList.contains("control-button")) {
+      button.addEventListener("contextmenu", (event) => event.preventDefault());
+    }
+  });
+}
+
 /**
  * Mutes all game sounds and updates the sound button icon.
  */
@@ -470,6 +481,107 @@ function controlPanelForMobilecontrole() {
   });
 
   btnAttack.addEventListener("touchend", () => {
+    keyboard.H = false;
+  });
+}
+
+function enableMobileControlPanelWithMouse() {
+  const btnUpLeft = document.getElementById("btn-control-up-left");
+  const btnUp = document.getElementById("btn-control-up");
+  const btnUpRight = document.getElementById("btn-control-up-right");
+  const btnLeft = document.getElementById("btn-control-left");
+  const btnRight = document.getElementById("btn-control-right");
+  const btnDownLeft = document.getElementById("btn-control-down-left");
+  const btnDown = document.getElementById("btn-control-down");
+  const btnDownRight = document.getElementById("btn-control-down-right");
+  const btnSprint = document.getElementById("btn-control-sprint");
+  const btnAttack = document.getElementById("btn-control-attack");
+
+  btnUpLeft.addEventListener("mousedown", () => {
+    keyboard.UP = true;
+    keyboard.LEFT = true;
+  });
+
+  btnUpLeft.addEventListener("mouseup", () => {
+    keyboard.UP = false;
+    keyboard.LEFT = false;
+  });
+
+  btnUp.addEventListener("mousedown", () => {
+    keyboard.UP = true;
+  });
+
+  btnUp.addEventListener("mouseup", () => {
+    keyboard.UP = false;
+  });
+
+  btnUpRight.addEventListener("mousedown", () => {
+    keyboard.UP = true;
+    keyboard.RIGHT = true;
+  });
+
+  btnUpRight.addEventListener("mouseup", () => {
+    keyboard.UP = false;
+    keyboard.RIGHT = false;
+  });
+
+  btnLeft.addEventListener("mousedown", () => {
+    keyboard.LEFT = true;
+  });
+
+  btnLeft.addEventListener("mouseup", () => {
+    keyboard.LEFT = false;
+  });
+
+  btnRight.addEventListener("mousedown", () => {
+    keyboard.RIGHT = true;
+  });
+
+  btnRight.addEventListener("mouseup", () => {
+    keyboard.RIGHT = false;
+  });
+
+  btnDownLeft.addEventListener("mousedown", () => {
+    keyboard.DOWN = true;
+    keyboard.LEFT = true;
+  });
+
+  btnDownLeft.addEventListener("mouseup", () => {
+    keyboard.DOWN = false;
+    keyboard.LEFT = false;
+  });
+
+  btnDown.addEventListener("mousedown", () => {
+    keyboard.DOWN = true;
+  });
+
+  btnDown.addEventListener("mouseup", () => {
+    keyboard.DOWN = false;
+  });
+
+  btnDownRight.addEventListener("mousedown", () => {
+    keyboard.DOWN = true;
+    keyboard.RIGHT = true;
+  });
+
+  btnDownRight.addEventListener("mouseup", () => {
+    keyboard.DOWN = false;
+    keyboard.RIGHT = false;
+  });
+
+  btnSprint.addEventListener("mousedown", () => {
+    keyboard.SPACE = true;
+  });
+
+  btnSprint.addEventListener("mouseup", () => {
+    keyboard.SPACE = false;
+  });
+
+  btnAttack.addEventListener("mousedown", () => {
+    keyboard.H = true;
+  });
+
+  btnAttack.addEventListener("mouseup", () => {
     keyboard.H = false;
   });
 }
