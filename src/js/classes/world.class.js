@@ -174,7 +174,7 @@ export class World {
    */
   handleCharacterObjectCollisions() {
     this.level.objects.forEach((object, index) => {
-      if (this.character.isColliding(object)) {
+      if (this.character.isCollidingCollectableObjects(object)) {
         this.handleObjectCollection(object, index);
       }
     });
@@ -331,9 +331,10 @@ export class World {
    */
   addToMap(object) {
     if (object.otherDirection) {
-      object.getRealFrame();
       this.flipImage(object);
+      object.getRealFrame();
     }
+
     object.getRealFrame();
     object.draw(this.ctx);
     object.drawFrame(this.ctx);

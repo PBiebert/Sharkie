@@ -173,10 +173,23 @@ export class DrawableObject {
    */
   isColliding(object) {
     this.getRealFrame();
+    object.getRealFrame();
     return (
       this.rX + this.rWidth > object.rX &&
       this.rY + this.rHeight > object.rY &&
-      this.rX < object.rX &&
+      this.rX < object.rX + object.rWidth &&
+      this.rY < object.rY + object.rHeight
+    );
+  }
+
+  isCollidingCollectableObjects(object) {
+    const pickupOffset = -20;
+    this.getRealFrame();
+    object.getRealFrame();
+    return (
+      this.rX + this.rWidth + pickupOffset > object.rX - pickupOffset &&
+      this.rY + this.rHeight > object.rY &&
+      this.rX - pickupOffset < object.rX + object.rWidth + pickupOffset &&
       this.rY < object.rY + object.rHeight
     );
   }

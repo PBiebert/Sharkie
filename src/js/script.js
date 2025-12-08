@@ -57,12 +57,15 @@ function setStartScreenButtonAction() {
  */
 function moveIntroUp() {
   const introText = document.querySelector(".text");
+  const btnSkip = document.getElementById("btn-skip");
   let bottomValue = -920;
+  btnSkip.innerText = "Skip";
 
   const interval = setInterval(() => {
-    bottomValue += 0.3;
+    bottomValue += 0.5;
     introText.style.bottom = bottomValue + "px";
-    if (bottomValue >= 420) {
+    if (bottomValue >= -32) {
+      btnSkip.innerText = "Next";
       clearInterval(interval);
     }
   }, 1000 / 60);

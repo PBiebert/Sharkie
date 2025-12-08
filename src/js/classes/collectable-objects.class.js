@@ -60,7 +60,7 @@ export class CollectableObjects extends DrawableObject {
    * Indicates whether the object has a hitbox.
    * @type {boolean}
    */
-  hasHitbox = false;
+  hasHitbox = true;
 
   /**
    * Creates a new collectable object.
