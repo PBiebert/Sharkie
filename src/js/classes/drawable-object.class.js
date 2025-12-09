@@ -183,7 +183,7 @@ export class DrawableObject {
   }
 
   isCollidingCollectableObjects(object) {
-    const pickupOffset = -20;
+    const pickupOffset = -10;
     this.getRealFrame();
     object.getRealFrame();
     return (
